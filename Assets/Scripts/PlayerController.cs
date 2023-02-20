@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
     public float haltingDrag;
 
     Vector3 moveResult;
+    Quaternion rotationResult;
     Rigidbody playerRigidbody;
 
     void MovePlayer()
@@ -18,10 +19,17 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
         if (moveResult.magnitude == 0.0f)
         {
             playerRigidbody.drag = haltingDrag;
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationY | 
+                                          RigidbodyConstraints.FreezeRotationX |
+                                          RigidbodyConstraints.FreezeRotationZ;
             return;
         }
+
         playerRigidbody.drag = 0;
+        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
+                                      RigidbodyConstraints.FreezeRotationZ;
         playerRigidbody.velocity += moveResult * acceleration;
+        transform.rotation = rotationResult;
         if (playerRigidbody.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
             playerRigidbody.velocity = playerRigidbody.velocity.normalized * maxVelocity;
@@ -54,6 +62,9 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
         moveResult = IsoVectorConvert(toConvert);
+        Vector3 relative = (transform.position + moveResult) - transform.position;
+        rotationResult = Quaternion.LookRotation(relative, Vector3.up);
+        
     }
 
     // Here to complete interface, no implementations for either
