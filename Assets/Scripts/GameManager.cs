@@ -49,7 +49,10 @@ public class GameManager : MonoBehaviour
         // using PlayerPrefs, load player stats and settings.
     }
 
+    private void ChangeScene()
+    {
 
+    }
 
     public void OnApplicationQuit()
     {

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
     Vector3 moveResult;
     Quaternion rotationResult;
     Rigidbody playerRigidbody;
+ // Player playerEntity;
 
     void MovePlayer()
     {
