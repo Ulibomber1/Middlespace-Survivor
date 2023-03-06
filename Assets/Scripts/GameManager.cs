@@ -14,11 +14,22 @@ public class GameManager : MonoBehaviour
     public GameState gameState { get; private set; }
 
     private bool isGameOver = false;
- // private Dialogue;
- // private BulletController;
- // private EnemyController;
- // private PlayerController;
- // private MenuController;
+
+    private int enemyCount = 0;
+    [SerializeField]
+    private int[] maxEnemyCounts;
+    private GameObject[] enemyPools = GameObject.FindGameObjectsWithTag("Enemy Pool");
+    // private Dialogue;
+    // private BulletController;
+    // private EnemyController;
+    // private PlayerController;
+    // private MenuController;
+
+    private void Start()
+    {
+        for (int i = 0; i < enemyPools.Length; i++)
+            CountChildren(enemyPools[i], ref maxEnemyCounts[i]); ;
+    }
 
     public static GameManager Instance
     {
@@ -52,6 +63,16 @@ public class GameManager : MonoBehaviour
     private void ChangeScene()
     {
 
+    }
+
+    private void  CountChildren(GameObject parent, ref int maxCount)
+    {
+        maxCount = parent.transform.childCount;
+    }
+
+    private void SpawnEnemies() 
+    {
+        
     }
 
     public void OnApplicationQuit()

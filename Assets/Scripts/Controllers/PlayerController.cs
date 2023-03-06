@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
     void FixedUpdate()
     {
         MovePlayer();
+        
     }
 
     private Vector3 IsoVectorConvert(Vector3 vector)
