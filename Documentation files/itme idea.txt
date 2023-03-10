@@ -1,0 +1,30 @@
+Magnet [1]
+	increses pickup radius
+magifier [1]
+	increase size of wepons / bullets
+laser pointer [3]
+	low but constant damage laser that follows the the mouse 
+flah bulb [1]
+	every x secconds will stun a random amount of enemies on screen
+spark plug [3]
+	hits random enemies with lighting
+crystal ball [3]
+	bounces around screen (screenspace) and dealing damage to the eneimes that it hits
+Drone [4]
+	goes and attacks random enemies and goes and hits enemies or whatever
+scrapper [1]
+	change to drop health orb thing on kill
+reinforced glass [4]
+	damage reduction
+yoyo [3]
+	swings around player and deals damage (far away orbital)
+loud speaker [3]
+	aura [close range] 
+fire boots [2]
+	leaves behind a trail of fire that deals damage to enemies 
+molotov [3]
+	shoots in random direction and leaves a big pool of fire
+sword [1]
+	standard meele atack [whip vampire survivor]
+battery [4]
+	flat damage increase
