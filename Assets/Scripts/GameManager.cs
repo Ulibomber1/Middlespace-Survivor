@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         playerReference = GameObject.FindGameObjectWithTag("Player");
         enemyPools = GameObject.FindGameObjectsWithTag("Enemy Pool");
-        SetGameState(GameState.MAIN_MENU);
+        SetGameState(GameState.PLAYING);
         startTime = Time.time;
         MainCamera = Camera.main;
 
@@ -77,16 +77,24 @@ public class GameManager : MonoBehaviour
 
     private void  CountChildren(GameObject parent, ref int maxCount)
     {
-        maxCount = parent.transform.childCount;
+        // only if in PLAYING state
 
+        maxCount = parent.transform.childCount;
+    }
+
+    private void SpawnEnemies(GameObject enemyPool) 
+    {
+        // only if in PLAYING state
+
+        int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
 
         //CHANGE THIS LATER!!! UNVERIFIED RANGES!
         Vector3 enemySpawn = new Vector3(position.x + Random.Range(50, 55), 0, position.z + Random.Range(100, 105));
-        
-        for (int i = 0; i < maxCount - 1; i++)
+
+        for (int i = 0; i < childCount - 1; i++)
         {
-            GameObject child = parent.transform.GetChild(i).gameObject;
+            GameObject child = enemyPool.transform.GetChild(i).gameObject;
 
             if (!child.activeInHierarchy)
             {
@@ -95,11 +103,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-    }
 
-    private void SpawnEnemies(GameObject enemyPool) 
-    {
-        int childCount = enemyPool.transform.childCount;
     }
 
     public void OnApplicationQuit()
@@ -109,8 +113,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //Remove this later!
-        gameState = GameState.PLAYING;
+        
 
         switch (gameState)
         {
@@ -119,13 +122,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        //Debugging
-        Debug.Log(currentTime);
-        if ((int)currentTime % 5 == 0) { 
-
+        if ((int)currentTime % 5 == 0) 
+        {
+            // Debugging
+            Debug.Log("5 seconds passed!");
             for (int i = 0; i < maxEnemyCounts.Length - 1; i++)
             {
-
                 if (enemyCount < maxEnemyCounts[i])
                 {
                     //Debugging
