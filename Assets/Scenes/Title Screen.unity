@@ -169,7 +169,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &145776678
 MonoBehaviour:
@@ -212,6 +212,18 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!114 &186477207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1133645142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d36c16da211b9c4b83a9fbf956f47f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &362517097
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +856,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &674838832
 MonoBehaviour:
@@ -1008,10 +1020,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
+        type: 3}
+      propertyPath: maxEnemyCounts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2586993235080147185, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2586993235080147185, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
         type: 3}
@@ -1288,13 +1305,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 8d36c16da211b9c4b83a9fbf956f47f3, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 186477207}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnPlayClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1421,7 +1438,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1485575558
 MonoBehaviour:
@@ -1554,7 +1571,7 @@ RectTransform:
   - {fileID: 1158913887}
   - {fileID: 1942011760}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

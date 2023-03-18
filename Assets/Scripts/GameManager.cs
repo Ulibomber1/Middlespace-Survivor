@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU }
 
@@ -16,11 +18,14 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     private float startTime;
     private float currentTime = 0;
+    private float spawnTime = 0;
+    [SerializeField] private int spawnRateSeconds = 5;
 
-    private int enemyCount = 0;
-    [SerializeField]
-    private int[] maxEnemyCounts;
-    private GameObject[] enemyPools;
+    private int totalActiveEnemyCount;
+    [SerializeField] private List<int> activeEnemyCount;
+    [SerializeField] private List<int> maxEnemyCounts;
+    [SerializeField] private List<GameObject> enemyPools;
+
     private GameObject playerReference;
     private Camera MainCamera;
     // private Dialogue;
@@ -29,27 +34,34 @@ public class GameManager : MonoBehaviour
     // private PlayerController;
     // private MenuController;
 
+    private void Awake()
+    {
+        if (GameManager.instance == null)
+        {
+            GameManager.instance = this;
+            DontDestroyOnLoad(GameManager.instance);
+        }
+        else if(GameManager.instance != null && GameManager.instance != this)
+        {
+            Destroy(this);
+        }
+    }
+
     private void Start()
     {
-        playerReference = GameObject.FindGameObjectWithTag("Player");
-        enemyPools = GameObject.FindGameObjectsWithTag("Enemy Pool");
-        SetGameState(GameState.PLAYING);
-        startTime = Time.time;
-        MainCamera = Camera.main;
-
-        for (int i = 0; i < enemyPools.Length - 1; i++)
-            CountChildren(enemyPools[i], ref maxEnemyCounts[i]);
+        SetGameState(GameState.MAIN_MENU);
     }
 
     public static GameManager Instance
     {
         get
         {
-            if (GameManager.instance == null)
+            /*if (GameManager.instance == null)
             {
+
                 DontDestroyOnLoad(GameManager.instance);
                 GameManager.instance = new GameManager { };
-            }
+            }*/
             return GameManager.instance;
         }
     }
@@ -57,7 +69,26 @@ public class GameManager : MonoBehaviour
     public void SetGameState(GameState state)
     {
         this.gameState = state;
-        OnStateChange();
+    }
+
+    public void OnPlayClicked()
+    {
+        SceneManager.LoadScene("SampleScene");
+        SetGameState(GameState.PLAYING);
+
+        playerReference = GameObject.FindGameObjectWithTag("Player");
+
+        GameObject[] enemyPoolsTemp = GameObject.FindGameObjectsWithTag("Enemy Pool");
+        for (int i = 0; i < enemyPoolsTemp.Length; i++)
+        {
+            enemyPools.Add(enemyPoolsTemp[i]);
+            maxEnemyCounts.Add(enemyPools[i].transform.childCount);
+            activeEnemyCount.Add(0);
+        }
+        
+        startTime = Time.time;
+        MainCamera = Camera.main;
+           
     }
 
     private void SaveGame() 
@@ -68,18 +99,6 @@ public class GameManager : MonoBehaviour
     private void LoadGame()
     {
         // using PlayerPrefs, load player stats and settings.
-    }
-
-    private void ChangeScene()
-    {
-
-    }
-
-    private void  CountChildren(GameObject parent, ref int maxCount)
-    {
-        // only if in PLAYING state
-
-        maxCount = parent.transform.childCount;
     }
 
     private void SpawnEnemies(GameObject enemyPool) 
@@ -119,22 +138,25 @@ public class GameManager : MonoBehaviour
         {
             case GameState.PLAYING:
                 currentTime += Time.deltaTime;
+                spawnTime += Time.deltaTime;
                 break;
         }
 
-        if ((int)currentTime % 5 == 0) 
+        if (spawnTime > spawnRateSeconds) 
         {
+            spawnTime -= spawnRateSeconds;
             // Debugging
-            Debug.Log("5 seconds passed!");
-            for (int i = 0; i < maxEnemyCounts.Length - 1; i++)
+            Debug.Log(spawnRateSeconds + " seconds passed!");
+            for (int i = 0; i < maxEnemyCounts.Count; i++)
             {
-                if (enemyCount < maxEnemyCounts[i])
+                //Debug.Log("For loop reached! iteration " + i + ". enemyCount is " + maxEnemyCounts[i] + " & maxEnemyCounts at i is " + maxEnemyCounts[i]);
+                /*if (enemyCount[i] < maxEnemyCounts[i])
                 {
                     //Debugging
                     Debug.Log("Enemy should have spawned");
                     SpawnEnemies(enemyPools[i]);
                     break;
-                }
+                }*/
             }
         }
     }
