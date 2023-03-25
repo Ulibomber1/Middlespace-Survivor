@@ -4,18 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
+public class PlayerController : EntityController, IsoPlayer.IPlayerActions
 {
-    public float acceleration;
-    public float maxVelocity;
-    public float haltingDrag;
 
     Vector3 moveResult;
     Quaternion rotationResult;
     Rigidbody playerRigidbody;
- // Player playerEntity;
+    // Player playerEntity;
 
-    void MovePlayer()
+    override protected void MoveEntity()
     {
         if (moveResult.magnitude == 0.0f)
         {
@@ -46,7 +43,7 @@ public class PlayerController : MonoBehaviour, IsoPlayer.IPlayerActions
     // FixedUpdate is called once per physics tick
     void FixedUpdate()
     {
-        MovePlayer();
+        MoveEntity();
         
     }
 

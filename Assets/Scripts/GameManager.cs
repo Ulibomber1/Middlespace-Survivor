@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             GameManager.instance = this;
             DontDestroyOnLoad(GameManager.instance);
         }
-        else if(GameManager.instance != null && GameManager.instance != this)
+        else if (GameManager.instance != null && GameManager.instance != this)
         {
             Destroy(this);
         }
@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
+
+        //SceneLoaded sceneLoadSubscribe = OnSceneLoaded;
     }
 
     public static GameManager Instance
@@ -76,19 +78,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
         SetGameState(GameState.PLAYING);
 
-        playerReference = GameObject.FindGameObjectWithTag("Player");
-
-        GameObject[] enemyPoolsTemp = GameObject.FindGameObjectsWithTag("Enemy Pool");
-        for (int i = 0; i < enemyPoolsTemp.Length; i++)
-        {
-            enemyPools.Add(enemyPoolsTemp[i]);
-            maxEnemyCounts.Add(enemyPools[i].transform.childCount);
-            activeEnemyCount.Add(0);
-        }
-        
         startTime = Time.time;
         MainCamera = Camera.main;
-           
+
+    }
+
+    public void onPoolLoaded(GameObject pool)
+    {
+        enemyPools.Add(pool);
+        maxEnemyCounts.Add(pool.transform.childCount);
+        activeEnemyCount.Add(0);
     }
 
     private void SaveGame() 
@@ -108,8 +107,7 @@ public class GameManager : MonoBehaviour
         int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
 
-        //CHANGE THIS LATER!!! UNVERIFIED RANGES!
-        Vector3 enemySpawn = new Vector3(position.x + Random.Range(50, 55), 0, position.z + Random.Range(100, 105));
+        Vector3 enemySpawn = new Vector3(position.x + Random.Range(10, 20), 0, position.z + Random.Range(10, 20));
 
         for (int i = 0; i < childCount - 1; i++)
         {
@@ -132,11 +130,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
 
         switch (gameState)
         {
             case GameState.PLAYING:
+
+                if(playerReference == null)
+                    playerReference = GameObject.FindGameObjectWithTag("Player");
+
                 currentTime += Time.deltaTime;
                 spawnTime += Time.deltaTime;
                 break;
@@ -145,18 +146,17 @@ public class GameManager : MonoBehaviour
         if (spawnTime > spawnRateSeconds) 
         {
             spawnTime -= spawnRateSeconds;
-            // Debugging
-            Debug.Log(spawnRateSeconds + " seconds passed!");
+            
             for (int i = 0; i < maxEnemyCounts.Count; i++)
             {
-                //Debug.Log("For loop reached! iteration " + i + ". enemyCount is " + maxEnemyCounts[i] + " & maxEnemyCounts at i is " + maxEnemyCounts[i]);
-                /*if (enemyCount[i] < maxEnemyCounts[i])
+                Debug.Log("For loop reached! iteration " + i + ". enemyCount is " + maxEnemyCounts[i] + " & maxEnemyCounts at i is " + maxEnemyCounts[i]);
+                if (activeEnemyCount[i] < maxEnemyCounts[i])
                 {
                     //Debugging
                     Debug.Log("Enemy should have spawned");
                     SpawnEnemies(enemyPools[i]);
                     break;
-                }*/
+                }
             }
         }
     }
