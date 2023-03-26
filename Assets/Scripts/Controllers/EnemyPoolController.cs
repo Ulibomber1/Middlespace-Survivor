@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class EnemyPoolController : MonoBehaviour
 {
+    public UnityEvent OnAwake;
     private void Awake()
     {
-        //Not maintanable
-        GameManager.Instance.onPoolLoaded(this.gameObject);
+        OnAwake.Invoke();
     }
 }
