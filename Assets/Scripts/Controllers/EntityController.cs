@@ -11,16 +11,4 @@ public class EntityController : MonoBehaviour
     [SerializeField] protected float haltingDrag;
 
     virtual protected void MoveEntity() { }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
