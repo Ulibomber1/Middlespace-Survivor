@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyPoolController : MonoBehaviour
 {
+    public delegate void OnAwake(GameObject pool);
+    public static event OnAwake onAwake;
     private void Awake()
     {
-        //Not maintanable
-        GameManager.Instance.onPoolLoaded(this.gameObject);
+        onAwake?.Invoke(this.gameObject);
+        //Works, but may Not be maintanable
+        // GameManager.Instance.onPoolLoaded(this.gameObject);
     }
 }

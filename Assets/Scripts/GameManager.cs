@@ -77,13 +77,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
         SetGameState(GameState.PLAYING);
-
+        EnemyPoolController.onAwake += AddEnemyPoolInstance;
         startTime = Time.time;
         MainCamera = Camera.main;
 
     }
 
-    public void onPoolLoaded(GameObject pool)
+    public void AddEnemyPoolInstance(GameObject pool)
     {
         enemyPools.Add(pool);
         maxEnemyCounts.Add(pool.transform.childCount);
@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
                     //Debugging
                     Debug.Log("Enemy should have spawned");
                     SpawnEnemiesFromPool(enemyPools[i]);
+                    activeEnemyCount[i] += 1;
                 }
             }
         }
