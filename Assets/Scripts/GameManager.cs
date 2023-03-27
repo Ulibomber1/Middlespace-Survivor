@@ -50,12 +50,20 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
+
+        //SceneLoaded sceneLoadSubscribe = OnSceneLoaded;
     }
 
     public static GameManager Instance
     {
         get
         {
+            /*if (GameManager.instance == null)
+            {
+
+                DontDestroyOnLoad(GameManager.instance);
+                GameManager.instance = new GameManager { };
+            }*/
             return GameManager.instance;
         }
     }
