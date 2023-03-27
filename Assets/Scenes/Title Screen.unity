@@ -1022,6 +1022,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
         type: 3}
+      propertyPath: spawnRateSeconds
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
+        type: 3}
       propertyPath: maxEnemyCounts.Array.size
       value: 0
       objectReference: {fileID: 0}

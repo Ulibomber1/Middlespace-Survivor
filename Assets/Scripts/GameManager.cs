@@ -100,16 +100,16 @@ public class GameManager : MonoBehaviour
         // using PlayerPrefs, load player stats and settings.
     }
 
-    private void SpawnEnemies(GameObject enemyPool) 
+    private void SpawnEnemiesFromPool(GameObject enemyPool) 
     {
         // only if in PLAYING state
 
         int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
 
-        Vector3 enemySpawn = new Vector3(position.x + Random.Range(10, 20), 0, position.z + Random.Range(10, 20));
+        Vector3 enemySpawn = new Vector3(position.x + Random.Range(-20, 20), 0, position.z + Random.Range(-20, 20));
 
-        for (int i = 0; i < childCount - 1; i++)
+        for (int i = 0; i < childCount; i++)
         {
             GameObject child = enemyPool.transform.GetChild(i).gameObject;
 
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
             {
                 child.SetActive(true);
                 child.transform.position = enemySpawn;
+
                 return;
             }
         }
@@ -126,6 +127,9 @@ public class GameManager : MonoBehaviour
     public void OnApplicationQuit()
     {
         GameManager.instance = null;
+        GameManager.instance.enemyPools.Clear();
+        GameManager.instance.maxEnemyCounts.Clear();
+        GameManager.instance.activeEnemyCount.Clear();
     }
 
     private void Update()
@@ -154,8 +158,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Debugging
                     Debug.Log("Enemy should have spawned");
-                    SpawnEnemies(enemyPools[i]);
-                    break;
+                    SpawnEnemiesFromPool(enemyPools[i]);
                 }
             }
         }
