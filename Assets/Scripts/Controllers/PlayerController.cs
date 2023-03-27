@@ -4,13 +4,31 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : EntityController, IsoPlayer.IPlayerActions
+public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDamageable
 {
-
     Vector3 moveResult;
     Quaternion rotationResult;
     Rigidbody playerRigidbody;
     // Player playerEntity;
+
+    // IDamageable Implementations
+    float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
+    public float damageResistance { get; }
+    public float healthRegenFactor { get; }
+    public void InflictDamage(float rawDamage)
+    {
+        hitPoints -= (1 - damageResistance) * rawDamage;
+        if (hitPoints <= 0.0f)
+        {
+            // Broadcast PlayerDead event
+        }
+    }
+    public void Heal(float healAmount)
+    {
+        hitPoints += healthRegenFactor * healAmount;
+    }
+    // IDamageable Implementations end
+
 
     override protected void MoveEntity()
     {
