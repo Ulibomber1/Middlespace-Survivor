@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
 
-        Vector3 enemySpawn = new Vector3(position.x + Random.Range(-20, 20), 0, position.z + Random.Range(-20, 20));
+        Vector3 enemySpawn = new Vector3(position.x + Random.Range(-20, 20), 0.0f, position.z + Random.Range(-20, 20));
 
         for (int i = 0; i < childCount; i++)
         {
@@ -126,10 +126,10 @@ public class GameManager : MonoBehaviour
 
     public void OnApplicationQuit()
     {
-        GameManager.instance = null;
         GameManager.instance.enemyPools.Clear();
         GameManager.instance.maxEnemyCounts.Clear();
         GameManager.instance.activeEnemyCount.Clear();
+        GameManager.instance = null;
     }
 
     private void Update()
