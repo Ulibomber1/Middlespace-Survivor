@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum ProjectyleType {PLAYER1, PLAYER2, ENEMY1, ENEMY2}
+
 public class BulletController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected float damage;
+    [SerializeField] protected float speed;
+    protected Rigidbody bulletRigidBody;
+
+    protected void Awake()
     {
-        
+        bulletRigidBody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void OnEnable()
     {
-        
+        bulletRigidBody.AddForce(transform.up * speed);
+        Invoke("DestroyBullet", 5f);
+    }
+
+    protected void DestroyBullet()
+    {
+        Destroy(gameObject);
     }
 }
