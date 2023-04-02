@@ -11,6 +11,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     Rigidbody playerRigidbody;
     // Player playerEntity;
 
+    private bool isPlaying = true;
+
     // IDamageable Implementations
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
     public float damageResistance { get; }
@@ -29,9 +31,32 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     }
     // IDamageable Implementations end
 
+    private void GameStateChange()
+    {
+        switch (GameManager.Instance.gameState)
+        {
+            case GameState.PLAYING:
+                if (!isPlaying)
+                    isPlaying =  true;
+                break;
+            case GameState.PAUSE_MENU:
+            case GameState.LEVELED_UP:
+            case GameState.BUYING_EQUIPMENT:
+                if (isPlaying)
+                    isPlaying = false;
+                break;
+            case GameState.MAIN_MENU:
+                Destroy(gameObject);
+                break;
+        }
+           
+    }
 
     override protected void MoveEntity()
     {
+        if (!isPlaying)
+            return;
+
         if (moveResult.magnitude == 0.0f)
         {
             playerRigidbody.drag = haltingDrag;
@@ -56,6 +81,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        GameManager.Instance.OnStateChange += GameStateChange;
+
     }
 
     // FixedUpdate is called once per physics tick

@@ -106,8 +106,8 @@ public class GameManager : MonoBehaviour
 
         int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
-
-        Vector3 enemySpawn = new Vector3(position.x + Random.Range(-20, 20), 0.0f, position.z + Random.Range(-20, 20));
+        int index = Random.Range(0, playerReference.transform.Find("Spawn Zone Parent").childCount);
+        Vector3 enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
 
         for (int i = 0; i < childCount; i++)
         {
@@ -115,6 +115,9 @@ public class GameManager : MonoBehaviour
 
             if (!child.activeInHierarchy)
             {
+                // chance for enemies to spawn at same zone, okay for now
+                index = Random.Range(0, playerReference.transform.Find("Spawn Zone Parent").childCount);
+                enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
                 child.SetActive(true);
                 child.transform.position = enemySpawn;
 
