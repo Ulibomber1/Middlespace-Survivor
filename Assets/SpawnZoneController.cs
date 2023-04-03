@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SpawnZoneController : MonoBehaviour
 {
-    List<GameObject> zoneList;
+    [SerializeField] public List<GameObject> zoneList;
 
-    private void Start()
+    private void Awake()
     {
-        ZoneUtility.onAwake += AddZone;
+        ZoneUtility.onStart += AddZone;
     }
 
     private void AddZone(GameObject zone)

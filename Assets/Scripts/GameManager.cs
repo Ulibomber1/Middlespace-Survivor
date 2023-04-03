@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU }
+public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU, GAME_OVER }
 
 public delegate void OnStateChangeHandler();
 
@@ -73,14 +73,26 @@ public class GameManager : MonoBehaviour
         this.gameState = state;
     }
 
+    private void GameOver()
+    {
+        playerReference.SetActive(false);
+        SetGameState(GameState.GAME_OVER);
+    }
     public void OnPlayClicked()
     {
         SceneManager.LoadScene("SampleScene");
         SetGameState(GameState.PLAYING);
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
+        PlayerController.playerDead += GameOver;
         startTime = Time.time;
         MainCamera = Camera.main;
-
+    }
+    public void OnReturnToMainMenu()
+    {
+        EnemyPoolController.onAwake -= AddEnemyPoolInstance;
+        PlayerController.playerDead -= GameOver;
+        SceneManager.LoadScene("Title Screen");
+        SetGameState(GameState.MAIN_MENU);
     }
 
     public void AddEnemyPoolInstance(GameObject pool)
@@ -106,8 +118,8 @@ public class GameManager : MonoBehaviour
 
         int childCount = enemyPool.transform.childCount;
         Vector3 position = playerReference.transform.position;
-        int index = Random.Range(0, playerReference.transform.Find("Spawn Zone Parent").childCount);
-        Vector3 enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
+        int index;
+        Vector3 enemySpawn;
 
         for (int i = 0; i < childCount; i++)
         {
@@ -115,8 +127,8 @@ public class GameManager : MonoBehaviour
 
             if (!child.activeInHierarchy)
             {
-                // chance for enemies to spawn at same zone, okay for now
-                index = Random.Range(0, playerReference.transform.Find("Spawn Zone Parent").childCount);
+                // chance for enemies to spawn at same zone, okay for now, FIX AFTER PROTOTYPING IS DONE
+                index = Random.Range(0, playerReference.GetComponentInChildren<SpawnZoneController>().zoneList.Count);
                 enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
                 child.SetActive(true);
                 child.transform.position = enemySpawn;
@@ -147,6 +159,9 @@ public class GameManager : MonoBehaviour
 
                 currentTime += Time.deltaTime;
                 spawnTime += Time.deltaTime;
+                break;
+            case GameState.GAME_OVER:
+                
                 break;
         }
 

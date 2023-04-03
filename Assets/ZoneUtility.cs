@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ZoneUtility : MonoBehaviour
 {
-    public delegate void OnAwake(GameObject zone);
-    public static event OnAwake onAwake;
-    private void Awake()
+    public delegate void OnStart(GameObject zone);
+    public static event OnStart onStart;
+    private void Start()
     {
-        onAwake?.Invoke(this.gameObject);
+        onStart?.Invoke(gameObject);
     }
 }

@@ -17,12 +17,15 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
     public float damageResistance { get; }
     public float healthRegenFactor { get; }
+    public delegate void OnPlayerDead();
+    public static event OnPlayerDead playerDead;
     public void InflictDamage(float rawDamage)
     {
         hitPoints -= (1 - damageResistance) * rawDamage;
         if (hitPoints <= 0.0f)
         {
             // Broadcast PlayerDead event
+            playerDead?.Invoke();
         }
     }
     public void Heal(float healAmount)
@@ -47,6 +50,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                 break;
             case GameState.MAIN_MENU:
                 Destroy(gameObject);
+                break;
+            case GameState.GAME_OVER:
                 break;
         }
            
