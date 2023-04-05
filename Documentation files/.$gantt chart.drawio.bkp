@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-04-05T02:02:12.062Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="BAY3L7pIhUVyhYHw-cL5" version="21.1.2" type="device">
+<mxfile host="Electron" modified="2023-04-05T01:59:39.756Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="I-6Z612eeBjGmJ51KqW7" version="21.1.2" type="device">
   <diagram name="Page-1" id="7CwHxx1alk3cKGe2ioqd">
     <mxGraphModel dx="683" dy="398" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -182,10 +182,10 @@
           <mxGeometry x="70" y="160" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="pX23azcT-TvkSyR6TMsu-47" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="274" y="48" width="136" height="10" as="geometry" />
+          <mxGeometry x="274" y="63" width="136" height="10" as="geometry" />
         </mxCell>
         <mxCell id="pX23azcT-TvkSyR6TMsu-48" value="" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#10151C;" vertex="1" parent="1">
-          <mxGeometry x="274" y="48" width="96" height="10" as="geometry" />
+          <mxGeometry x="274" y="63" width="96" height="10" as="geometry" />
         </mxCell>
         <mxCell id="pX23azcT-TvkSyR6TMsu-49" value="WBS 1.5" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry y="190" width="70" height="30" as="geometry" />
@@ -204,21 +204,6 @@
         </mxCell>
         <mxCell id="pX23azcT-TvkSyR6TMsu-54" value="&amp;nbsp;Leveling systems" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="70" y="220" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="pX23azcT-TvkSyR6TMsu-55" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="230" width="120" height="10" as="geometry" />
-        </mxCell>
-        <mxCell id="pX23azcT-TvkSyR6TMsu-57" value="WBS 1.6" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry y="250" width="70" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="pX23azcT-TvkSyR6TMsu-58" value="attack systems" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="70" y="250" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="pX23azcT-TvkSyR6TMsu-59" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="260" width="104" height="10" as="geometry" />
-        </mxCell>
-        <mxCell id="pX23azcT-TvkSyR6TMsu-60" value="" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#10151C;" vertex="1" parent="1">
-          <mxGeometry x="320" y="260" width="10" height="10" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
