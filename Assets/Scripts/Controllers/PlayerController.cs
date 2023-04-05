@@ -17,15 +17,15 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
     public float damageResistance { get; }
     public float healthRegenFactor { get; }
-    public delegate void OnPlayerDead();
-    public static event OnPlayerDead playerDead;
+    public delegate void PlayerDeadHandler();
+    public static event PlayerDeadHandler OnPlayerDead;
     public void InflictDamage(float rawDamage)
     {
         hitPoints -= (1 - damageResistance) * rawDamage;
         if (hitPoints <= 0.0f)
         {
             // Broadcast PlayerDead event
-            playerDead?.Invoke();
+            OnPlayerDead?.Invoke();
         }
     }
     public void Heal(float healAmount)
@@ -52,6 +52,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                 Destroy(gameObject);
                 break;
             case GameState.GAME_OVER:
+                isPlaying = false;
                 break;
         }
            
@@ -87,14 +88,13 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
-
+        hitPoints = maxHitPoints;
     }
 
     // FixedUpdate is called once per physics tick
     void FixedUpdate()
     {
         MoveEntity();
-        
     }
 
     private Vector3 IsoVectorConvert(Vector3 vector)
@@ -113,7 +113,6 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         moveResult = IsoVectorConvert(toConvert);
         Vector3 relative = (transform.position + moveResult) - transform.position;
         rotationResult = Quaternion.LookRotation(relative, Vector3.up);
-        
     }
 
     // Here to complete interface, no implementations for either
@@ -125,4 +124,11 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     {
         throw new System.NotImplementedException();
     }
+
+    public void OnDamage(InputAction.CallbackContext context)
+    {
+        Debug.Log("OnDamage reached!");
+        InflictDamage(90);
+    }
+       
 }

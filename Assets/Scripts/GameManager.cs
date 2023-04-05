@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU, GAME_OVER }
 
@@ -10,6 +11,7 @@ public delegate void OnStateChangeHandler();
 
 public class GameManager : MonoBehaviour
 {
+    private GameObject gameOverGUI;
     protected GameManager() { }
     private static GameManager instance = null;
     public event OnStateChangeHandler OnStateChange;
@@ -50,7 +52,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
-
         //SceneLoaded sceneLoadSubscribe = OnSceneLoaded;
     }
 
@@ -58,12 +59,6 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            /*if (GameManager.instance == null)
-            {
-
-                DontDestroyOnLoad(GameManager.instance);
-                GameManager.instance = new GameManager { };
-            }*/
             return GameManager.instance;
         }
     }
@@ -72,25 +67,44 @@ public class GameManager : MonoBehaviour
     {
         this.gameState = state;
     }
+    private void SetPlayerRef(GameObject player)
+    {
+        playerReference = player;
+    }
+    private void SetGameOverRef(GameObject canvas)
+    {
+        gameOverGUI = canvas;
+    }
 
     private void GameOver()
     {
         playerReference.SetActive(false);
+        gameOverGUI.SetActive(true);
         SetGameState(GameState.GAME_OVER);
     }
     public void OnPlayClicked()
     {
         SceneManager.LoadScene("SampleScene");
+        SceneManager.sceneLoaded += OnSceneLoad;
         SetGameState(GameState.PLAYING);
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
-        PlayerController.playerDead += GameOver;
+        PlayerController.OnPlayerDead += GameOver;
+        gameOverGUI = GameObject.Find("Game Over Screen");
         startTime = Time.time;
         MainCamera = Camera.main;
     }
+
+    private void OnSceneLoad(Scene scene, LoadSceneMode sceneMode)
+    {
+        playerReference = GameObject.Find("Player");
+        gameOverGUI = GameObject.Find("Game Over Screen");
+        gameOverGUI.SetActive(false);
+    }
+
     public void OnReturnToMainMenu()
     {
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
-        PlayerController.playerDead -= GameOver;
+        PlayerController.OnPlayerDead -= GameOver;
         SceneManager.LoadScene("Title Screen");
         SetGameState(GameState.MAIN_MENU);
     }

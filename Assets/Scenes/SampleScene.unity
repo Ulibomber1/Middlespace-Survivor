@@ -3424,6 +3424,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 123191be-28a1-452b-b6d1-46fbc9d74205
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 777015679}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3cddd94f-0c31-49f8-9305-06d229041f05
+    m_ActionName: Player/Damage[/Keyboard/o]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -3974,6 +3990,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
+        type: 3}
+      propertyPath: gameOverGUI
+      value: 
+      objectReference: {fileID: 1703799816}
     - target: {fileID: 2586993235080147185, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
         type: 3}
       propertyPath: m_RootOrder
@@ -4036,6 +4057,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9, type: 3}
+--- !u!114 &859204412 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
+    type: 3}
+  m_PrefabInstance: {fileID: 859204411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d36c16da211b9c4b83a9fbf956f47f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &871444871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6944,6 +6977,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6059079212965482283, guid: e7bef44ddf6292f4baf48c497d1e32e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 859204412}
+    - target: {fileID: 6059079212965482283, guid: e7bef44ddf6292f4baf48c497d1e32e7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnReturnToMainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 6306122006648864598, guid: e7bef44ddf6292f4baf48c497d1e32e7,
         type: 3}
       propertyPath: m_Name
@@ -6952,10 +6995,17 @@ PrefabInstance:
     - target: {fileID: 6306122006648864598, guid: e7bef44ddf6292f4baf48c497d1e32e7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1703799817, guid: e7bef44ddf6292f4baf48c497d1e32e7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e7bef44ddf6292f4baf48c497d1e32e7, type: 3}
+--- !u!1 &1703799816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6306122006648864598, guid: e7bef44ddf6292f4baf48c497d1e32e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1703799815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1762788805
 PrefabInstance:
   m_ObjectHideFlags: 0
