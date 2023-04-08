@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d36c16da211b9c4b83a9fbf956f47f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemyCounts: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  spawnRateSeconds: 5
+  activeEnemyCount: 
+  maxEnemyCounts: 
+  enemyPools: []

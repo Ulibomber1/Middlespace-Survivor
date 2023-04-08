@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public event OnStateChangeHandler OnStateChange;
     public GameState gameState { get; private set; }
 
-    private bool isGameOver = false;
     private float startTime;
     private float currentTime = 0;
     private float spawnTime = 0;
@@ -52,7 +51,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
-        //SceneLoaded sceneLoadSubscribe = OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoad;
     }
 
     public static GameManager Instance
@@ -67,15 +66,6 @@ public class GameManager : MonoBehaviour
     {
         this.gameState = state;
     }
-    private void SetPlayerRef(GameObject player)
-    {
-        playerReference = player;
-    }
-    private void SetGameOverRef(GameObject canvas)
-    {
-        gameOverGUI = canvas;
-    }
-
     private void GameOver()
     {
         playerReference.SetActive(false);
@@ -84,12 +74,10 @@ public class GameManager : MonoBehaviour
     }
     public void OnPlayClicked()
     {
-        SceneManager.LoadScene("SampleScene");
-        SceneManager.sceneLoaded += OnSceneLoad;
-        SetGameState(GameState.PLAYING);
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
+        SceneManager.LoadScene("SampleScene");
+        SetGameState(GameState.PLAYING);
         PlayerController.OnPlayerDead += GameOver;
-        gameOverGUI = GameObject.Find("Game Over Screen");
         startTime = Time.time;
         MainCamera = Camera.main;
     }
@@ -98,13 +86,16 @@ public class GameManager : MonoBehaviour
     {
         playerReference = GameObject.Find("Player");
         gameOverGUI = GameObject.Find("Game Over Screen");
+        gameOverGUI.GetComponentInChildren<Button>().onClick.AddListener(OnReturnToMainMenu);
         gameOverGUI.SetActive(false);
     }
 
     public void OnReturnToMainMenu()
     {
-        EnemyPoolController.onAwake -= AddEnemyPoolInstance;
+        SceneManager.sceneLoaded -= OnSceneLoad;
         PlayerController.OnPlayerDead -= GameOver;
+        EnemyPoolController.onAwake -= AddEnemyPoolInstance;
+        ClearEnemyPools();
         SceneManager.LoadScene("Title Screen");
         SetGameState(GameState.MAIN_MENU);
     }
@@ -153,11 +144,16 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void ClearEnemyPools()
+    {
+        enemyPools.Clear();
+        maxEnemyCounts.Clear();
+        activeEnemyCount.Clear();
+    }
+
     public void OnApplicationQuit()
     {
-        GameManager.instance.enemyPools.Clear();
-        GameManager.instance.maxEnemyCounts.Clear();
-        GameManager.instance.activeEnemyCount.Clear();
+        ClearEnemyPools();
         GameManager.instance = null;
     }
 

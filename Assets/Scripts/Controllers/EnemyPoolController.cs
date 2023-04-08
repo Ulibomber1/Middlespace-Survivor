@@ -9,7 +9,5 @@ public class EnemyPoolController : MonoBehaviour
     private void Awake()
     {
         onAwake?.Invoke(this.gameObject);
-        //Works, but may Not be maintanable
-        // GameManager.Instance.onPoolLoaded(this.gameObject);
     }
 }
