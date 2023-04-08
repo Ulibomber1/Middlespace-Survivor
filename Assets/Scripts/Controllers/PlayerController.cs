@@ -107,6 +107,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+            InflictDamage(100);
+    }
+
     // Here to complete interface, no implementations for either
     public void OnLook(InputAction.CallbackContext context)
     {
@@ -121,8 +127,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
     public void OnDamage(InputAction.CallbackContext context)
     {
-        Debug.Log("OnDamage reached!");
-        InflictDamage(90);
+        throw new System.NotImplementedException();
     }
       
     void Shoot()

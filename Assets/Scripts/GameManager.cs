@@ -11,8 +11,8 @@ public delegate void OnStateChangeHandler();
 
 public class GameManager : MonoBehaviour
 {
-    private GameObject gameOverGUI;
-    private GameObject MainMenuGUI;
+    [SerializeReference] private GameObject gameOverGUI;
+    [SerializeReference] private GameObject MainMenuGUI;
     protected GameManager() { }
     private static GameManager instance = null;
     public event OnStateChangeHandler OnStateChange;
@@ -65,24 +65,32 @@ public class GameManager : MonoBehaviour
 
     public void SetGameState(GameState state)
     {
-        this.gameState = state;
+        instance.gameState = state;
     }
     private void GameOver()
     {
+        SetGameState(GameState.GAME_OVER);
         playerReference.SetActive(false);
         gameOverGUI.SetActive(true);
-        SetGameState(GameState.GAME_OVER);
+        Debug.Log("gameOverGUI.activeSelf = " + gameOverGUI.activeSelf);
     }
     public void OnPlayClicked()
     {
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
+        GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
         startTime = Time.time;
         MainCamera = Camera.main;
     }
-
+    private void SetupGameOverUI(GameObject UI)
+    {
+        gameOverGUI = UI;
+        Button gameOverButton = GameObject.Find("Button").GetComponent<Button>();
+        gameOverButton.onClick.AddListener(OnReturnToMainMenu);
+        gameOverGUI.SetActive(false);
+    }
     private void OnQuitButtonClicked()
     {
         Application.Quit();
@@ -93,13 +101,7 @@ public class GameManager : MonoBehaviour
         switch (Instance.gameState)
         {
             case GameState.PLAYING:
-                playerReference = GameObject.Find("Player");
-                gameOverGUI = GameObject.Find("Game Over Screen");
-                Debug.Log("gameOVerGUI =" + gameOverGUI);
-                Button gameOverButton = GameObject.Find("Button").GetComponent<Button>();
-                Debug.Log("gameOverButton =" + gameOverButton);
-                gameOverButton.onClick.AddListener(OnReturnToMainMenu);
-                gameOverGUI.SetActive(false);
+                playerReference = GameObject.FindGameObjectWithTag("Player");
                 SceneManager.sceneLoaded -= OnSceneLoad;
                 break;
             case GameState.PAUSE_MENU:
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
             case GameState.MAIN_MENU:
                 MainMenuGUI = GameObject.Find("Main Menu UI Canvas");
                 Button[] buttonsArray = MainMenuGUI.GetComponentsInChildren<Button>(true);
+                Debug.Log("buttonsArray.Length = " + buttonsArray.Length);
                 for (int i = 0; i < buttonsArray.Length; i++)
                 {
                     switch (buttonsArray[i].name)
@@ -139,9 +142,10 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoad;
         PlayerController.OnPlayerDead -= GameOver;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
+        GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
         ClearEnemyPools();
-        SceneManager.LoadScene("Title Screen");
         SetGameState(GameState.MAIN_MENU);
+        SceneManager.LoadScene("Title Screen");
     }
 
     public void AddEnemyPoolInstance(GameObject pool)
@@ -179,6 +183,7 @@ public class GameManager : MonoBehaviour
                 // chance for enemies to spawn at same zone, okay for now, FIX AFTER PROTOTYPING IS DONE
                 index = Random.Range(0, playerReference.GetComponentInChildren<SpawnZoneController>().zoneList.Count);
                 enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
+                enemySpawn -= new Vector3(0, 2, 0);
                 child.SetActive(true);
                 child.transform.position = enemySpawn;
 
