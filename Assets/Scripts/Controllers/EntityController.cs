@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityController : MonoBehaviour, IDamageable
+public class EntityController : MonoBehaviour
 {
     [SerializeField] protected float hitPoints;
     [SerializeField] protected float maxHitPoints;
@@ -12,27 +12,6 @@ public class EntityController : MonoBehaviour, IDamageable
     [SerializeField] protected float maxShotCooldown;
     [SerializeField] protected float shotCoodown;
     [SerializeField] protected bool isPlaying = true;
-
-    // IDamageable Implementations
-    float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
-    public float damageResistance { get; }
-    public float healthRegenFactor { get; }
-    public delegate void PlayerDeadHandler();
-    public static event PlayerDeadHandler OnPlayerDead;
-    public void InflictDamage(float rawDamage)
-    {
-        hitPoints -= (1 - damageResistance) * rawDamage;
-        if (hitPoints <= 0.0f)
-        {
-            // Broadcast PlayerDead event
-            OnPlayerDead?.Invoke();
-        }
-    }
-    public void Heal(float healAmount)
-    {
-        hitPoints += healthRegenFactor * healAmount;
-    }
-    // IDamageable Implementations end
 
     protected void GameStateChange()
     {
