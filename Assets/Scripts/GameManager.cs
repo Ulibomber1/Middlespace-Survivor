@@ -12,6 +12,7 @@ public delegate void OnStateChangeHandler();
 public class GameManager : MonoBehaviour
 {
     private GameObject gameOverGUI;
+    private GameObject MainMenuGUI;
     protected GameManager() { }
     private static GameManager instance = null;
     public event OnStateChangeHandler OnStateChange;
@@ -46,12 +47,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        SceneManager.sceneLoaded += OnSceneLoad;
     }
 
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
-        SceneManager.sceneLoaded += OnSceneLoad;
     }
 
     public static GameManager Instance
@@ -75,24 +76,67 @@ public class GameManager : MonoBehaviour
     public void OnPlayClicked()
     {
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
-        SceneManager.LoadScene("SampleScene");
         SetGameState(GameState.PLAYING);
-        PlayerController.OnPlayerDead += GameOver;
+        SceneManager.LoadScene("SampleScene");
+        EntityController.OnPlayerDead += GameOver;
         startTime = Time.time;
         MainCamera = Camera.main;
     }
 
+    private void OnQuitButtonClicked()
+    {
+        Application.Quit();
+    }
+
     private void OnSceneLoad(Scene scene, LoadSceneMode sceneMode)
     {
-        playerReference = GameObject.Find("Player");
-        gameOverGUI = GameObject.Find("Game Over Screen");
-        gameOverGUI.GetComponentInChildren<Button>().onClick.AddListener(OnReturnToMainMenu);
-        gameOverGUI.SetActive(false);
+        switch (Instance.gameState)
+        {
+            case GameState.PLAYING:
+                playerReference = GameObject.Find("Player");
+                gameOverGUI = GameObject.Find("Game Over Screen");
+                Debug.Log("gameOVerGUI =" + gameOverGUI);
+                Button gameOverButton = GameObject.Find("Button").GetComponent<Button>();
+                Debug.Log("gameOverButton =" + gameOverButton);
+                gameOverButton.onClick.AddListener(OnReturnToMainMenu);
+                gameOverGUI.SetActive(false);
+                SceneManager.sceneLoaded -= OnSceneLoad;
+                break;
+            case GameState.PAUSE_MENU:
+            case GameState.LEVELED_UP:
+            case GameState.BUYING_EQUIPMENT:
+                break;
+            case GameState.MAIN_MENU:
+                MainMenuGUI = GameObject.Find("Main Menu UI Canvas");
+                Button[] buttonsArray = MainMenuGUI.GetComponentsInChildren<Button>(true);
+                for (int i = 0; i < buttonsArray.Length; i++)
+                {
+                    switch (buttonsArray[i].name)
+                    {
+                        case "Play Button":
+                            buttonsArray[i].onClick.AddListener(OnPlayClicked);
+                            break;
+                        case "Exit":
+                            buttonsArray[i].onClick.AddListener(OnQuitButtonClicked);
+                            break;
+                        case "Options":
+                            //buttonsArray[i].onClick.AddListener();
+                            break;
+                        case "Unlocks Button":
+                            //buttonsArray[i].onClick.AddListener();
+                            break;
+                    }
+                }
+                SceneManager.sceneLoaded -= OnSceneLoad;
+                break;
+            case GameState.GAME_OVER:
+                break;
+        }
     }
 
     public void OnReturnToMainMenu()
     {
-        SceneManager.sceneLoaded -= OnSceneLoad;
+        SceneManager.sceneLoaded += OnSceneLoad;
         PlayerController.OnPlayerDead -= GameOver;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
         ClearEnemyPools();
