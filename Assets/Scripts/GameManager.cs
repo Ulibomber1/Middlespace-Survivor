@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
-        EntityController.OnPlayerDead += GameOver;
+        PlayerController.OnPlayerDead += GameOver;
         startTime = Time.time;
         MainCamera = Camera.main;
     }
