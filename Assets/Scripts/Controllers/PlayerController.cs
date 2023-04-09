@@ -13,12 +13,19 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     [SerializeField] GameObject bulletSpawn;
     // Player playerEntity;
 
+    
+
     // IDamageable Implementations
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
     public float damageResistance { get; }
     public float healthRegenFactor { get; }
+
     public delegate void PlayerDeadHandler();
     public static event PlayerDeadHandler OnPlayerDead;
+
+    public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints/*,float experience, float maxExperience*/);
+    public static event playerDataChangeHandler OnPlayerDataChange;
+
     public void InflictDamage(float rawDamage)
     {
         hitPoints -= (1 - damageResistance) * rawDamage;
@@ -27,10 +34,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             // Broadcast PlayerDead event
             OnPlayerDead?.Invoke();
         }
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
     }
     public void Heal(float healAmount)
     {
         hitPoints += healthRegenFactor * healAmount;
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
     }
     // IDamageable Implementations end
 
@@ -67,6 +76,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
         bulletSpawn = GameObject.Find("BulletSpawn");
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
     }
 
     // FixedUpdate is called once per physics tick
