@@ -38,4 +38,5 @@ public class EntityController : MonoBehaviour
     }
 
     virtual protected void MoveEntity() { }
+    virtual protected void MoveEntity(Vector3 directionToTarget, float distanceFromTarget) { }
 }

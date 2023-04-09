@@ -118,12 +118,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 0
   maxHitPoints: 10
-  acceleration: 15
-  maxVelocity: 5
+  acceleration: 5
+  maxVelocity: 2.5
   haltingDrag: 5
   maxShotCooldown: 0
   shotCoodown: 0
   isPlaying: 1
+  attackValue: 0
 --- !u!54 &1984763608078598957
 Rigidbody:
   m_ObjectHideFlags: 0
