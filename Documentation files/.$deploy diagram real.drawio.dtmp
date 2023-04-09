@@ -1,0 +1,43 @@
+<mxfile host="Electron" modified="2023-04-09T22:09:18.182Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="ILm-xTTiqnPB1js-nLZG" version="21.1.2" type="device">
+  <diagram name="Page-1" id="1ecx687-9xLj5Babw4yN">
+    <mxGraphModel dx="1418" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bX_yzpHEBENAMoj_wyub-1" value=":PC" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;locked=1;" parent="1" vertex="1">
+          <mxGeometry x="10" y="10" width="470" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;dashed=1;" parent="1" source="bX_yzpHEBENAMoj_wyub-2" target="bX_yzpHEBENAMoj_wyub-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;" parent="1" source="bX_yzpHEBENAMoj_wyub-2" target="bX_yzpHEBENAMoj_wyub-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;" parent="1" source="bX_yzpHEBENAMoj_wyub-2" target="bX_yzpHEBENAMoj_wyub-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-2" value="Player controller" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="60" y="70" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-3" value="enemy ai controller" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="105" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-5" value="UI controller" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;" parent="1" source="bX_yzpHEBENAMoj_wyub-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="270" />
+              <mxPoint x="260" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bX_yzpHEBENAMoj_wyub-8" value="xp system" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
