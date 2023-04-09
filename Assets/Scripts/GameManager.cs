@@ -49,12 +49,10 @@ public class GameManager : MonoBehaviour
         }
         SceneManager.sceneLoaded += OnSceneLoad;
     }
-
     private void Start()
     {
         SetGameState(GameState.MAIN_MENU);
     }
-
     public static GameManager Instance
     {
         get
@@ -62,7 +60,6 @@ public class GameManager : MonoBehaviour
             return GameManager.instance;
         }
     }
-
     public void SetGameState(GameState state)
     {
         instance.gameState = state;
@@ -74,7 +71,7 @@ public class GameManager : MonoBehaviour
         gameOverGUI.SetActive(true);
         Debug.Log("gameOverGUI.activeSelf = " + gameOverGUI.activeSelf);
     }
-    public void OnPlayClicked()
+    private void OnPlayClicked()
     {
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
@@ -95,7 +92,6 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-
     private void OnSceneLoad(Scene scene, LoadSceneMode sceneMode)
     {
         switch (Instance.gameState)
@@ -136,7 +132,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
     public void OnReturnToMainMenu()
     {
         SceneManager.sceneLoaded += OnSceneLoad;
@@ -147,24 +142,20 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.MAIN_MENU);
         SceneManager.LoadScene("Title Screen");
     }
-
     public void AddEnemyPoolInstance(GameObject pool)
     {
         enemyPools.Add(pool);
         maxEnemyCounts.Add(pool.transform.childCount);
         activeEnemyCount.Add(0);
     }
-
     private void SaveGame() 
     { 
         // using PlayerPrefs, save player stats and settings.
     }
-
     private void LoadGame()
     {
         // using PlayerPrefs, load player stats and settings.
     }
-
     private void SpawnEnemiesFromPool(GameObject enemyPool) 
     {
         // only if in PLAYING state
@@ -192,20 +183,17 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
     private void ClearEnemyPools()
     {
         enemyPools.Clear();
         maxEnemyCounts.Clear();
         activeEnemyCount.Clear();
     }
-
     public void OnApplicationQuit()
     {
         ClearEnemyPools();
         GameManager.instance = null;
     }
-
     private void Update()
     {
 
