@@ -12,12 +12,9 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bulletSpawn;
     //Vector2 mousePos;
-
     // Player playerEntity;
-
-    
-
     // IDamageable Implementations
+
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
     public float damageResistance { get; }
     public float healthRegenFactor { get; }
@@ -121,6 +118,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
     private void OnCollisionEnter(Collision collision)
     {
+        // This is constant, but it need to be variable and from
+        // the enemies not the player calling it upon itself
         if (collision.gameObject.CompareTag("Enemy"))
             InflictDamage(100);
     }

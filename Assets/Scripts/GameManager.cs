@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeReference] private GameObject gameOverGUI;
     [SerializeReference] private GameObject MainMenuGUI;
+    [SerializeReference] private GameObject HUDGUI;
     protected GameManager() { }
     private static GameManager instance = null;
     public event OnStateChangeHandler OnStateChange;
@@ -69,17 +70,23 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.GAME_OVER);
         playerReference.SetActive(false);
         gameOverGUI.SetActive(true);
+        HUDGUI.SetActive(false);
         Debug.Log("gameOverGUI.activeSelf = " + gameOverGUI.activeSelf);
     }
     private void OnPlayClicked()
     {
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
+        HUDUtility.OnHUDAwake += SetupHUDUI;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
         startTime = Time.time;
         MainCamera = Camera.main;
+    }
+    private void SetupHUDUI(GameObject UI)
+    {
+        HUDGUI = UI;
     }
     private void SetupGameOverUI(GameObject UI)
     {
@@ -138,6 +145,7 @@ public class GameManager : MonoBehaviour
         PlayerController.OnPlayerDead -= GameOver;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
+        HUDUtility.OnHUDAwake -= SetupHUDUI;
         ClearEnemyPools();
         SetGameState(GameState.MAIN_MENU);
         SceneManager.LoadScene("Title Screen");
