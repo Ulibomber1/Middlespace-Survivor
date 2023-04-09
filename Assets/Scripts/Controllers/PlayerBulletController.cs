@@ -8,7 +8,7 @@ public class PlayerBulletController : BulletController
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            //other.GetComponent<EnemyController>().TakeDamage(damage);
+            other.GetComponent<EnemyController>().OnTakeDamage(damage);
             DestroyBullet();
         }
     }

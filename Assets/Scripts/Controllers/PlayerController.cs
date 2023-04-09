@@ -11,6 +11,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     Rigidbody playerRigidbody;
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bulletSpawn;
+    //Vector2 mousePos;
+
     // Player playerEntity;
 
     
@@ -142,7 +144,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
       
     void Shoot()
     {
-        Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized);
+        Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
         Debug.Log("Shoot called");
     }
 }

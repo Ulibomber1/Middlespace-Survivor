@@ -10,6 +10,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] protected float countdown;
     [SerializeField] protected bool isPlaying = true;
     [SerializeField] GameObject bulletSpawn;
+    protected Vector3 currentForce;
     protected Rigidbody bulletRigidBody;
 
     protected void GameStateChange()
@@ -19,14 +20,15 @@ public class BulletController : MonoBehaviour
             case GameState.PLAYING:
                 if (!isPlaying)
                     isPlaying = true;
-                    bulletRigidBody.AddForce(transform.forward * speed);
+                    bulletRigidBody.AddForce(currentForce * speed);
                 break;
             case GameState.PAUSE_MENU:
             case GameState.LEVELED_UP:
             case GameState.BUYING_EQUIPMENT:
                 if (isPlaying)
                     isPlaying = false;
-                    bulletRigidBody.AddForce(-(transform.forward * speed));
+                currentForce = transform.forward;
+                bulletRigidBody.AddForce(-(currentForce * speed));
                 break;
             case GameState.MAIN_MENU:
                 DestroyBullet();
@@ -42,6 +44,7 @@ public class BulletController : MonoBehaviour
     {
         GameManager.Instance.OnStateChange += GameStateChange;
         countdown = maxDespawn;
+        currentForce = transform.forward;
     }
 
     protected void Awake()

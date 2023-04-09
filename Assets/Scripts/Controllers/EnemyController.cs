@@ -58,4 +58,9 @@ public class EnemyController : EntityController
 
         MoveEntity(directionToPlayer, distanceFromPlayer);
     }
+
+    public void OnTakeDamage(float damage)
+    {
+        hitPoints -= damage;
+    }
 }
