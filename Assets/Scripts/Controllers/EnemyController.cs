@@ -41,7 +41,7 @@ public class EnemyController : EntityController
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         positionDifference = -(transform.position - playerReference.transform.position);
         float distanceFromPlayer = positionDifference.magnitude;
