@@ -116,12 +116,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         // This is constant, but it need to be variable and from
         // the enemies not the player calling it upon itself
         if (collision.gameObject.CompareTag("Enemy"))
-            InflictDamage(100);
+            InflictDamage(1);
     }
 
     // Here to complete interface, no implementations for either
