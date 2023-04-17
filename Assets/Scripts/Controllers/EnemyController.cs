@@ -17,8 +17,12 @@ public class EnemyController : EntityController
     private void Awake()
     {
         playerReference = GameObject.FindGameObjectWithTag("Player");
-        hitPoints = maxHitPoints;
         rb = gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void OnEnable()
+    {
+        hitPoints = maxHitPoints;
         enemyState = EnemyState.IDLE;
     }
 
@@ -58,7 +62,7 @@ public class EnemyController : EntityController
         if (distanceFromPlayer > 50.0f || hitPoints <= 0.0f)
         {
             enemyState = EnemyState.IDLE;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             return;
         }
         //end Despawn Stuff
@@ -69,5 +73,13 @@ public class EnemyController : EntityController
     public void OnTakeDamage(float damage)
     {
         hitPoints -= damage;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        // This is constant, but it need to be variable and from
+        // the enemies not the player calling it upon itself
+        if (collision.gameObject.CompareTag("Player"))
+            collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
     }
 }

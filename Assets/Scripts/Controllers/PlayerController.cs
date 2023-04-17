@@ -11,6 +11,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     Rigidbody playerRigidbody;
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bulletSpawn;
+    GameObject targetMouse;
+    [SerializeField] [Range(0, 1)] float rotationDampValue;
     //Vector2 mousePos;
     // Player playerEntity;
     // IDamageable Implementations
@@ -60,7 +62,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
                                       RigidbodyConstraints.FreezeRotationZ;
         playerRigidbody.velocity += moveResult * acceleration;
-        transform.rotation = rotationResult;
+        Vector3 targetDirection = targetMouse.transform.position - transform.position;
+        targetDirection.y = transform.position.y;
+        Quaternion rotation = Quaternion.LookRotation(targetDirection);
+        rotation.z = 0;
+        rotation.x = 0;
+        transform.rotation =  Quaternion.Slerp(transform.rotation, rotation, rotationDampValue); 
         if (playerRigidbody.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
             playerRigidbody.velocity = playerRigidbody.velocity.normalized * maxVelocity;
@@ -76,6 +83,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         shotCoodown = maxShotCooldown;
         bulletSpawn = GameObject.Find("BulletSpawn");
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
+        targetMouse = GameObject.Find("Mouse Target");
     }
 
     // FixedUpdate is called once per physics tick
@@ -99,7 +107,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
         moveResult = IsoVectorConvert(toConvert);
         Vector3 relative = (transform.position + moveResult) - transform.position;
-        rotationResult = Quaternion.LookRotation(relative, Vector3.up);
+        //rotationResult = Quaternion.LookRotation(relative, Vector3.up);
     }
 
     private void Update()
@@ -114,14 +122,6 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                 shotCoodown = maxShotCooldown;
             }
         }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        // This is constant, but it need to be variable and from
-        // the enemies not the player calling it upon itself
-        if (collision.gameObject.CompareTag("Enemy"))
-            InflictDamage(1);
     }
 
     // Here to complete interface, no implementations for either
@@ -147,3 +147,9 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         Debug.Log("Shoot called");
     }
 }
+
+
+/*For later reference, player rotation code snippet
+ *public Transform "tower";
+ *tower.localRotation = Quaternion.AngleAxis(CannonAngle, Vector3.up);
+ *https://www.youtube.com/watch?v=gaDFNCRQr38 */

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerBulletController : BulletController
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>().OnTakeDamage(damage);
+            other.gameObject.GetComponent<EnemyController>().OnTakeDamage(damage);
             DestroyBullet();
         }
     }
