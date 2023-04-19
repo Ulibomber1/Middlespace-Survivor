@@ -234,6 +234,8 @@ MonoBehaviour:
   isPlaying: 1
   rotationScalar: 1
   attackValue: 0
+  XP: {fileID: 5513752031359038591, guid: 39744ef8199e6eb46a3f84132395038a, type: 3}
+  Credit: {fileID: 0}
 --- !u!1 &1309670489580105607
 GameObject:
   m_ObjectHideFlags: 0

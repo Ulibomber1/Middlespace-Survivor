@@ -14,6 +14,9 @@ public class EnemyController : EntityController
     protected EnemyState enemyState;
     [SerializeField] private float attackValue;
 
+    [SerializeField] GameObject XP;
+    [SerializeField] GameObject Credit;
+
     private void Awake()
     {
         playerReference = GameObject.FindGameObjectWithTag("Player");
@@ -61,8 +64,15 @@ public class EnemyController : EntityController
         // Despawn Stuff
         if (distanceFromPlayer > 50.0f || hitPoints <= 0.0f)
         {
+
             enemyState = EnemyState.IDLE;
             gameObject.SetActive(false);
+
+            if (hitPoints <= 0)
+            {
+                Instantiate(XP, transform.position, gameObject.transform.rotation.normalized);
+            }
+
             return;
         }
         //end Despawn Stuff
