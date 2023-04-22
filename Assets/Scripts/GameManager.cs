@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private float startTime;
     private float currentTime = 0;
     private float spawnTime = 0;
+    [SerializeField] private float maxTimeSeconds;
     [SerializeField] private int spawnRateSeconds = 5;
 
     private int totalActiveEnemyCount;
@@ -84,9 +85,12 @@ public class GameManager : MonoBehaviour
         startTime = Time.time;
         MainCamera = Camera.main;
     }
+    public delegate void TimerUpdateHandler(float timeInSeconds);
+    public event TimerUpdateHandler OnTimerUpdate;
     private void SetupHUDUI(GameObject UI)
     {
         HUDGUI = UI;
+        OnTimerUpdate?.Invoke(maxTimeSeconds);
     }
     private void SetupGameOverUI(GameObject UI)
     {
@@ -214,6 +218,7 @@ public class GameManager : MonoBehaviour
 
                 currentTime += Time.deltaTime;
                 spawnTime += Time.deltaTime;
+                OnTimerUpdate?.Invoke(maxTimeSeconds-currentTime);
                 break;
             case GameState.GAME_OVER:
                 
