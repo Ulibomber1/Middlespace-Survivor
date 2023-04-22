@@ -6,6 +6,8 @@ public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING}
 
 public class EnemyController : EntityController
 {
+    [SerializeField] private float healthDropChance;
+
     GameObject playerReference;
     Vector3 positionDifference;
     [Range(0.0f, 1.0f)] public float rotationScalar;
@@ -15,7 +17,8 @@ public class EnemyController : EntityController
     [SerializeField] private float attackValue;
 
     [SerializeField] GameObject XP;
-    [SerializeField] GameObject Credit;
+    [SerializeField] GameObject HP;
+    [SerializeField] GameObject credit;
 
     private void Awake()
     {
@@ -78,6 +81,12 @@ public class EnemyController : EntityController
             if (hitPoints <= 0)
             {
                 Instantiate(XP, transform.position, gameObject.transform.rotation.normalized);
+                Instantiate(credit, transform.position, gameObject.transform.rotation.normalized);
+
+                if (Random.Range(1f, 100f) <= healthDropChance)
+                {
+                    Instantiate(HP, transform.position, gameObject.transform.rotation.normalized);
+                }
             }
 
             return;

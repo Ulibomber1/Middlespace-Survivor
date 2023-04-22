@@ -187,10 +187,12 @@ MonoBehaviour:
   maxShotCooldown: 0
   shotCoodown: 0
   isPlaying: 1
+  healthDropChance: 10
   rotationScalar: 1
   attackValue: 0
   XP: {fileID: 5513752031359038591, guid: 39744ef8199e6eb46a3f84132395038a, type: 3}
-  Credit: {fileID: 0}
+  HP: {fileID: 8461860209186237695, guid: 5e6a0e1e15972f14a8ea98ac9572dbbc, type: 3}
+  credit: {fileID: 2449417848440937132, guid: d7bc675cb25d48e43ad48b6746831e6f, type: 3}
 --- !u!54 &5571488550204075834
 Rigidbody:
   m_ObjectHideFlags: 0
