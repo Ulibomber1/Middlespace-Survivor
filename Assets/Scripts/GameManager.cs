@@ -19,24 +19,24 @@ public class GameManager : MonoBehaviour
     public event OnStateChangeHandler OnStateChange;
     public GameState gameState { get; private set; }
 
-    private float startTime;
     private float currentTime = 0;
     private float spawnTime = 0;
+    [SerializeField] private int maxPoolPermission;
+    private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
     [SerializeField] private int spawnRateSeconds = 5;
 
     private int totalActiveEnemyCount;
     [SerializeField] private List<int> activeEnemyCount;
     [SerializeField] private List<int> maxEnemyCounts;
-    [SerializeField] private List<GameObject> enemyPools;
+    //[SerializeField] private List<GameObject> enemyPools;
+    [SerializeField] private Dictionary<int, GameObject> enemyPools;
 
     private GameObject playerReference;
     private Camera MainCamera;
     // private Dialogue;
-    // private BulletController;
-    // private EnemyController;
-    // private PlayerController;
-    // private MenuController;
+
+    
 
     private void Awake()
     {
@@ -50,9 +50,14 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         SceneManager.sceneLoaded += OnSceneLoad;
+        EnemyController.OnEnemyDiabled += DecrementActiveEnemyCount;
+
+        enemyPools = new Dictionary<int, GameObject>();
+        maxPoolPermission = 0;
     }
     private void Start()
     {
+
         SetGameState(GameState.MAIN_MENU);
     }
     public static GameManager Instance
@@ -65,6 +70,16 @@ public class GameManager : MonoBehaviour
     public void SetGameState(GameState state)
     {
         instance.gameState = state;
+    }
+    private void DecrementActiveEnemyCount(GameObject pool)
+    {
+        for (int i = 0; i < enemyPools.Count; i++)
+        {
+            if(enemyPools[i] == pool)
+            {
+                activeEnemyCount[i]--;
+            }
+        }
     }
     private void GameOver()
     {
@@ -82,7 +97,6 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
-        startTime = Time.time;
         MainCamera = Camera.main;
     }
     public delegate void TimerUpdateHandler(float timeInSeconds);
@@ -151,14 +165,17 @@ public class GameManager : MonoBehaviour
         GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
         HUDUtility.OnHUDAwake -= SetupHUDUI;
         ClearEnemyPools();
+        currentTime = 0;
+        poolPermission = 1;
         SetGameState(GameState.MAIN_MENU);
         SceneManager.LoadScene("Title Screen");
     }
-    public void AddEnemyPoolInstance(GameObject pool)
+    public void AddEnemyPoolInstance(GameObject pool, int poolNumber)
     {
-        enemyPools.Add(pool);
+        enemyPools.Add(poolNumber, pool);
         maxEnemyCounts.Add(pool.transform.childCount);
         activeEnemyCount.Add(0);
+        maxPoolPermission++;
     }
     private void SaveGame() 
     { 
@@ -197,6 +214,7 @@ public class GameManager : MonoBehaviour
     }
     private void ClearEnemyPools()
     {
+        maxPoolPermission = 0;
         enemyPools.Clear();
         maxEnemyCounts.Clear();
         activeEnemyCount.Clear();
@@ -228,11 +246,19 @@ public class GameManager : MonoBehaviour
         if (spawnTime > spawnRateSeconds) 
         {
             spawnTime -= spawnRateSeconds;
-            
-            for (int i = 0; i < maxEnemyCounts.Count; i++)
+            // Check time
+            float timePercent = currentTime / maxTimeSeconds;
+            poolPermission = Mathf.CeilToInt((enemyPools.Count * timePercent) /*+ 0.5f*/);
+            poolPermission = (int)Mathf.Clamp((float)poolPermission, 0.0f, (float)maxPoolPermission);
+            for (int i = 0; i < poolPermission; i++)
             {
                 Debug.Log("For loop reached! iteration " + i + ". enemyCount is " + maxEnemyCounts[i] + " & maxEnemyCounts at i is " + maxEnemyCounts[i]);
-                if (activeEnemyCount[i] < maxEnemyCounts[i])
+                if (i == enemyPools.Count - 1 && activeEnemyCount[i] < 1)
+                {
+                    SpawnEnemiesFromPool(enemyPools[i]);
+                    activeEnemyCount[i] += 1;
+                }
+                else if (activeEnemyCount[i] < maxEnemyCounts[i] && i != enemyPools.Count - 1)
                 {
                     //Debugging
                     Debug.Log("Enemy should have spawned");

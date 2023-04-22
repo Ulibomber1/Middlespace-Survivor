@@ -47,8 +47,8 @@ MonoBehaviour:
   gameOverGUI: {fileID: 0}
   MainMenuGUI: {fileID: 0}
   HUDGUI: {fileID: 0}
+  maxPoolPermission: 0
   maxTimeSeconds: 600
   spawnRateSeconds: 5
   activeEnemyCount: 
   maxEnemyCounts: 
-  enemyPools: []

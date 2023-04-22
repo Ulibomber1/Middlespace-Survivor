@@ -8,7 +8,14 @@ public class MouseTargetController : MonoBehaviour
     [SerializeField] Vector3 worldPosition;
     [SerializeField] Vector2 screenPosition;
 
-    // Update is called once per frame
+    public delegate void MouseTargetAwakeHandler(GameObject targetGameObject);
+    public static event MouseTargetAwakeHandler OnMouseTargetAwake;
+
+    private void Awake()
+    {
+        OnMouseTargetAwake?.Invoke(gameObject);
+    }
+
     void LateUpdate()
     {
         screenPosition = Mouse.current.position.ReadValue();

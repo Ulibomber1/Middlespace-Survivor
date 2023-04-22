@@ -19,11 +19,13 @@ public class EnemyController : EntityController
     [SerializeField] GameObject XP;
     [SerializeField] GameObject HP;
     [SerializeField] GameObject credit;
+    private GameObject ParentPool;
 
     private void Awake()
     {
         playerReference = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody>();
+        ParentPool = transform.parent.gameObject;
     }
 
     private void OnEnable()
@@ -46,10 +48,6 @@ public class EnemyController : EntityController
 
         enemyState = EnemyState.CHASING_PLAYER;
         rb.AddForce(directionToPlayer * acceleration);
-        /*Vector3 directionDiffNormalized = transform.rotation.eulerAngles.normalized - directionToPlayer;
-        directionDiffNormalized = new Vector3(Mathf.Acos(directionDiffNormalized.x), Mathf.Acos(directionDiffNormalized.y), Mathf.Acos(directionDiffNormalized.z));
-        Quaternion directionQuat = Quaternion.Euler(directionDiffNormalized.x, directionDiffNormalized.y, directionDiffNormalized.z);
-        transform.rotation = Quaternion.Lerp(transform.rotation, directionQuat, rotationScalar);*/ // For making the rotation look nice (For later)
         transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
 
         if (rb.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
@@ -112,5 +110,12 @@ public class EnemyController : EntityController
     private void OnDespawn()
     {
         gameObject.SetActive(false);
+    }
+
+    public delegate void EnemyDisabledHandler(GameObject pool);
+    public static event EnemyDisabledHandler OnEnemyDiabled;
+    private void OnDisable()
+    {
+        OnEnemyDiabled?.Invoke(ParentPool);
     }
 }

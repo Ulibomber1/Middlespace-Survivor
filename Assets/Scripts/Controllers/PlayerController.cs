@@ -49,6 +49,13 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         if (!isPlaying)
             return;
 
+        Vector3 targetDirection = targetMouse.transform.position - transform.position;
+        targetDirection.y = transform.position.y;
+        Quaternion rotation = Quaternion.LookRotation(targetDirection);
+        rotation.z = 0;
+        rotation.x = 0;
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationDampValue);
+        
         if (moveResult.magnitude == 0.0f)
         {
             playerRigidbody.drag = haltingDrag;
@@ -57,23 +64,21 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                                           RigidbodyConstraints.FreezeRotationZ;
             return;
         }
-
         playerRigidbody.drag = 0;
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
                                       RigidbodyConstraints.FreezeRotationZ;
-        playerRigidbody.velocity += moveResult * acceleration;
-        Vector3 targetDirection = targetMouse.transform.position - transform.position;
-        targetDirection.y = transform.position.y;
-        Quaternion rotation = Quaternion.LookRotation(targetDirection);
-        rotation.z = 0;
-        rotation.x = 0;
-        transform.rotation =  Quaternion.Slerp(transform.rotation, rotation, rotationDampValue); 
-        if (playerRigidbody.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
+
+        playerRigidbody.AddForce(moveResult.normalized * acceleration);
+        if (playerRigidbody.velocity.sqrMagnitude >= maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
             playerRigidbody.velocity = playerRigidbody.velocity.normalized * maxVelocity;
         }
     }
 
+    private void Awake()
+    {
+        MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +89,10 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         bulletSpawn = GameObject.Find("BulletSpawn");
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
         targetMouse = GameObject.Find("Mouse Target");
+    }
+    private void SetMouseTargetReference(GameObject target)
+    {
+        targetMouse = target;
     }
 
     // FixedUpdate is called once per physics tick
@@ -106,7 +115,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
         moveResult = IsoVectorConvert(toConvert);
-        Vector3 relative = (transform.position + moveResult) - transform.position;
+        //Vector3 relative = (transform.position + moveResult) - transform.position;
         //rotationResult = Quaternion.LookRotation(relative, Vector3.up);
     }
 
