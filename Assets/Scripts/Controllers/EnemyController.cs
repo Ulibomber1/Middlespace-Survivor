@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING}
+public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING}
 
 public class EnemyController : EntityController
 {
@@ -25,6 +25,7 @@ public class EnemyController : EntityController
 
     private void OnEnable()
     {
+        rb.detectCollisions = true;
         hitPoints = maxHitPoints;
         enemyState = EnemyState.IDLE;
     }
@@ -57,6 +58,11 @@ public class EnemyController : EntityController
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (enemyState == EnemyState.FALLING)
+        {
+            return;
+        }
+
         positionDifference = -(transform.position - playerReference.transform.position);
         float distanceFromPlayer = positionDifference.magnitude;
         Vector3 directionToPlayer = positionDifference.normalized;
@@ -65,8 +71,9 @@ public class EnemyController : EntityController
         if (distanceFromPlayer > 50.0f || hitPoints <= 0.0f)
         {
 
-            enemyState = EnemyState.IDLE;
-            gameObject.SetActive(false);
+            enemyState = EnemyState.FALLING;
+            rb.detectCollisions = false;
+            Invoke("OnDespawn", 1f);
 
             if (hitPoints <= 0)
             {
@@ -91,5 +98,10 @@ public class EnemyController : EntityController
         // the enemies not the player calling it upon itself
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
+    }
+
+    private void OnDespawn()
+    {
+        gameObject.SetActive(false);
     }
 }
