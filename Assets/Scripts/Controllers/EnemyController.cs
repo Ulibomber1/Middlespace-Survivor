@@ -13,8 +13,9 @@ public class EnemyController : EntityController
     [Range(0.0f, 1.0f)] public float rotationScalar;
 
     Rigidbody rb;
+    Animator anim;
     protected EnemyState enemyState;
-    [SerializeField] private float attackValue;
+    [SerializeField] private float attackValue, minimumAttackDistance;
 
     [SerializeField] GameObject XP;
     [SerializeField] GameObject HP;
@@ -25,7 +26,14 @@ public class EnemyController : EntityController
     {
         playerReference = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody>();
+        anim = gameObject.GetComponent<Animator>();
         ParentPool = transform.parent.gameObject;
+    }
+
+    private void ChangeAnimationState(EnemyState state)
+    {
+        Debug.Log((int)state);
+        anim.SetInteger("EnemyState", (int)state);
     }
 
     private void OnEnable()
@@ -33,13 +41,15 @@ public class EnemyController : EntityController
         rb.detectCollisions = true;
         hitPoints = maxHitPoints;
         enemyState = EnemyState.IDLE;
+        ChangeAnimationState(enemyState);
     }
 
     protected override void MoveEntity(Vector3 directionToPlayer, float distanceFromPlayer)
     {
-        if (distanceFromPlayer < 0.1f)
+        if (distanceFromPlayer <= minimumAttackDistance)
         {
             enemyState = EnemyState.ATTACKING;
+            ChangeAnimationState(enemyState);
             rb.drag = haltingDrag;
             // activate attack mode (?)
             return;
@@ -47,6 +57,7 @@ public class EnemyController : EntityController
         rb.drag = 0;
 
         enemyState = EnemyState.CHASING_PLAYER;
+        ChangeAnimationState(enemyState);
         rb.AddForce(directionToPlayer * acceleration);
         transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
 
@@ -73,6 +84,7 @@ public class EnemyController : EntityController
         {
 
             enemyState = EnemyState.FALLING;
+            ChangeAnimationState(enemyState);
             rb.detectCollisions = false;
             Invoke("OnDespawn", 1f);
 
