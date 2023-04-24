@@ -53,7 +53,7 @@ public class DropController : MonoBehaviour
     {
         if (collision.gameObject == playerReference)
         {
-            Drop();
+            BroadcastAmount();
 
             Remove();
         }
@@ -64,5 +64,5 @@ public class DropController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void Drop() {}
+    protected virtual void BroadcastAmount() {}
 }

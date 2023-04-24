@@ -15,6 +15,11 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     [SerializeField] [Range(0, 1)] float rotationDampValue;
     //Vector2 mousePos;
     // Player playerEntity;
+    double totalExperience = 0;
+    double experience = 0;
+    double maxExperience = 4570.8;
+    int playerLevel = 1;
+    [Range(1,5000)] public double nextLevelScale;
     // IDamageable Implementations
 
     float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
@@ -24,7 +29,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public delegate void PlayerDeadHandler();
     public static event PlayerDeadHandler OnPlayerDead;
 
-    public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints/*,float experience, float maxExperience*/);
+    public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints, double experience, double maxExperience);
     public static event playerDataChangeHandler OnPlayerDataChange;
 
     public void InflictDamage(float rawDamage)
@@ -35,15 +40,26 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             // Broadcast PlayerDead event
             OnPlayerDead?.Invoke();
         }
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
     public void Heal(float healAmount)
     {
         hitPoints += healthRegenFactor * healAmount;
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
     // IDamageable Implementations end
-
+    private void XPHandler(double amount)
+    {
+        experience += amount;
+        totalExperience += amount;
+        if (experience >= maxExperience)
+        {
+            experience -= maxExperience;
+            playerLevel++;
+            maxExperience = nextLevelScale * (.2 * playerLevel + Mathf.Pow(1.06f, (float)playerLevel));
+        }
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
+    }
     override protected void MoveEntity()
     {
         if (!isPlaying)
@@ -78,6 +94,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     private void Awake()
     {
         MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
+        XPController.OnXPPickedUp += XPHandler;
     }
     // Start is called before the first frame update
     void Start()
@@ -87,7 +104,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
         bulletSpawn = GameObject.Find("BulletSpawn");
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints);
+        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
         targetMouse = GameObject.Find("Mouse Target");
     }
     private void SetMouseTargetReference(GameObject target)

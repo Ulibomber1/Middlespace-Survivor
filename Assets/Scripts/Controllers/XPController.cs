@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class XPController : DropController
 {
-    protected override void Drop()
+    public delegate void XPPickedUpHandler(double experience);
+    public static event XPPickedUpHandler OnXPPickedUp;
+
+    protected override void BroadcastAmount()
     {
-        Debug.Log("Not Implemented yet!");
+        OnXPPickedUp?.Invoke((double)amount);
     }
 }

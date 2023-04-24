@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class HUDUtility : MonoBehaviour
 {
@@ -18,11 +19,16 @@ public class HUDUtility : MonoBehaviour
         GameManager.Instance.OnTimerUpdate += UpdateTimer;
     }
 
-    private void UpdatePlayerInfo(float HP, float maxHP)
+    private void UpdatePlayerInfo(float HP, float maxHP, double experience, double maxExperience)
     {
-        healthFraction.text = $"{HP}/{maxHP}";
+        
+        healthFraction.text = $"{(int)HP}/{(int)maxHP}";
         float healthBarScale = HP / maxHP;
-        healthBar.localScale = new Vector3(healthBarScale, healthBar.localScale.y, healthBar.localScale.z);
+        healthBar.gameObject.GetComponent<Slider>().value = healthBarScale;
+
+        experienceFraction.text = $"{(int)experience}/{(int)maxExperience}";
+        float experienceBarScale = (float)(experience / maxExperience);
+        experienceBar.gameObject.GetComponent<Slider>().value = experienceBarScale;
     }
 
     private void UpdateTimer(float remainingTime)

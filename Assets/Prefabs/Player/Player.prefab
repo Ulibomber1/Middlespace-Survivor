@@ -267,6 +267,7 @@ MonoBehaviour:
   bullet: {fileID: 2708536673198143161, guid: fc23f3adcacc24e46a1a98462b356aa2, type: 3}
   bulletSpawn: {fileID: 0}
   rotationDampValue: 0.39
+  nextLevelScale: 3000
 --- !u!114 &3528207088792246805
 MonoBehaviour:
   m_ObjectHideFlags: 0
