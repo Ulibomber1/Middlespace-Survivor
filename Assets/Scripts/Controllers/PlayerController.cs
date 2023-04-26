@@ -23,11 +23,6 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     double maxExperience = 4570.8;
     int playerLevel = 1;
     [Range(1,5000)] public double nextLevelScale;
-    // IDamageable Implementations
-
-    float IDamageable.hitPoints { get { return hitPoints; } set { hitPoints = value; } }
-    public float damageResistance { get; }
-    public float healthRegenFactor { get; }
 
     public delegate void PlayerDeadHandler();
     public static event PlayerDeadHandler OnPlayerDead;
@@ -35,6 +30,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints, double experience, double maxExperience);
     public static event playerDataChangeHandler OnPlayerDataChange;
 
+    // IDamageable Implementations
     public void InflictDamage(float rawDamage)
     {
         hitPoints -= (1 - damageResistance) * rawDamage;
@@ -51,6 +47,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
     // IDamageable Implementations end
+
     private void XPHandler(double amount)
     {
         experience += amount;
