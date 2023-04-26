@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
     [SerializeField] private int spawnRateSeconds = 5;
+    [SerializeField] private int credits;
 
     private int totalActiveEnemyCount;
     [SerializeField] private List<int> activeEnemyCount;
@@ -36,7 +37,10 @@ public class GameManager : MonoBehaviour
     private Camera MainCamera;
     // private Dialogue;
 
-    
+    private void CreditsHandler(int amount)
+    {
+        credits += amount;
+    }
 
     private void Awake()
     {
@@ -98,6 +102,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
         MainCamera = Camera.main;
+        CreditsDropController.OnCreditsPickedUp += CreditsHandler;
+        credits = 0;
     }
     public delegate void TimerUpdateHandler(float timeInSeconds);
     public event TimerUpdateHandler OnTimerUpdate;
@@ -177,6 +183,12 @@ public class GameManager : MonoBehaviour
         activeEnemyCount.Add(0);
         maxPoolPermission++;
     }
+
+    public void AddCredit(int toAdd)
+    {
+        credits += toAdd;
+    }
+
     private void SaveGame() 
     { 
         // using PlayerPrefs, save player stats and settings.

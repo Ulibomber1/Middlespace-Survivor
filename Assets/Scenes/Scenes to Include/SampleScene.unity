@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028548, g: 0.22571638, b: 0.3069239, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028499, g: 0.22571567, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7872,6 +7872,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3528207088792247018, guid: ce8ea16691c9c1c4895fc6b9a89d2e08,
+        type: 3}
+      propertyPath: regenMod
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528207088792247018, guid: ce8ea16691c9c1c4895fc6b9a89d2e08,
+        type: 3}
+      propertyPath: regenRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528207088792247018, guid: ce8ea16691c9c1c4895fc6b9a89d2e08,
+        type: 3}
+      propertyPath: bulletSpawn
+      value: 
+      objectReference: {fileID: 3528207088082373526}
     - target: {fileID: 3528207088792247021, guid: ce8ea16691c9c1c4895fc6b9a89d2e08,
         type: 3}
       propertyPath: m_Name
@@ -7879,6 +7894,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce8ea16691c9c1c4895fc6b9a89d2e08, type: 3}
+--- !u!1 &3528207088082373526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3528207087233634137, guid: ce8ea16691c9c1c4895fc6b9a89d2e08,
+    type: 3}
+  m_PrefabInstance: {fileID: 3528207088082373525}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3786073478869296130
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,13 +11,42 @@ public class DropController : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float speedMod;
     [SerializeField] protected float speedMax;
+    [SerializeField] protected bool isPlaying = true;
     protected float max;
 
     protected GameObject playerReference;
     protected Vector3 positionDifference;
     protected Vector3 directionToPlayer;
     protected float distanceFromPlayer;
+    protected Vector3 currentForce;
     protected Rigidbody rb;
+
+    protected void GameStateChange()
+    {
+        switch (GameManager.Instance.gameState)
+        {
+            case GameState.PLAYING:
+                if (!isPlaying)
+                    isPlaying = true;
+                rb.AddForce(currentForce * speed);
+                break;
+            case GameState.PAUSE_MENU:
+            case GameState.LEVELED_UP:
+            case GameState.BUYING_EQUIPMENT:
+                if (isPlaying)
+                    isPlaying = false;
+                currentForce = transform.forward;
+                rb.AddForce(-(currentForce * speed));
+                break;
+            case GameState.MAIN_MENU:
+                Destroy(gameObject);
+                break;
+            case GameState.GAME_OVER:
+                isPlaying = false;
+                break;
+        }
+
+    }
 
     private void Awake()
     {

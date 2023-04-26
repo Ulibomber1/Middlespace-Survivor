@@ -116,6 +116,7 @@ MonoBehaviour:
   speed: 1000
   maxDespawn: 5
   countdown: 0
+  sizeMod: 1
   isPlaying: 0
   bulletSpawn: {fileID: 0}
 --- !u!54 &6020067480396879483

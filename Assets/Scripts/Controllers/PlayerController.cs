@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDamageable
 {
+    [SerializeField] protected float regenMod;
+    [SerializeField] protected float regenRate;
+
     Vector3 moveResult;
     Quaternion rotationResult;
     Rigidbody playerRigidbody;
@@ -94,7 +97,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     private void Awake()
     {
         MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
-        XPController.OnXPPickedUp += XPHandler;
+        XPDropController.OnXPPickedUp += XPHandler;
     }
     // Start is called before the first frame update
     void Start()
@@ -148,6 +151,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                 shotCoodown = maxShotCooldown;
             }
         }
+
+        if (hitPoints < maxHitPoints && isPlaying)
+        {
+            hitPoints += Time.deltaTime * regenMod * regenRate;
+            OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
+        }
     }
 
     // Here to complete interface, no implementations for either
@@ -170,7 +179,6 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     void Shoot()
     {
         Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
-        Debug.Log("Shoot called");
     }
 }
 
