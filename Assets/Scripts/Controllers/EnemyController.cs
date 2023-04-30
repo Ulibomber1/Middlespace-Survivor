@@ -70,7 +70,7 @@ public class EnemyController : EntityController
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (enemyState == EnemyState.FALLING)
+        if (enemyState == EnemyState.FALLING || GameManager.Instance.gameState != GameState.PLAYING)
         {
             return;
         }

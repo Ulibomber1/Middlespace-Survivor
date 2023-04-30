@@ -48,6 +48,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     }
     // IDamageable Implementations end
 
+    public delegate void LevelUpHandler();
+    public static event LevelUpHandler OnLevelUp;
     private void XPHandler(double amount)
     {
         experience += amount;
@@ -57,6 +59,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             experience -= maxExperience;
             playerLevel++;
             maxExperience = nextLevelScale * (.2 * playerLevel + Mathf.Pow(1.06f, (float)playerLevel));
+            OnLevelUp?.Invoke();
         }
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
@@ -115,7 +118,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     // FixedUpdate is called once per physics tick
     void FixedUpdate()
     {
-        MoveEntity();
+        if (GameManager.Instance.gameState == GameState.PLAYING)
+            MoveEntity();
     }
 
     private Vector3 IsoVectorConvert(Vector3 vector)

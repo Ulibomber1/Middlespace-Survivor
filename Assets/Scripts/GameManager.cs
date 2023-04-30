@@ -14,10 +14,13 @@ public class GameManager : MonoBehaviour
     [SerializeReference] private GameObject gameOverGUI;
     [SerializeReference] private GameObject MainMenuGUI;
     [SerializeReference] private GameObject HUDGUI;
+    [SerializeReference] private GameObject LevelUpUI;
+
+    private ItemDataUtility ItemData;
     protected GameManager() { }
     private static GameManager instance = null;
     public event OnStateChangeHandler OnStateChange;
-    public GameState gameState { get; private set; }
+    [SerializeField] public GameState gameState { get; private set; }
 
     private float currentTime = 0;
     private float spawnTime = 0;
@@ -98,6 +101,8 @@ public class GameManager : MonoBehaviour
         EnemyPoolController.onAwake += AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
         HUDUtility.OnHUDAwake += SetupHUDUI;
+        LevelUpUtility.OnAwake += SetUpLevelUpUI;
+        PlayerController.OnLevelUp += LevelUp;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
@@ -105,6 +110,40 @@ public class GameManager : MonoBehaviour
         CreditsDropController.OnCreditsPickedUp += CreditsHandler;
         credits = 0;
     }
+
+    private void SetUpLevelUpUI(GameObject ui)
+    {
+        LevelUpUI = ui;
+        ui.SetActive(false);
+    }
+
+    private void LevelUp()
+    {
+        SetGameState(GameState.LEVELED_UP);
+        DisplayeLevelUpScreen();
+        PassItemData();
+    }
+
+    public delegate void ItemDataHandler(List<string> names);
+    public static event ItemDataHandler OnDataReady;
+    private void PassItemData()
+    {
+        List<string> names;
+        names = ItemData.RandomItemIndices();
+        Button[] buttons = LevelUpUI.GetComponentsInChildren<Button>();
+
+        for (int i =0; i < 3; i++)
+        {
+            buttons[i].gameObject.GetComponent<MouseOver>().SetupButton(names[i]);
+        }
+    }
+
+    private void DisplayeLevelUpScreen()
+    {
+        HUDGUI.SetActive(false);
+        LevelUpUI.SetActive(true);
+    }
+
     public delegate void TimerUpdateHandler(float timeInSeconds);
     public event TimerUpdateHandler OnTimerUpdate;
     private void SetupHUDUI(GameObject UI)
@@ -167,6 +206,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoad;
         PlayerController.OnPlayerDead -= GameOver;
+        PlayerController.OnLevelUp -= LevelUp;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
         HUDUtility.OnHUDAwake -= SetupHUDUI;
