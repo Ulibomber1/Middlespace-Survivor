@@ -6,7 +6,7 @@ public class EntityController : MonoBehaviour
 {
     [SerializeField] protected float hitPoints;
     [SerializeField] protected float damageResistance;
-    [SerializeField] protected float healthRegenFactor;
+    [SerializeField] protected float healthRegenFactor = 1;
     [SerializeField] protected float maxHitPoints;
     [SerializeField] protected float acceleration;
     [SerializeField] protected float maxVelocity;

@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 
   isAddable: 1
+  textmesh: {fileID: 0}
 --- !u!1 &5806365765681868305
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -247.8305, y: 146.11116}
+  m_AnchoredPosition: {x: -268.00867, y: 59.999985}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5806365765731070054
@@ -568,8 +569,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Reinforced glass
+  itemName: Battery
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365765745630758
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -155.06104, y: 146.11116}
+  m_AnchoredPosition: {x: -175.2392, y: 59.999985}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5806365765775152769
@@ -853,8 +855,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: speaker
+  itemName: Magnifier
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365765781976822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,6 +1278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 
   isAddable: 1
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766021129147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -63.20111, y: 146.11116}
+  m_AnchoredPosition: {x: -83.37927, y: 59.999985}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5806365766048756474
@@ -1558,8 +1562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: fire boots
+  itemName: Magnet
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766058391258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,8 +1983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: laser pointer
+  itemName: 
   isAddable: 1
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766164157809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,6 +2944,7 @@ GameObject:
   - component: {fileID: 5806365766336071835}
   - component: {fileID: 5806365766336071832}
   - component: {fileID: 1589854627}
+  - component: {fileID: 5514430460331812208}
   m_Layer: 5
   m_Name: Level up UI Canvas
   m_TagString: Untagged
@@ -3052,6 +3059,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd47ef2c3fcc75349834582833b21170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSelection: 
+  currentMouseOver: 
+--- !u!114 &5514430460331812208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806365766336071833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb2f509fcd599242a3a1324abe129f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5806365766373562126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,7 +3112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -338.78088, y: 146.11116}
+  m_AnchoredPosition: {x: -358.95905, y: 59.999985}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5806365766373562226
@@ -3200,8 +3221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: yoyo
+  itemName: Medkit
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766374852643
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -428.82184, y: 146.11116}
+  m_AnchoredPosition: {x: -449, y: 60}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5806365766561251001
@@ -3485,8 +3507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Quickfire
+  itemName: Reinforced Glass
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766614956026
 GameObject:
   m_ObjectHideFlags: 0
@@ -4316,7 +4339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5806365766936407665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4445,8 +4468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: molotov
+  itemName: 
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766953233871
 GameObject:
   m_ObjectHideFlags: 0
@@ -4466,7 +4490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5806365766953233870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4595,8 +4619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: laser pointer
+  itemName: 
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365766983946050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4616,7 +4641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5806365766983946053
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4745,8 +4770,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: sword
+  itemName: 
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365767003142542
 GameObject:
   m_ObjectHideFlags: 0
@@ -4766,7 +4792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5806365767003142641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4895,8 +4921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: magnet
+  itemName: 
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365767005568261
 GameObject:
   m_ObjectHideFlags: 0
@@ -5399,7 +5426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5806365767352289478
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5528,8 +5555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ab38f534df0d947b8f2e911013da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: batt-r-e
+  itemName: 
   isAddable: 0
+  textmesh: {fileID: 0}
 --- !u!1 &5806365767463478980
 GameObject:
   m_ObjectHideFlags: 0

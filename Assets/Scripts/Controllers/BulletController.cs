@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float maxDespawn;
     [SerializeField] protected float countdown;
+    [SerializeField] protected float damageMod;
     [SerializeField] protected float sizeMod;
     [SerializeField] protected bool isPlaying = true;
     [SerializeField] GameObject bulletSpawn;

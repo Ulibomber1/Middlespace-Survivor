@@ -21,13 +21,20 @@ public class DropController : MonoBehaviour
     protected Vector3 currentForce;
     protected Rigidbody rb;
 
+    public void ChangeDistanceMod(float newMod)
+    {
+        distanceMod = 1 + newMod / 20;
+    }
+
     protected void GameStateChange()
     {
         switch (GameManager.Instance.gameState)
         {
             case GameState.PLAYING:
                 if (!isPlaying)
+                {
                     isPlaying = true;
+                }
                 rb.AddForce(currentForce * speed);
                 break;
             case GameState.PAUSE_MENU:
@@ -54,6 +61,8 @@ public class DropController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.drag = 0;
         max = speedMax * speedMod;
+
+
     }
 
     private void FixedUpdate()
@@ -76,15 +85,21 @@ public class DropController : MonoBehaviour
         {
             Remove();
         }
+
+        if (distanceFromPlayer == 0)
+        {
+            BroadcastAmount();
+            Remove();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == playerReference)
         {
+            Invoke("Remove", .1f);
             BroadcastAmount();
 
-            Remove();
         }
     }
 

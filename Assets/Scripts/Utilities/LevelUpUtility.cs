@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LevelUpUtility : MonoBehaviour
 {
-    private string currentSelection = null;
-    private string currentMouseOver = null;
+    [SerializeField] private string currentSelection = null;
+    [SerializeField] private string currentMouseOver = null;
 
     public delegate void LevelUpGUIHandler(GameObject gui);
     public static event LevelUpGUIHandler OnAwake;
@@ -13,7 +13,7 @@ public class LevelUpUtility : MonoBehaviour
     {
         OnAwake?.Invoke(gameObject);
         MouseOver.OnItemMouseover += ChangeItemSelection;
-        GameManager.OnDataReady += InputItemData;
+        GameManager.Instance.OnDataReady += InputItemData;
     }
 
     private void InputItemData (List<string> names)
@@ -32,13 +32,16 @@ public class LevelUpUtility : MonoBehaviour
         Debug.Log("Mouseover target changed!");
     }
 
+    public delegate void ItemSelectedHandler(string itemName);
+    public static event ItemSelectedHandler OnItemSelected;
     private void ConfirmSelection(string selection)
     {
         // Add the selected item to character for the run
         Debug.Log("Item added!");
+        OnItemSelected?.Invoke(selection);
     }
 
-    public void ButtonHit()
+    public void ButtonHit() //called by event system gameobject
     {
         Debug.Log("Button hit!");
         if (currentSelection == currentMouseOver)

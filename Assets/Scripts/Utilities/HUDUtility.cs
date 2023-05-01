@@ -29,6 +29,8 @@ public class HUDUtility : MonoBehaviour
         experienceFraction.text = $"{(int)experience}/{(int)maxExperience}";
         float experienceBarScale = (float)(experience / maxExperience);
         experienceBar.gameObject.GetComponent<Slider>().value = experienceBarScale;
+
+
     }
 
     private void UpdateTimer(float remainingTime)

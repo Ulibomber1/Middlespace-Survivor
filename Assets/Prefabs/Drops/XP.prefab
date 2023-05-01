@@ -134,3 +134,4 @@ MonoBehaviour:
   speed: 0.5
   speedMod: 1
   speedMax: 1
+  isPlaying: 1

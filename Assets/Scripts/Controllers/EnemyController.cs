@@ -7,6 +7,7 @@ public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING}
 public class EnemyController : EntityController
 {
     [SerializeField] private float healthDropChance;
+    private int magnetLevel = 0;
 
     GameObject playerReference;
     Vector3 positionDifference;
@@ -24,10 +25,21 @@ public class EnemyController : EntityController
 
     private void Awake()
     {
+        ItemDataUtility.OnDataChange += NewItemLevel;
         playerReference = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody>();
         anim = gameObject.GetComponent<Animator>();
         ParentPool = transform.parent.gameObject;
+    }
+
+    private void NewItemLevel(string name, int newLevel)
+    {
+        switch (name)
+        {
+            case "Magnet":
+                magnetLevel = newLevel;
+                break;
+        }
     }
 
     private void ChangeAnimationState(EnemyState state)
@@ -90,7 +102,9 @@ public class EnemyController : EntityController
 
             if (hitPoints <= 0)
             {
+                GameObject temp = (GameObject)
                 Instantiate(XP, transform.position, gameObject.transform.rotation.normalized);
+                temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
                 Instantiate(credit, transform.position, gameObject.transform.rotation.normalized);
 
                 if (Random.Range(1f, 100f) <= healthDropChance)

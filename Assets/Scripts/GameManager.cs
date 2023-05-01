@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
         GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
         HUDUtility.OnHUDAwake += SetupHUDUI;
         LevelUpUtility.OnAwake += SetUpLevelUpUI;
+        LevelUpUtility.OnItemSelected += ResumeGame;
         PlayerController.OnLevelUp += LevelUp;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
@@ -111,37 +112,57 @@ public class GameManager : MonoBehaviour
         credits = 0;
     }
 
+    private void ResumeGame(string name) //string doesn't need to be used here
+    {
+        HUDGUI.SetActive(true);
+        LevelUpUI.GetComponent<Canvas>().enabled = false;
+        SetGameState(GameState.PLAYING);
+    }
     private void SetUpLevelUpUI(GameObject ui)
     {
         LevelUpUI = ui;
-        ui.SetActive(false);
+        if (ui.TryGetComponent(out ItemDataUtility ItemDat))
+            ItemData = ItemDat;
+        else
+            Debug.LogError("ItemDataUtility not found!");
+        ui.GetComponent<Canvas>().enabled = false;
     }
-
     private void LevelUp()
     {
+        Debug.Log("LevelUp() reached.");
         SetGameState(GameState.LEVELED_UP);
-        DisplayeLevelUpScreen();
+        DisplayLevelUpScreen();
         PassItemData();
+        if (ItemData == null)
+            Debug.LogWarning("ItemData Empty!");
+        Debug.Log("ItemData: " + ItemData);
     }
 
     public delegate void ItemDataHandler(List<string> names);
-    public static event ItemDataHandler OnDataReady;
+    public event ItemDataHandler OnDataReady; // might not need this
     private void PassItemData()
     {
+        int i;
         List<string> names;
         names = ItemData.RandomItemIndices();
         Button[] buttons = LevelUpUI.GetComponentsInChildren<Button>();
 
-        for (int i =0; i < 3; i++)
+        for (i = 0; i < 3; i++)
         {
             buttons[i].gameObject.GetComponent<MouseOver>().SetupButton(names[i]);
         }
-    }
 
-    private void DisplayeLevelUpScreen()
+        for (int j = 0; i < buttons.Length; i++, j++)
+        {
+            buttons[i].gameObject.GetComponent<MouseOver>().SetupButton(ItemData.GetItemNameByIndex(j));
+        }
+
+        OnDataReady?.Invoke(names);
+    }
+    private void DisplayLevelUpScreen()
     {
         HUDGUI.SetActive(false);
-        LevelUpUI.SetActive(true);
+        LevelUpUI.GetComponent<Canvas>().enabled = true;
     }
 
     public delegate void TimerUpdateHandler(float timeInSeconds);
@@ -210,6 +231,8 @@ public class GameManager : MonoBehaviour
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
         HUDUtility.OnHUDAwake -= SetupHUDUI;
+        LevelUpUtility.OnAwake -= SetUpLevelUpUI;
+        LevelUpUtility.OnItemSelected -= ResumeGame;
         ClearEnemyPools();
         currentTime = 0;
         poolPermission = 1;
