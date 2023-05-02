@@ -9,6 +9,6 @@ public class HPDropController : DropController
 
     protected override void BroadcastAmount()
     {
-        //Heal?.Invoke(amount);
+        OnHPPickedUp?.Invoke(amount);
     }
 }

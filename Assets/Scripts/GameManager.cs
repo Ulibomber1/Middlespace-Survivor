@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     private float currentTime = 0;
     private float spawnTime = 0;
+    [SerializeField] private float p2MaxSpawnTime;
+    private float p2SpawnTime;
     [SerializeField] private int maxPoolPermission;
     private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
@@ -37,12 +39,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Dictionary<int, GameObject> enemyPools;
 
     private GameObject playerReference;
+    private GameObject player2Reference;
     private Camera MainCamera;
     // private Dialogue;
 
     private void CreditsHandler(int amount)
     {
         credits += amount;
+    }
+
+    private void Player2Despawn()
+    {
+        p2SpawnTime++;
+        Invoke("Player2Spawn", p2SpawnTime);
+    }
+
+    private void Player2Spawn()
+    {
+        player2Reference.SetActive(true);
     }
 
     private void Awake()
@@ -110,6 +124,8 @@ public class GameManager : MonoBehaviour
         MainCamera = Camera.main;
         CreditsDropController.OnCreditsPickedUp += CreditsHandler;
         credits = 0;
+        Player2Controller.OnPlayer2Dead += Player2Despawn;
+        p2SpawnTime = p2MaxSpawnTime;
     }
 
     private void ResumeGame(string name) //string doesn't need to be used here
@@ -189,6 +205,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.PLAYING:
                 playerReference = GameObject.FindGameObjectWithTag("Player");
+                player2Reference = GameObject.FindGameObjectWithTag("Player2");
                 SceneManager.sceneLoaded -= OnSceneLoad;
                 break;
             case GameState.PAUSE_MENU:
@@ -233,6 +250,7 @@ public class GameManager : MonoBehaviour
         HUDUtility.OnHUDAwake -= SetupHUDUI;
         LevelUpUtility.OnAwake -= SetUpLevelUpUI;
         LevelUpUtility.OnItemSelected -= ResumeGame;
+        Player2Controller.OnPlayer2Dead -= Player2Despawn;
         ClearEnemyPools();
         currentTime = 0;
         poolPermission = 1;

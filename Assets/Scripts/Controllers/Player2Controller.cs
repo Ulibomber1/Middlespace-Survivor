@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDamageable
+public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 {
-    protected float regenMod = 1;
-
     Vector3 moveResult;
     Quaternion rotationResult;
     Rigidbody playerRigidbody;
@@ -15,58 +13,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     [SerializeField] GameObject bulletSpawn;
     GameObject targetMouse;
     [SerializeField] [Range(0, 1)] float rotationDampValue;
+
+    public delegate void Player2DeadHandler();
+    public static event Player2DeadHandler OnPlayer2Dead;
     //Vector2 mousePos;
     // Player playerEntity;
 
-    double totalExperience = 0;
-    double experience = 0;
-    double maxExperience = 4570.8;
-    int playerLevel = 1;
-    [Range(1,5000)] public double nextLevelScale;
-
-    private float magnifierLevel = 0;
-    private float batteryLevel = 0;
-
-    public delegate void PlayerDeadHandler();
-    public static event PlayerDeadHandler OnPlayerDead;
-
-    public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints, double experience, double maxExperience);
-    public static event playerDataChangeHandler OnPlayerDataChange;
-
-    // IDamageable Implementations
-    public void InflictDamage(float rawDamage)
-    {
-        float dmgPercent = Mathf.Clamp(1 - damageResistance, 0.01f, 1);
-        hitPoints -= dmgPercent * rawDamage;
-        if (hitPoints <= 0.0f)
-        {
-            // Broadcast PlayerDead event
-            OnPlayerDead?.Invoke();
-        }
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
-    }
-    public void Heal(float healMod)
-    {
-        hitPoints += healthRegenFactor * healMod;
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
-    }
-    // IDamageable Implementations end
-
-    public delegate void LevelUpHandler();
-    public static event LevelUpHandler OnLevelUp;
-    private void XPHandler(double amount)
-    {
-        experience += amount;
-        totalExperience += amount;
-        if (experience >= maxExperience)
-        {
-            experience -= maxExperience;
-            playerLevel++;
-            maxExperience = nextLevelScale * (.2 * playerLevel + Mathf.Pow(1.06f, (float)playerLevel));
-            OnLevelUp?.Invoke();
-        }
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
-    }
     override protected void MoveEntity()
     {
         if (!isPlaying)
@@ -101,43 +53,19 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     private void Awake()
     {
         MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
-        XPDropController.OnXPPickedUp += XPHandler;
-        ItemDataUtility.OnDataChange += HandleSelectedItem;
-        HPDropController.OnHPPickedUp += Heal;
-        healthRegenFactor = 1;
     }
 
-    private void HandleSelectedItem(string name, int newlevel)
-    {
-        switch (name)
-        {
-            case "Reinforced Glass":
-                damageResistance = newlevel / 100;
-                break;
-            case "Medkit":
-                regenMod = 1 + newlevel/10;
-                break;
-            case "Battery":
-                batteryLevel = newlevel;
-                break;
-            case "Magnifier":
-                magnifierLevel = newlevel;
-                break;
-            case "Magnet":
-
-                break;
-        }  
-    }
     // Start is called before the first frame update
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
+    }
+
+    void OnEnable()
+    {
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
-        bulletSpawn = GameObject.Find("BulletSpawn");
-        OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
-        targetMouse = GameObject.Find("Mouse Target");
     }
     private void SetMouseTargetReference(GameObject target)
     {
@@ -147,8 +75,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     // FixedUpdate is called once per physics tick
     void FixedUpdate()
     {
-        if (GameManager.Instance.gameState == GameState.PLAYING)
-            MoveEntity();
+        MoveEntity();
     }
 
     private Vector3 IsoVectorConvert(Vector3 vector)
@@ -165,8 +92,14 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
         moveResult = IsoVectorConvert(toConvert);
-        //Vector3 relative = (transform.position + moveResult) - transform.position;
-        //rotationResult = Quaternion.LookRotation(relative, Vector3.up);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet"))
+        {
+            Despawn();
+        }
     }
 
     private void Update()
@@ -181,11 +114,12 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
                 shotCoodown = maxShotCooldown;
             }
         }
+    }
 
-        if (hitPoints < maxHitPoints && isPlaying)
-        {
-            Heal(Time.deltaTime * regenMod);
-        }
+    void Despawn()
+    {
+        OnPlayer2Dead?.Invoke();
+        gameObject.SetActive(false);
     }
 
     // Here to complete interface, no implementations for either
@@ -207,11 +141,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
       
     void Shoot()
     {
-        GameObject temp;
-        temp = (GameObject)Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized);
-        temp.GetComponent<PlayerBulletController>().ModifyDamage(batteryLevel);
-        temp.GetComponent<PlayerBulletController>().ModifySize(magnifierLevel);
-        //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
+        Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
     }
 }
 

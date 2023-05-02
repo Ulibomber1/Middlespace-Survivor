@@ -99,7 +99,6 @@ public class DropController : MonoBehaviour
         {
             Invoke("Remove", .1f);
             BroadcastAmount();
-
         }
     }
 

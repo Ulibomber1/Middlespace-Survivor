@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - SpawnZone
   - Game Over UI
+  - Player2
+  - Enemy Bullet
   layers:
   - Default
   - TransparentFX
@@ -17,10 +19,10 @@ TagManager:
   - UI
   - Drops
   - Enemies
-  - 
-  - 
-  - 
-  - 
+  - Player Bullet
+  - Player
+  - Enemy Bullet
+  - Player2
   - 
   - 
   - 
