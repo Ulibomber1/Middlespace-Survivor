@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
     [SerializeField] private int spawnRateSeconds = 5;
-    [SerializeField] private int credits;
+    [SerializeField] private int credits = 0;
 
     private int totalActiveEnemyCount;
     [SerializeField] private List<int> activeEnemyCount;
@@ -43,9 +43,16 @@ public class GameManager : MonoBehaviour
     private Camera MainCamera;
     // private Dialogue;
 
-    private void CreditsHandler(int amount)
+    public delegate void CreditUpdateHandler(int amount);
+    public event CreditUpdateHandler OnCreditsUpdated;
+    public void AddCredit(int toAdd)
     {
-        credits += amount;
+        credits += toAdd;
+        OnCreditsUpdated?.Invoke(credits);
+    }
+    public int GetCurrentCredits()
+    {
+        return credits;
     }
 
     private void Player2Despawn()
@@ -78,7 +85,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-
         SetGameState(GameState.MAIN_MENU);
     }
     public static GameManager Instance
@@ -118,12 +124,11 @@ public class GameManager : MonoBehaviour
         LevelUpUtility.OnAwake += SetUpLevelUpUI;
         LevelUpUtility.OnItemSelected += ResumeGame;
         PlayerController.OnLevelUp += LevelUp;
+        CreditsDropController.OnCreditsPickedUp += AddCredit;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
         MainCamera = Camera.main;
-        CreditsDropController.OnCreditsPickedUp += CreditsHandler;
-        credits = 0;
         Player2Controller.OnPlayer2Dead += Player2Despawn;
         p2SpawnTime = p2MaxSpawnTime;
     }
@@ -217,7 +222,6 @@ public class GameManager : MonoBehaviour
             case GameState.MAIN_MENU:
                 MainMenuGUI = GameObject.Find("Main Menu UI Canvas");
                 Button[] buttonsArray = MainMenuGUI.GetComponentsInChildren<Button>(true);
-                Debug.Log("buttonsArray.Length = " + buttonsArray.Length);
                 for (int i = 0; i < buttonsArray.Length; i++)
                 {
                     switch (buttonsArray[i].name)
@@ -253,6 +257,7 @@ public class GameManager : MonoBehaviour
         LevelUpUtility.OnAwake -= SetUpLevelUpUI;
         LevelUpUtility.OnItemSelected -= ResumeGame;
         Player2Controller.OnPlayer2Dead -= Player2Despawn;
+        CreditsDropController.OnCreditsPickedUp -= AddCredit;
         ClearEnemyPools();
         currentTime = 0;
         poolPermission = 1;
@@ -266,12 +271,6 @@ public class GameManager : MonoBehaviour
         activeEnemyCount.Add(0);
         maxPoolPermission++;
     }
-
-    public void AddCredit(int toAdd)
-    {
-        credits += toAdd;
-    }
-
     private void SaveGame() 
     { 
         // using PlayerPrefs, save player stats and settings.

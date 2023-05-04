@@ -18,11 +18,13 @@ public class HUDUtility : MonoBehaviour
         PlayerController.OnPlayerDataChange += UpdatePlayerInfo;
         PlayerController.OnLevelUp += UpdateLevel;
         GameManager.Instance.OnTimerUpdate += UpdateTimer;
+        GameManager.Instance.OnCreditsUpdated += UpdateCredits;
+        moneyNumber.text = $"$: {GameManager.Instance.GetCurrentCredits()}";
     }
 
     private void UpdatePlayerInfo(float HP, float maxHP, double experience, double maxExperience)
     {
-        
+
         healthFraction.text = $"{(int)HP}/{(int)maxHP}";
         float healthBarScale = HP / maxHP;
         healthBar.gameObject.GetComponent<Slider>().value = healthBarScale;
@@ -30,6 +32,12 @@ public class HUDUtility : MonoBehaviour
         experienceFraction.text = $"{(int)experience}/{(int)maxExperience}";
         float experienceBarScale = (float)(experience / maxExperience);
         experienceBar.gameObject.GetComponent<Slider>().value = experienceBarScale;
+    }
+
+    private void UpdateCredits(int credits)
+    {
+        Debug.Log("UpdateCredits Reached!");
+        moneyNumber.text = $"$: {credits}";
     }
 
     private void UpdateLevel(int newLevel)
