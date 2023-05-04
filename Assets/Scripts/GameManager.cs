@@ -143,8 +143,10 @@ public class GameManager : MonoBehaviour
             Debug.LogError("ItemDataUtility not found!");
         ui.GetComponent<Canvas>().enabled = false;
     }
-    private void LevelUp()
+    private void LevelUp(int newLevel)
     {
+        if (newLevel <= 1)
+            return;
         Debug.Log("LevelUp() reached.");
         SetGameState(GameState.LEVELED_UP);
         DisplayLevelUpScreen();

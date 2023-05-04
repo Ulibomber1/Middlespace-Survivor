@@ -52,7 +52,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     }
     // IDamageable Implementations end
 
-    public delegate void LevelUpHandler();
+    public delegate void LevelUpHandler(int newLevel);
     public static event LevelUpHandler OnLevelUp;
     private void XPHandler(double amount)
     {
@@ -63,7 +63,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             experience -= maxExperience;
             playerLevel++;
             maxExperience = nextLevelScale * (.2 * playerLevel + Mathf.Pow(1.06f, (float)playerLevel));
-            OnLevelUp?.Invoke();
+            OnLevelUp?.Invoke(playerLevel);
         }
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
@@ -137,6 +137,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         shotCoodown = maxShotCooldown;
         bulletSpawn = GameObject.Find("BulletSpawn");
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
+        OnLevelUp?.Invoke(playerLevel);
         targetMouse = GameObject.Find("Mouse Target");
     }
     private void SetMouseTargetReference(GameObject target)

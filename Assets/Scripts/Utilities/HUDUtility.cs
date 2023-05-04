@@ -16,6 +16,7 @@ public class HUDUtility : MonoBehaviour
     {
         OnHUDAwake?.Invoke(gameObject);
         PlayerController.OnPlayerDataChange += UpdatePlayerInfo;
+        PlayerController.OnLevelUp += UpdateLevel;
         GameManager.Instance.OnTimerUpdate += UpdateTimer;
     }
 
@@ -29,8 +30,11 @@ public class HUDUtility : MonoBehaviour
         experienceFraction.text = $"{(int)experience}/{(int)maxExperience}";
         float experienceBarScale = (float)(experience / maxExperience);
         experienceBar.gameObject.GetComponent<Slider>().value = experienceBarScale;
+    }
 
-
+    private void UpdateLevel(int newLevel)
+    {
+        levelNumber.text = $"Lvl: {newLevel.ToString()}";
     }
 
     private void UpdateTimer(float remainingTime)
