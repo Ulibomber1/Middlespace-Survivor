@@ -7,6 +7,7 @@ public class LevelUpUtility : MonoBehaviour
     [SerializeField] private string currentSelection = null;
     [SerializeField] private string currentMouseOver = null;
 
+
     public delegate void LevelUpGUIHandler(GameObject gui);
     public static event LevelUpGUIHandler OnAwake;
     private void Awake()

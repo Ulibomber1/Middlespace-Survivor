@@ -8,6 +8,8 @@ public class ItemDataUtility : MonoBehaviour
 {
     GameManager creditReference;
 
+    [SerializeField] private List<Sprite> itemSprites;
+
     private Dictionary<string, int> ItemLevels;
     private static readonly Dictionary<string, string> ItemBlurbs = 
         new Dictionary<string, string> { 
@@ -112,6 +114,15 @@ public class ItemDataUtility : MonoBehaviour
     public string GetEquipmentNameByIndex(int index)
     {
         return EquipmentNames[index];
+    }
+    public Sprite GetSpriteByName(string name)
+    {
+        for (int i = 0; i < itemSprites.Count; i++)
+        {
+            if (itemSprites[i].name == name)
+                return itemSprites[i];
+        }
+        return null;
     }
     public List<string> RandomItemIndices()
     {
