@@ -7,7 +7,13 @@ using UnityEngine;
 public class ItemDataUtility : MonoBehaviour
 {
     private Dictionary<string, int> ItemLevels;
-    private static readonly Dictionary<string, string> ItemBlurbs = new Dictionary<string, string> { { "Reinforced Glass", "desc"}, { "Medkit", "desc" }, { "Battery", "desc" }, { "Magnifier", "desc" }, { "Magnet", "desc" } };
+    private static readonly Dictionary<string, string> ItemBlurbs = 
+        new Dictionary<string, string> { 
+            { "Reinforced Glass", "Planes of glass thick enough to survive space. Take less damage."}, 
+            { "Medkit", "Robots need TLC too. Enemies have a chance to drop healing cyrstal on defeat." }, 
+            { "Battery", "Increase your energy output with this one simple trick. Flat damage increase for all attacks." }, 
+            { "Magnifier", "Universal magnification for all things. Increases attacks size." }, 
+            { "Magnet", "Magnetizes your chasey.  Increase pickup range." } };
     private List<string> ItemNames;
 
     private void Awake()
