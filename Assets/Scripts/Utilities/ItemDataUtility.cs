@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ItemDataUtility : MonoBehaviour
 {
+    GameManager creditReference;
+
     private Dictionary<string, int> ItemLevels;
     private static readonly Dictionary<string, string> ItemBlurbs = 
         new Dictionary<string, string> { 
@@ -23,9 +25,12 @@ public class ItemDataUtility : MonoBehaviour
             { "Laser Pointer", "Given enough energy, you can cause damage with light!" },
             { "Portable Plug", "Bluetooth plug gives you energy to move faster! Ahh, the wonders of technology!" } };
     private List<string> EquipmentNames;
+    private Dictionary<string, int> EquipmentCosts;
 
     private void Awake()
     {
+        creditReference = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         ItemLevels = new Dictionary<string, int>();
         ItemLevels.Add("Reinforced Glass", 0);
         ItemLevels.Add("Medkit", 0);
@@ -50,11 +55,20 @@ public class ItemDataUtility : MonoBehaviour
         EquipmentNames.Add("Laser Pointer");
         EquipmentNames.Add("Portable Plug");
 
+        EquipmentCosts = new Dictionary<string, int>();
+        EquipmentCosts.Add("Sword", 1000);
+        EquipmentCosts.Add("Laser Pointer", 1000);
+        EquipmentCosts.Add("Portable Plug", 1000);
+
         LevelUpUtility.OnItemSelected += LevelUpItem;
     }
 
     public delegate void DataChangeHandler(string changedData, int newLevel);
     public static event DataChangeHandler OnDataChange;
+
+    public delegate void NotEnoughCreditsHandler(string notEnough, int neededCredits);
+    public static event NotEnoughCreditsHandler NotEnoughCredits;
+
     private void LevelUpItem(string name)
     {
         if (ItemLevels.ContainsKey(name))
@@ -64,8 +78,16 @@ public class ItemDataUtility : MonoBehaviour
         }
         else
         {
-            EquipmentLevels[name]++;
-            OnDataChange?.Invoke(name, EquipmentLevels[name]);
+            if (creditReference.GetCurrentCredits() >= EquipmentCosts[name])
+            {
+                EquipmentLevels[name]++;
+                OnDataChange?.Invoke(name, EquipmentLevels[name]);
+                creditReference.AddCredit(-EquipmentCosts[name]);
+            }
+            else
+            {
+                NotEnoughCredits?.Invoke("Not Enough Credits", EquipmentCosts[name]);
+            }
         }
 
     }

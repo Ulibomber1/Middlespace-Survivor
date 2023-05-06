@@ -22,6 +22,7 @@ public class LevelUpItemDisplay : MonoBehaviour
         //Description = gameObject.GetComponentsInChildren<TextMeshProUGUI>()[1];
         src = GetComponent<AudioSource>();
         MouseOver.OnItemMouseover += DisplayDescription;
+        ItemDataUtility.NotEnoughCredits += DisplayDescription;
         Item.text = string.Empty;
         Description.text = string.Empty;
         isDisplaying = false;
@@ -33,6 +34,13 @@ public class LevelUpItemDisplay : MonoBehaviour
     {
         currentItemName = itemName;
         currentDescription = itemData.GetItemBlurb(itemName);
+        StartDescription();
+    }
+    void DisplayDescription(string notEnough, int creditsNeeded)
+    {
+        currentItemName = notEnough;
+        currentDescription =
+            "You do not have enough credits to buy this equpment.\nCredits needed: " + creditsNeeded + ".";
         StartDescription();
     }
 

@@ -44,7 +44,7 @@ public class EnemyController : EntityController
 
     private void ChangeAnimationState(EnemyState state)
     {
-        Debug.Log((int)state);
+        //Debug.Log((int)state);
         anim.SetInteger("EnemyState", (int)state);
     }
 
