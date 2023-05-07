@@ -10,6 +10,7 @@ TagManager:
   - Game Over UI
   - Player2
   - Enemy Bullet
+  - Static Item Button
   layers:
   - Default
   - TransparentFX

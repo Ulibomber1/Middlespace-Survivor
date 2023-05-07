@@ -25,8 +25,6 @@ public class MouseOver : MonoBehaviour, IPointerEnterHandler
     public void SetupButton(string name)
     {
         itemName = name;
-        Debug.Log(gameObject.name + " got " + name);
-        //GetComponentsInChildren<Image>()[0].sprite
 
         int itemLevel = itemData.GetItemLevel(name);
         if (isAddable)
@@ -36,7 +34,6 @@ public class MouseOver : MonoBehaviour, IPointerEnterHandler
         }
         else
             gameObject.GetComponentsInChildren<TextMeshProUGUI>()[1].text = $"Lvl {itemLevel}";
-        // We could also change image of button instead
     }
 
 

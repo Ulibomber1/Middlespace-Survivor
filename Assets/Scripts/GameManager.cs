@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
                             //buttonsArray[i].onClick.AddListener();
                             break;
                         case "Unlocks Button":
-                            //buttonsArray[i].onClick.AddListener();
+                            //buttonsArray[i].onClick.AddListener(buttonsArray[i].GetComponent<MouseOver>().SetupButton());
                             break;
                     }
                 }

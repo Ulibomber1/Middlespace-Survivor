@@ -9,6 +9,7 @@ public class ItemDataUtility : MonoBehaviour
     GameManager creditReference;
 
     [SerializeField] private List<Sprite> itemSprites;
+    private List<string> randomNames;
 
     private Dictionary<string, int> ItemLevels;
     private static readonly Dictionary<string, string> ItemBlurbs = 
@@ -32,6 +33,7 @@ public class ItemDataUtility : MonoBehaviour
     private void Awake()
     {
         creditReference = GameObject.Find("GameManager").GetComponent<GameManager>();
+        randomNames = new List<string>();
 
         ItemLevels = new Dictionary<string, int>();
         ItemLevels.Add("Reinforced Glass", 0);
@@ -63,6 +65,29 @@ public class ItemDataUtility : MonoBehaviour
         EquipmentCosts.Add("Portable Plug", 1000);
 
         LevelUpUtility.OnItemSelected += LevelUpItem;
+        randomizer();
+    }
+
+    void randomizer()
+    {
+        if (randomNames.Count != 0)
+            randomNames.Clear();
+
+        int temp = Random.Range(0, ItemNames.Count);
+        randomNames.Add(ItemNames[temp]);
+        while (ItemNames[temp] == randomNames[0])
+
+        {
+            temp = Random.Range(0, ItemNames.Count);
+        }
+        randomNames.Add(ItemNames[temp]);
+        while (ItemNames[temp] == randomNames[1] || ItemNames[temp] == randomNames[0])
+        {
+            temp = Random.Range(0, ItemNames.Count);
+        }
+        randomNames.Add(ItemNames[temp]);
+        //Debug.Log("Indices (names):" + names[0]);
+        //Debug.Log("Indices (names):" + names[2]);
     }
 
     public delegate void DataChangeHandler(string changedData, int newLevel);
@@ -126,23 +151,8 @@ public class ItemDataUtility : MonoBehaviour
     }
     public List<string> RandomItemIndices()
     {
-        List<string> names = new List<string>();
-
-        int temp = Random.Range(0, ItemNames.Count - 1);
-        names.Add(ItemNames[temp]);
-        while (ItemNames[temp] == names[0])
-        {
-            temp = Random.Range(0, ItemNames.Count - 1);
-        }
-        names.Add(ItemNames[temp]);
-        while (ItemNames[temp] == names[1] || ItemNames[temp] == names[0])
-        {
-            temp = Random.Range(0, ItemNames.Count - 1);
-        }
-        names.Add(ItemNames[temp]);
-        Debug.Log("Indices (names):" + names[0]);
-        Debug.Log("Indices (names):" + names[2]);
-        return names;
+        Invoke("randomizer", 1);
+        return randomNames;
     }
 
     public List<string> RandomEquipmentIndices()
