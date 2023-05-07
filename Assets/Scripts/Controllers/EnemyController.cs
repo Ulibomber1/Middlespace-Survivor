@@ -8,6 +8,7 @@ public class EnemyController : EntityController
 {
     GameObject playerReference;
     Vector3 positionDifference;
+    [Range(0.0f, 1.0f)] public float rotationScalar;
 
     Rigidbody rb;
     protected EnemyState enemyState;
@@ -34,6 +35,12 @@ public class EnemyController : EntityController
 
         enemyState = EnemyState.CHASING_PLAYER;
         rb.AddForce(directionToPlayer * acceleration);
+        /*Vector3 directionDiffNormalized = transform.rotation.eulerAngles.normalized - directionToPlayer;
+        directionDiffNormalized = new Vector3(Mathf.Acos(directionDiffNormalized.x), Mathf.Acos(directionDiffNormalized.y), Mathf.Acos(directionDiffNormalized.z));
+        Quaternion directionQuat = Quaternion.Euler(directionDiffNormalized.x, directionDiffNormalized.y, directionDiffNormalized.z);
+        transform.rotation = Quaternion.Lerp(transform.rotation, directionQuat, rotationScalar);*/ // For making the rotation look nice (For later)
+        transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
+
         if (rb.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
             rb.velocity = rb.velocity.normalized * maxVelocity;
