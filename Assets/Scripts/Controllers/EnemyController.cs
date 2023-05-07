@@ -153,6 +153,11 @@ public class EnemyController : EntityController
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Despawn Volume"))
+            OnDespawn();
+    }
 
     private void OnDespawn()
     {
