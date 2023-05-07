@@ -49,6 +49,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public void Heal(float healMod)
     {
         hitPoints += healthRegenFactor * healMod;
+        if (hitPoints > maxHitPoints)
+            hitPoints = maxHitPoints;
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
     // IDamageable Implementations end
