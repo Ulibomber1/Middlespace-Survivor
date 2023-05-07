@@ -70,6 +70,12 @@ public class LevelUpItemDisplay : MonoBehaviour
         isDisplaying = false;
     }
 
+    private void OnDestroy()
+    {
+        MouseOver.OnItemMouseover -= DisplayDescription;
+        ItemDataUtility.NotEnoughCredits -= DisplayDescription;
+    }
+
     /*private void OnEnable()
     {
         dialogueObject = GameObject.Find("/Dialogue");
