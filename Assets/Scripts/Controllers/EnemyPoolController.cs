@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class EnemyPoolController : MonoBehaviour
 {
-    public delegate void OnAwake(GameObject pool);
+    [SerializeField] private int poolNum;
+
+    public delegate void OnAwake(GameObject pool, int poolNumber);
     public static event OnAwake onAwake;
     private void Awake()
     {
-        onAwake?.Invoke(this.gameObject);
+        onAwake?.Invoke(this.gameObject, poolNum - 1);
     }
 }
