@@ -54,5 +54,9 @@ public class LevelUpUtility : MonoBehaviour
         
     }
 
-    
+    private void OnDestroy()
+    {
+        MouseOver.OnItemMouseover -= ChangeItemSelection;
+        GameManager.Instance.OnDataReady -= InputItemData;
+    }
 }

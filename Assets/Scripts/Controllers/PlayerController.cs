@@ -214,6 +214,15 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         temp.GetComponent<PlayerBulletController>().ModifySize(magnifierLevel);
         //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
     }
+
+    private void OnDestroy()
+    {
+        MouseTargetController.OnMouseTargetAwake -= SetMouseTargetReference;
+        XPDropController.OnXPPickedUp -= XPHandler;
+        ItemDataUtility.OnDataChange -= HandleSelectedItem;
+        HPDropController.OnHPPickedUp -= Heal;
+        GameManager.Instance.OnStateChange -= GameStateChange;
+    }
 }
 
 

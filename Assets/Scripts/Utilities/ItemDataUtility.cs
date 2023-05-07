@@ -169,4 +169,9 @@ public class ItemDataUtility : MonoBehaviour
 
         return names;
     }
+
+    private void OnDestroy()
+    {
+        LevelUpUtility.OnItemSelected -= LevelUpItem;
+    }
 }
