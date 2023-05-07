@@ -26,6 +26,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
     private float magnifierLevel = 0;
     private float batteryLevel = 0;
+    private float movementMod = 1.0f;
 
     public delegate void PlayerDeadHandler();
     public static event PlayerDeadHandler OnPlayerDead;
@@ -91,10 +92,10 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
                                       RigidbodyConstraints.FreezeRotationZ;
 
-        playerRigidbody.AddForce(moveResult.normalized * acceleration);
+        playerRigidbody.AddForce(moveResult.normalized * acceleration * movementMod);
         if (playerRigidbody.velocity.sqrMagnitude >= maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
-            playerRigidbody.velocity = playerRigidbody.velocity.normalized * maxVelocity;
+            playerRigidbody.velocity = playerRigidbody.velocity.normalized * maxVelocity * movementMod;
         }
     }
 
@@ -114,17 +115,14 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             case "Reinforced Glass":
                 damageResistance = newlevel / 100;
                 break;
-            case "Medkit":
-                regenMod = 1 + newlevel/10;
-                break;
             case "Battery":
                 batteryLevel = newlevel;
                 break;
             case "Magnifier":
                 magnifierLevel = newlevel;
                 break;
-            case "Magnet":
-
+            case "Portable Plug":
+                movementMod = 1 + newlevel/20;
                 break;
         }  
     }

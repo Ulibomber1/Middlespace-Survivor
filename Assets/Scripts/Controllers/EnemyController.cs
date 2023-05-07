@@ -6,7 +6,7 @@ public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING}
 
 public class EnemyController : EntityController
 {
-    [SerializeField] private float healthDropChance;
+    private float healthDropChance = 0;
     private int magnetLevel = 0;
 
     GameObject playerReference;
@@ -38,6 +38,9 @@ public class EnemyController : EntityController
         {
             case "Magnet":
                 magnetLevel = newLevel;
+                break;
+            case "Medkit":
+                healthDropChance = newLevel * 10;
                 break;
         }
     }
@@ -102,15 +105,7 @@ public class EnemyController : EntityController
 
             if (hitPoints <= 0)
             {
-                GameObject temp = (GameObject)
-                Instantiate(XP, transform.position, gameObject.transform.rotation.normalized);
-                temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
-                Instantiate(credit, transform.position, gameObject.transform.rotation.normalized);
-
-                if (Random.Range(1f, 100f) <= healthDropChance)
-                {
-                    Instantiate(HP, transform.position, gameObject.transform.rotation.normalized);
-                }
+                SpawnDrops();
             }
 
             return;
@@ -118,6 +113,32 @@ public class EnemyController : EntityController
         //end Despawn Stuff
 
         MoveEntity(directionToPlayer, distanceFromPlayer);
+    }
+
+    private void SpawnDrops()
+    {
+        GameObject temp = (GameObject)
+        Instantiate(XP, transform.position, gameObject.transform.rotation.normalized);
+        temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
+
+        temp = (GameObject)
+        Instantiate(credit, transform.position, gameObject.transform.rotation.normalized);
+        temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
+
+        float tempDropChance = healthDropChance;
+        while (tempDropChance > 100)
+        {
+            temp = (GameObject)
+            Instantiate(HP, transform.position, gameObject.transform.rotation.normalized);
+            temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
+            tempDropChance -= 100;
+        }
+        if (Random.Range(1f, 100f) <= tempDropChance)
+        {
+            temp = (GameObject)
+            Instantiate(HP, transform.position, gameObject.transform.rotation.normalized);
+            temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
+        }
     }
 
     public void OnTakeDamage(float damage)
