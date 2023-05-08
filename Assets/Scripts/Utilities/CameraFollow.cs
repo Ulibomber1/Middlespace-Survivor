@@ -65,7 +65,8 @@ public class CameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(Input.anyKeyDown)
-            Invoke("RemoveKeyBoardGraphic", .01f);
+        if(keyboard.activeSelf)
+            if(Input.anyKeyDown)
+                Invoke("RemoveKeyBoardGraphic", .01f);
     }
 }
