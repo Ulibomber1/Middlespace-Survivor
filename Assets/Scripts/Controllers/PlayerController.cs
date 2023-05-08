@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerState { IDLE, RUNNING, DYING }
 
 public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDamageable
 {
@@ -15,6 +16,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     [SerializeField] GameObject bulletSpawn;
     GameObject targetMouse;
     [SerializeField] [Range(0, 1)] float rotationDampValue;
+    Animator animator;
     //Vector2 mousePos;
     // Player playerEntity;
 
@@ -45,6 +47,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         if (hitPoints <= 0.0f)
         {
             // Broadcast PlayerDead event
+            animator.SetTrigger("Dying");
             OnPlayerDead?.Invoke();
         }
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
@@ -76,7 +79,13 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     override protected void MoveEntity()
     {
         if (!isPlaying)
+        {
+            animator.speed = 0f;
             return;
+        }
+        else if (animator.speed == 0f)
+            animator.speed = 1f;
+            
 
         Vector3 targetDirection = targetMouse.transform.position - transform.position;
         targetDirection.y = transform.position.y;
@@ -91,11 +100,13 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationY | 
                                           RigidbodyConstraints.FreezeRotationX |
                                           RigidbodyConstraints.FreezeRotationZ;
+            animator.SetFloat("Velocity", moveResult.magnitude);
             return;
         }
         playerRigidbody.drag = 0;
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
                                       RigidbodyConstraints.FreezeRotationZ;
+        animator.SetFloat("Velocity", moveResult.magnitude);
 
         playerRigidbody.AddForce(moveResult.normalized * acceleration * movementMod);
         if (playerRigidbody.velocity.sqrMagnitude >= maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
@@ -111,6 +122,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         ItemDataUtility.OnDataChange += HandleSelectedItem;
         HPDropController.OnHPPickedUp += Heal;
         healthRegenFactor = 1;
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void HandleSelectedItem(string name, int newlevel)
