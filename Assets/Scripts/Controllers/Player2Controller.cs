@@ -13,9 +13,17 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     [SerializeField] GameObject bulletSpawn;
     GameObject targetMouse;
     [SerializeField] [Range(0, 1)] float rotationDampValue;
+    GameObject Player1Reference = null;
+
+    public delegate void PlayerJoinedHandler(GameObject player);
+    public static event PlayerJoinedHandler OnPlayerJoined;
 
     public delegate void Player2DeadHandler();
     public static event Player2DeadHandler OnPlayer2Dead;
+    [SerializeField] private int player2DespawnDistance;
+
+    [SerializeField] float invincibleRespawnTime;
+    float timeActive;
     //Vector2 mousePos;
     // Player playerEntity;
 
@@ -30,7 +38,7 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         rotation.z = 0;
         rotation.x = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationDampValue);
-        
+
         if (moveResult.magnitude == 0.0f)
         {
             playerRigidbody.drag = haltingDrag;
@@ -43,6 +51,8 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
                                       RigidbodyConstraints.FreezeRotationZ;
 
+
+        
         playerRigidbody.AddForce(moveResult.normalized * acceleration);
         if (playerRigidbody.velocity.sqrMagnitude >= maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
         {
@@ -52,7 +62,8 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     private void Awake()
     {
-        MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
+        //MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
+        targetMouse = GameObject.Find("Mouse Target");
     }
 
     // Start is called before the first frame update
@@ -60,17 +71,24 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
+        OnPlayerJoined?.Invoke(gameObject);
+    }
+
+    public void SetPlayerOneReference(GameObject reference)
+    {
+        Player1Reference = reference;
     }
 
     void OnEnable()
     {
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
+        timeActive = 0;
     }
-    private void SetMouseTargetReference(GameObject target)
+    /*private void SetMouseTargetReference(GameObject target)
     {
         targetMouse = target;
-    }
+    }*/
 
     // FixedUpdate is called once per physics tick
     void FixedUpdate()
@@ -92,11 +110,13 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
         moveResult = IsoVectorConvert(toConvert);
+        Debug.Log("moveresult magnitude: " + moveResult.magnitude);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet"))
+        if (timeActive >= invincibleRespawnTime &&
+            (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet")))
         {
             Despawn();
         }
@@ -104,8 +124,15 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     private void Update()
     {
+        if (Player1Reference != null && (Player1Reference.transform.position -
+            gameObject.transform.position).magnitude > player2DespawnDistance)
+            Despawn();
+
         if (GameManager.Instance.gameState == GameState.PLAYING)
         {
+            if (timeActive < invincibleRespawnTime)
+                timeActive += Time.deltaTime;
+
             shotCoodown -= Time.deltaTime;
 
             if (shotCoodown <= 0)
@@ -142,6 +169,11 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     void Shoot()
     {
         Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnStateChange -= GameStateChange;
     }
 }
 

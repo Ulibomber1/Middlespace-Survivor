@@ -22,7 +22,7 @@ public class LevelUpItemDisplay : MonoBehaviour
         //Description = gameObject.GetComponentsInChildren<TextMeshProUGUI>()[1];
         src = GetComponent<AudioSource>();
         MouseOver.OnItemMouseover += DisplayDescription;
-        ItemDataUtility.NotEnoughCredits += DisplayDescription;
+        ItemDataUtility.NotEnoughCredits += NotEnough;
         Item.text = string.Empty;
         Description.text = string.Empty;
         isDisplaying = false;
@@ -36,7 +36,7 @@ public class LevelUpItemDisplay : MonoBehaviour
         currentDescription = itemData.GetItemBlurb(itemName);
         StartDescription();
     }
-    void DisplayDescription(string notEnough, int creditsNeeded)
+    void NotEnough(string notEnough, int creditsNeeded)
     {
         currentItemName = notEnough;
         currentDescription =
@@ -73,7 +73,7 @@ public class LevelUpItemDisplay : MonoBehaviour
     private void OnDestroy()
     {
         MouseOver.OnItemMouseover -= DisplayDescription;
-        ItemDataUtility.NotEnoughCredits -= DisplayDescription;
+        ItemDataUtility.NotEnoughCredits -= NotEnough;
     }
 
     /*private void OnEnable()

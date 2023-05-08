@@ -36,6 +36,9 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints, double experience, double maxExperience);
     public static event playerDataChangeHandler OnPlayerDataChange;
 
+    public delegate void PlayerJoinedHandler(GameObject player);
+    public static event PlayerJoinedHandler OnPlayerJoined;
+
     // IDamageable Implementations
     public void InflictDamage(float rawDamage)
     {
@@ -52,6 +55,8 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public void Heal(float healMod)
     {
         hitPoints += healthRegenFactor * healMod;
+        if (hitPoints > maxHitPoints)
+            hitPoints = maxHitPoints;
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
     // IDamageable Implementations end
@@ -145,10 +150,11 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         GameManager.Instance.OnStateChange += GameStateChange;
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
-        bulletSpawn = GameObject.Find("BulletSpawn");
+        bulletSpawn = gameObject.GetComponentsInChildren<Transform>()[1].gameObject;
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
         OnLevelUp?.Invoke(playerLevel);
         targetMouse = GameObject.Find("Mouse Target");
+        OnPlayerJoined?.Invoke(gameObject);
     }
     private void SetMouseTargetReference(GameObject target)
     {
@@ -195,7 +201,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
         if (hitPoints < maxHitPoints && isPlaying)
         {
-            Heal(Time.deltaTime * regenMod);
+            Heal((Time.deltaTime / 2) * regenMod);
         }
     }
 
@@ -223,6 +229,15 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         temp.GetComponent<PlayerBulletController>().ModifyDamage(batteryLevel);
         temp.GetComponent<PlayerBulletController>().ModifySize(magnifierLevel);
         //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
+    }
+
+    private void OnDestroy()
+    {
+        MouseTargetController.OnMouseTargetAwake -= SetMouseTargetReference;
+        XPDropController.OnXPPickedUp -= XPHandler;
+        ItemDataUtility.OnDataChange -= HandleSelectedItem;
+        HPDropController.OnHPPickedUp -= Heal;
+        GameManager.Instance.OnStateChange -= GameStateChange;
     }
 }
 

@@ -146,11 +146,17 @@ public class EnemyController : EntityController
         hitPoints -= damage;
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Despawn Volume"))
+            OnDespawn();
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         // This is constant, but it need to be variable and from
         // the enemies not the player calling it upon itself
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && GameManager.Instance.gameState == GameState.PLAYING)
             collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
     }
 
@@ -164,5 +170,10 @@ public class EnemyController : EntityController
     private void OnDisable()
     {
         OnEnemyDiabled?.Invoke(ParentPool);
+    }
+
+    private void OnDestroy()
+    {
+        ItemDataUtility.OnDataChange -= NewItemLevel;
     }
 }

@@ -47,8 +47,12 @@ MonoBehaviour:
   gameOverGUI: {fileID: 0}
   MainMenuGUI: {fileID: 0}
   HUDGUI: {fileID: 0}
+  LevelUpUI: {fileID: 0}
+  p2MaxSpawnTime: 0
+  player2DespawnDistance: 5
   maxPoolPermission: 0
   maxTimeSeconds: 600
   spawnRateSeconds: 5
+  credits: 0
   activeEnemyCount: 
   maxEnemyCounts: 

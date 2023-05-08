@@ -176,8 +176,8 @@ MonoBehaviour:
   damageResistance: 0
   healthRegenFactor: 0
   maxHitPoints: 1
-  acceleration: 15
-  maxVelocity: 6.5
+  acceleration: 17
+  maxVelocity: 8
   haltingDrag: 5
   maxShotCooldown: 1.5
   shotCoodown: 0
@@ -185,6 +185,8 @@ MonoBehaviour:
   bullet: {fileID: 2708536673198143161, guid: fc23f3adcacc24e46a1a98462b356aa2, type: 3}
   bulletSpawn: {fileID: 5121046089153735184}
   rotationDampValue: 0.39
+  player2DespawnDistance: 20
+  invincibleRespawnTime: 3
 --- !u!114 &5121046090312908636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,8 +215,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5121046090312908639}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -295,25 +297,9 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3cddd94f-0c31-49f8-9305-06d229041f05
     m_ActionName: Player/Damage[/Keyboard/o]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 01ba35fb-6128-4711-a3a5-650d2ea37238
-    m_ActionName: Player2/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5a4e76d1-8d93-466d-a47c-9dabfeedc5c0
-    m_ActionName: Player2/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5f0129a9-4d31-4982-b65a-40789510089e
-    m_ActionName: Player2/Fire[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b4c47642-ea86-4d0f-8fd0-b0e78462132f
-    m_ActionName: Player2/Damage[/Keyboard/o]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player2
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Joystick
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &5121694337615556007

@@ -15,4 +15,9 @@ public class SpawnZoneController : MonoBehaviour
     {
         zoneList.Add(zone);
     }
+
+    private void OnDestroy()
+    {
+        ZoneUtility.onStart -= AddZone;
+    }
 }

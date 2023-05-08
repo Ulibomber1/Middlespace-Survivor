@@ -12,6 +12,7 @@ TagManager:
   - Enemy Bullet
   - Static Item Button
   - Despawn Volume
+  - Mouse Target
   layers:
   - Default
   - TransparentFX

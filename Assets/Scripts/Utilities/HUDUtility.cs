@@ -69,8 +69,11 @@ public class HUDUtility : MonoBehaviour
     private void OnDestroy()
     {
         // This fixes the HP bar bug, but I don't know why. Needs further investigation/research.
+        // Update: It prevents the delegate from accessing a previous instance of HUDUtility
         PlayerController.OnPlayerDataChange -= UpdatePlayerInfo;
         GameManager.Instance.OnTimerUpdate -= UpdateTimer;
+        PlayerController.OnLevelUp -= UpdateLevel;
+        GameManager.Instance.OnCreditsUpdated -= UpdateCredits;
     }
     private void Update()
     {
