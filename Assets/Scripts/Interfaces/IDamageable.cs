@@ -4,9 +4,6 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    float hitPoints { get; set; }
-    float damageResistance { get; }
-    float healthRegenFactor { get; }
-    void InflictDamage(float rawDamage);
-    void Heal(float healAmount);
+    public void InflictDamage(float rawDamage);
+    public void Heal(float healAmount);
 }

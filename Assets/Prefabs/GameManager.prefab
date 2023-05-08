@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d36c16da211b9c4b83a9fbf956f47f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverGUI: {fileID: 0}
+  MainMenuGUI: {fileID: 0}
+  HUDGUI: {fileID: 0}
+  maxPoolPermission: 0
+  maxTimeSeconds: 600
   spawnRateSeconds: 5
   activeEnemyCount: 
   maxEnemyCounts: 
-  enemyPools: []

@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - SpawnZone
   - Game Over UI
+  - Player2
+  - Enemy Bullet
+  - Static Item Button
+  - Despawn Volume
   layers:
   - Default
   - TransparentFX
@@ -15,12 +19,12 @@ TagManager:
   - Outlined Objects
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Drops
+  - Enemies
+  - Player Bullet
+  - Player
+  - Enemy Bullet
+  - Player2
   - 
   - 
   - 

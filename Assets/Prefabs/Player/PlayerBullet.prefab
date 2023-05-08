@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6068450398460193695}
   - component: {fileID: 5544570514415476584}
   - component: {fileID: 6020067480396879483}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2708536673198143161}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0073366277
   m_Height: 0.034231193
@@ -114,8 +114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   speed: 1000
-  maxDespawn: 5
+  maxDespawn: 2
   countdown: 0
+  sizeMod: 1
   isPlaying: 0
   bulletSpawn: {fileID: 0}
 --- !u!54 &6020067480396879483

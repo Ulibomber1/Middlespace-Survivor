@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 2279334415138693311}
   - component: {fileID: 7544496223580346708}
   - component: {fileID: 6227412299496836055}
+  - component: {fileID: 510006027}
   m_Layer: 5
   m_Name: Game Over Screen
   m_TagString: Game Over UI
@@ -371,6 +372,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &510006027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306122006648864598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc5e00d2032d2047991bfab34744961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7995451141743095720
 GameObject:
   m_ObjectHideFlags: 0
