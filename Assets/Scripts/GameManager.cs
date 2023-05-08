@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private float spawnTime = 0;
     [SerializeField] private float p2MaxSpawnTime;
     private float p2SpawnTime;
+    GameObject p2SpawnLocation;
     [SerializeField] private int maxPoolPermission;
     private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
@@ -55,6 +56,21 @@ public class GameManager : MonoBehaviour
         return credits;
     }
 
+    private void PlayerOneJoined(GameObject player)
+    {
+        playerReference = player;
+    }
+
+    private void PlayerTwoJoined(GameObject player)
+    {
+        player2Reference = player;
+        player2Reference.GetComponent<Player2Controller>().SetPlayerOneReference(playerReference);
+        GameObject.Find("PlayerInputManager").SetActive(false);
+        p2SpawnLocation = playerReference.transform.GetChild(3).gameObject;
+        player2Reference.transform.position = p2SpawnLocation.transform.position;
+        player2Reference.transform.rotation = p2SpawnLocation.transform.rotation.normalized;
+    }
+
     private void Player2Despawn()
     {
         p2SpawnTime++;
@@ -64,6 +80,8 @@ public class GameManager : MonoBehaviour
     private void Player2Spawn()
     {
         player2Reference.SetActive(true);
+        player2Reference.transform.position = p2SpawnLocation.transform.position;
+        player2Reference.transform.rotation = p2SpawnLocation.transform.rotation.normalized;
     }
 
     private void Awake()
@@ -125,6 +143,8 @@ public class GameManager : MonoBehaviour
         LevelUpUtility.OnItemSelected += ResumeGame;
         PlayerController.OnLevelUp += LevelUp;
         CreditsDropController.OnCreditsPickedUp += AddCredit;
+        PlayerController.OnPlayerJoined += PlayerOneJoined;
+        Player2Controller.OnPlayerJoined += PlayerTwoJoined;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
@@ -211,8 +231,6 @@ public class GameManager : MonoBehaviour
         switch (Instance.gameState)
         {
             case GameState.PLAYING:
-                playerReference = GameObject.FindGameObjectWithTag("Player");
-                player2Reference = GameObject.FindGameObjectWithTag("Player2");
                 SceneManager.sceneLoaded -= OnSceneLoad;
                 break;
             case GameState.PAUSE_MENU:
@@ -249,6 +267,8 @@ public class GameManager : MonoBehaviour
     public void OnReturnToMainMenu()
     {
         SceneManager.sceneLoaded += OnSceneLoad;
+        PlayerController.OnPlayerJoined -= PlayerOneJoined;
+        Player2Controller.OnPlayerJoined -= PlayerTwoJoined;
         PlayerController.OnPlayerDead -= GameOver;
         PlayerController.OnLevelUp -= LevelUp;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;
@@ -320,7 +340,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-
         switch (gameState)
         {
             case GameState.PLAYING:
