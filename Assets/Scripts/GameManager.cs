@@ -217,7 +217,6 @@ public class GameManager : MonoBehaviour
         switch (Instance.gameState)
         {
             case GameState.PLAYING:
-                //playerReference = GameObject.FindGameObjectWithTag("Player");
                 player2Reference = GameObject.FindGameObjectWithTag("Player2");
                 SceneManager.sceneLoaded -= OnSceneLoad;
                 break;

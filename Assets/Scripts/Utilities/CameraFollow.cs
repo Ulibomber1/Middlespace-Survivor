@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    Transform playerTransform;
+    [SerializeField] Transform playerTransform;
 
-    Vector3 offset;
+    [SerializeField] Vector3 offset;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        playerTransform = GameObject.Find("Player").transform;
+        PlayerController.OnPlayerJoined += PlayerOneJoined;
+    }
+
+    private void PlayerOneJoined(GameObject player)
+    {
+        playerTransform = player.transform;
         offset = transform.position - playerTransform.position;
         transform.position = playerTransform.position + offset;
     }
@@ -20,5 +25,10 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         transform.position = playerTransform.position + offset;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerController.OnPlayerJoined -= PlayerOneJoined;
     }
 }
