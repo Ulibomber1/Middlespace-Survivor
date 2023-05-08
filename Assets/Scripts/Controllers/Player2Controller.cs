@@ -14,8 +14,14 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     GameObject targetMouse;
     [SerializeField] [Range(0, 1)] float rotationDampValue;
 
+    public delegate void PlayerJoinedHandler(GameObject player);
+    public static event PlayerJoinedHandler OnPlayerJoined;
+
     public delegate void Player2DeadHandler();
     public static event Player2DeadHandler OnPlayer2Dead;
+
+    [SerializeField] float invincibleRespawnTime;
+    float timeActive;
     //Vector2 mousePos;
     // Player playerEntity;
 
@@ -63,12 +69,14 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
+        OnPlayerJoined?.Invoke(gameObject);
     }
 
     void OnEnable()
     {
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
+        timeActive = 0;
     }
     /*private void SetMouseTargetReference(GameObject target)
     {
@@ -100,7 +108,8 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet"))
+        if (timeActive >= invincibleRespawnTime &&
+            (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet")))
         {
             Despawn();
         }
@@ -110,6 +119,9 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     {
         if (GameManager.Instance.gameState == GameState.PLAYING)
         {
+            if (timeActive < invincibleRespawnTime)
+                timeActive += Time.deltaTime;
+
             shotCoodown -= Time.deltaTime;
 
             if (shotCoodown <= 0)

@@ -603,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item: {fileID: 5806365767005568263}
   Description: {fileID: 5806365765745630760}
-  textSpeed: 0.03
+  textSpeed: 0.02
   LevelUpUI: {fileID: 5806365766336071833}
 --- !u!1001 &2090192155228214915
 PrefabInstance:

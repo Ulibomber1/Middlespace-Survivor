@@ -29,7 +29,7 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""7b34d979-44ef-485d-ad3e-140af835bb0f"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -167,7 +167,7 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Controller"",
                     ""id"": ""8999e0c4-4208-41e2-9d08-d142399a6b71"",
-                    ""path"": ""2DVector(mode=2)"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -182,6 +182,17 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Up"",
+                    ""id"": ""56dd83ed-095c-441f-93dd-613751b0151c"",
+                    ""path"": ""<HID::Microntek              USB Joystick          >/hat/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -210,6 +221,17 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Down"",
+                    ""id"": ""4ac03633-145a-47d7-9e42-7b60d1039310"",
+                    ""path"": ""<HID::Microntek              USB Joystick          >/hat/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down"",
                     ""id"": ""c30571b0-d494-4646-9cc4-2bf1115221e3"",
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
@@ -232,6 +254,17 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Left"",
+                    ""id"": ""861e6836-da1b-43a4-a579-271e6d47fa9f"",
+                    ""path"": ""<HID::Microntek              USB Joystick          >/hat/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
                     ""id"": ""98e43fd6-9ba5-4a35-a824-c83f2b1bf52b"",
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
@@ -248,6 +281,17 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right"",
+                    ""id"": ""52c73296-96c1-45dd-b889-d8477853f1bc"",
+                    ""path"": ""<HID::Microntek              USB Joystick          >/hat/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -277,7 +321,7 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -838,7 +882,7 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Gamepad>"",
-                    ""isOptional"": false,
+                    ""isOptional"": true,
                     ""isOR"": false
                 }
             ]
@@ -860,7 +904,7 @@ public partial class @IsoPlayer : IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Joystick>"",
-                    ""isOptional"": false,
+                    ""isOptional"": true,
                     ""isOR"": false
                 }
             ]

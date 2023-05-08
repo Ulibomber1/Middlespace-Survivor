@@ -176,8 +176,8 @@ MonoBehaviour:
   damageResistance: 0
   healthRegenFactor: 0
   maxHitPoints: 1
-  acceleration: 15
-  maxVelocity: 6.5
+  acceleration: 17
+  maxVelocity: 8
   haltingDrag: 5
   maxShotCooldown: 1.5
   shotCoodown: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   bullet: {fileID: 2708536673198143161, guid: fc23f3adcacc24e46a1a98462b356aa2, type: 3}
   bulletSpawn: {fileID: 5121046089153735184}
   rotationDampValue: 0.39
+  invincibleRespawnTime: 3
 --- !u!114 &5121046090312908636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,8 +214,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5121046090312908639}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -295,8 +296,8 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3cddd94f-0c31-49f8-9305-06d229041f05
     m_ActionName: Player/Damage[/Keyboard/o]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Joystick
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

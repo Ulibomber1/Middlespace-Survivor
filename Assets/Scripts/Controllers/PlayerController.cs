@@ -138,7 +138,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         GameManager.Instance.OnStateChange += GameStateChange;
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
-        bulletSpawn = GameObject.Find("BulletSpawn");
+        bulletSpawn = gameObject.GetComponentsInChildren<Transform>()[1].gameObject;
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
         OnLevelUp?.Invoke(playerLevel);
         targetMouse = GameObject.Find("Mouse Target");
