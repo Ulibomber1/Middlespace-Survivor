@@ -189,7 +189,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
         if (hitPoints < maxHitPoints && isPlaying)
         {
-            Heal(Time.deltaTime * regenMod);
+            Heal((Time.deltaTime / 2) * regenMod);
         }
     }
 

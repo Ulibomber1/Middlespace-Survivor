@@ -13,12 +13,14 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     [SerializeField] GameObject bulletSpawn;
     GameObject targetMouse;
     [SerializeField] [Range(0, 1)] float rotationDampValue;
+    GameObject Player1Reference = null;
 
     public delegate void PlayerJoinedHandler(GameObject player);
     public static event PlayerJoinedHandler OnPlayerJoined;
 
     public delegate void Player2DeadHandler();
     public static event Player2DeadHandler OnPlayer2Dead;
+    [SerializeField] private int player2DespawnDistance;
 
     [SerializeField] float invincibleRespawnTime;
     float timeActive;
@@ -72,6 +74,11 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         OnPlayerJoined?.Invoke(gameObject);
     }
 
+    public void SetPlayerOneReference(GameObject reference)
+    {
+        Player1Reference = reference;
+    }
+
     void OnEnable()
     {
         hitPoints = maxHitPoints;
@@ -117,6 +124,10 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     private void Update()
     {
+        if (Player1Reference != null && (Player1Reference.transform.position -
+            gameObject.transform.position).magnitude > player2DespawnDistance)
+            Despawn();
+
         if (GameManager.Instance.gameState == GameState.PLAYING)
         {
             if (timeActive < invincibleRespawnTime)

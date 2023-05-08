@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     private float spawnTime = 0;
     [SerializeField] private float p2MaxSpawnTime;
     private float p2SpawnTime;
-    [SerializeField] GameObject p2SpawnLocation;
+    GameObject p2SpawnLocation;
     [SerializeField] private int maxPoolPermission;
     private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     private void PlayerTwoJoined(GameObject player)
     {
         player2Reference = player;
+        player2Reference.GetComponent<Player2Controller>().SetPlayerOneReference(playerReference);
         GameObject.Find("PlayerInputManager").SetActive(false);
         p2SpawnLocation = playerReference.transform.GetChild(3).gameObject;
         player2Reference.transform.position = p2SpawnLocation.transform.position;
@@ -339,7 +340,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-
         switch (gameState)
         {
             case GameState.PLAYING:
