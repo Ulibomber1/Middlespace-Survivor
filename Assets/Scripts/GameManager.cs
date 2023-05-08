@@ -66,6 +66,11 @@ public class GameManager : MonoBehaviour
         player2Reference.SetActive(true);
     }
 
+    private void PlayerOneJoined(GameObject player)
+    {
+        playerReference = player;
+    }
+
     private void Awake()
     {
         if (GameManager.instance == null)
@@ -125,6 +130,7 @@ public class GameManager : MonoBehaviour
         LevelUpUtility.OnItemSelected += ResumeGame;
         PlayerController.OnLevelUp += LevelUp;
         CreditsDropController.OnCreditsPickedUp += AddCredit;
+        PlayerController.OnPlayerJoined += PlayerOneJoined;
         SetGameState(GameState.PLAYING);
         SceneManager.LoadScene("SampleScene");
         PlayerController.OnPlayerDead += GameOver;
@@ -211,7 +217,7 @@ public class GameManager : MonoBehaviour
         switch (Instance.gameState)
         {
             case GameState.PLAYING:
-                playerReference = GameObject.FindGameObjectWithTag("Player");
+                //playerReference = GameObject.FindGameObjectWithTag("Player");
                 player2Reference = GameObject.FindGameObjectWithTag("Player2");
                 SceneManager.sceneLoaded -= OnSceneLoad;
                 break;
@@ -249,6 +255,7 @@ public class GameManager : MonoBehaviour
     public void OnReturnToMainMenu()
     {
         SceneManager.sceneLoaded += OnSceneLoad;
+        PlayerController.OnPlayerJoined -= PlayerOneJoined;
         PlayerController.OnPlayerDead -= GameOver;
         PlayerController.OnLevelUp -= LevelUp;
         EnemyPoolController.onAwake -= AddEnemyPoolInstance;

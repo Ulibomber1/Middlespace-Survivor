@@ -34,6 +34,9 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     public delegate void playerDataChangeHandler(float hitPoints, float maxHitPoints, double experience, double maxExperience);
     public static event playerDataChangeHandler OnPlayerDataChange;
 
+    public delegate void PlayerJoinedHandler(GameObject player);
+    public static event PlayerJoinedHandler OnPlayerJoined;
+
     // IDamageable Implementations
     public void InflictDamage(float rawDamage)
     {
@@ -139,6 +142,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
         OnLevelUp?.Invoke(playerLevel);
         targetMouse = GameObject.Find("Mouse Target");
+        OnPlayerJoined?.Invoke(gameObject);
     }
     private void SetMouseTargetReference(GameObject target)
     {
