@@ -79,9 +79,12 @@ public class GameManager : MonoBehaviour
 
     private void Player2Spawn()
     {
-        player2Reference.SetActive(true);
-        player2Reference.transform.position = p2SpawnLocation.transform.position;
-        player2Reference.transform.rotation = p2SpawnLocation.transform.rotation.normalized;
+        if (playerReference.activeSelf)
+        {
+            player2Reference.SetActive(true);
+            player2Reference.transform.position = p2SpawnLocation.transform.position;
+            player2Reference.transform.rotation = p2SpawnLocation.transform.rotation.normalized;
+        }
     }
 
     private void Awake()
@@ -128,6 +131,7 @@ public class GameManager : MonoBehaviour
     }
     private void GameOver()
     {
+        GameObject.Find("PlayerInputManager").SetActive(false);
         SetGameState(GameState.GAME_OVER);
         playerReference.SetActive(false);
         gameOverGUI.SetActive(true);
