@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CutsceenUtility : MonoBehaviour
+public class CutsceneUtility : MonoBehaviour
 {
     float timer;
 
