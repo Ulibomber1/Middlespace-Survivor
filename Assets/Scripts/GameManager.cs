@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
     }
     private void GameOver()
     {
-        GameObject.Find("PlayerInputManager").SetActive(false);
+        //GameObject.Find("PlayerInputManager").SetActive(false);
         SetGameState(GameState.GAME_OVER);
         playerReference.SetActive(false);
         gameOverGUI.SetActive(true);

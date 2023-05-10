@@ -49,6 +49,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
             // Broadcast PlayerDead event
             animator.SetTrigger("Dying");
             OnPlayerDead?.Invoke();
+            Debug.Log("Player Died!");
         }
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
