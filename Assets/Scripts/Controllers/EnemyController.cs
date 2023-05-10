@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING}
+public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING} // behavior states, will affect animations later
+
 
 public class EnemyController : EntityController
 {
@@ -100,6 +101,7 @@ public class EnemyController : EntityController
 
             enemyState = EnemyState.FALLING;
             ChangeAnimationState(enemyState);
+
             rb.detectCollisions = false;
             Invoke("OnDespawn", 1f);
 
