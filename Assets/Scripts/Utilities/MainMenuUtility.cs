@@ -6,34 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUtility : MonoBehaviour
 {
-    float replayCutsceenTimer;
+    float replayCutsceneTimer;
     [SerializeField] private Button cutscene; 
     // Start is called before the first frame update
     void Awake()
     {
-        replayCutsceenTimer = 0;
+        replayCutsceneTimer = 0;
         cutscene.onClick.AddListener(TaskOnClick);
     }
 
     // Update is called once per frame
     void Update()
     {
-        replayCutsceenTimer += Time.deltaTime;
+        replayCutsceneTimer += Time.deltaTime;
 
         if (Input.anyKeyDown)
-            replayCutsceenTimer = 0;
+            replayCutsceneTimer = 0;
 
-        if (replayCutsceenTimer > 120)
-            ReloadCutsceen();
+        if (replayCutsceneTimer > 120)
+            ReloadCutscene();
     }
 
     void TaskOnClick()
     {
-        ReloadCutsceen();
+        ReloadCutscene();
     }
 
-    private void ReloadCutsceen()
+    private void ReloadCutscene()
     {
+        Destroy(GameObject.Find("GameManager"));
         SceneManager.LoadScene("OpeningCutscene");
     }
 }

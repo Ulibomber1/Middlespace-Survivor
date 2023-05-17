@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void Player2Spawn()
     {
-        if (playerReference.activeSelf)
+        if (playerReference.activeSelf && gameState == GameState.PLAYING)
         {
             player2Reference.SetActive(true);
             player2Reference.transform.position = p2SpawnLocation.transform.position;
