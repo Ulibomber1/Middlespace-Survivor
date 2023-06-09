@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class DropController : MonoBehaviour
 {
+    //Public
+    public void ChangeDistanceMod(float newMod)
+    {
+        distanceMod = 1 + newMod / 20;
+    }
+
+    //Private (Protected)
+    protected GameObject playerReference;
+    protected Rigidbody rb;
+
     [SerializeField] protected float amount;
     [SerializeField] protected float distance;
     [SerializeField] protected float distanceMod;
@@ -13,17 +22,54 @@ public class DropController : MonoBehaviour
     [SerializeField] protected float speedMax;
     [SerializeField] protected bool isPlaying = true;
     protected float max;
-
-    protected GameObject playerReference;
-    protected Vector3 positionDifference;
-    protected Vector3 directionToPlayer;
     protected float distanceFromPlayer;
     protected Vector3 currentForce;
-    protected Rigidbody rb;
+    protected Vector3 positionDifference;
+    protected Vector3 directionToPlayer;
 
-    public void ChangeDistanceMod(float newMod)
+    private void Awake()
     {
-        distanceMod = 1 + newMod / 20;
+        playerReference = GameObject.FindGameObjectWithTag("Player");
+        rb = gameObject.GetComponent<Rigidbody>();
+        rb.drag = 0;
+        max = speedMax * speedMod;
+
+
+    }
+    private void FixedUpdate()
+    {
+        positionDifference = -(transform.position - playerReference.transform.position);
+        distanceFromPlayer = positionDifference.magnitude;
+        directionToPlayer = positionDifference.normalized;
+
+        if (distanceFromPlayer < distance * distanceMod)
+        {
+            rb.AddForce(directionToPlayer * speed * speedMod);
+
+            if (rb.velocity.sqrMagnitude > max * max) // Using sqrMagnitude for efficiency
+            {
+                rb.velocity = rb.velocity.normalized * max;
+            }
+        }
+
+        if (distanceFromPlayer > 10000)
+        {
+            Remove();
+        }
+
+        if (distanceFromPlayer == 0)
+        {
+            BroadcastAmount();
+            Remove();
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == playerReference)
+        {
+            Invoke("Remove", .1f);
+            BroadcastAmount();
+        }
     }
 
     protected void GameStateChange()
@@ -54,58 +100,9 @@ public class DropController : MonoBehaviour
         }
 
     }
-
-    private void Awake()
-    {
-        playerReference = GameObject.FindGameObjectWithTag("Player");
-        rb = gameObject.GetComponent<Rigidbody>();
-        rb.drag = 0;
-        max = speedMax * speedMod;
-
-
-    }
-
-    private void FixedUpdate()
-    {
-        positionDifference = -(transform.position - playerReference.transform.position);
-        distanceFromPlayer = positionDifference.magnitude;
-        directionToPlayer = positionDifference.normalized;
-
-        if (distanceFromPlayer < distance * distanceMod)
-        {
-            rb.AddForce(directionToPlayer * speed * speedMod);
-
-            if (rb.velocity.sqrMagnitude > max * max) // Using sqrMagnitude for efficiency
-            {
-                rb.velocity = rb.velocity.normalized * max;
-            }
-        }
-
-        if (distanceFromPlayer > 10000)
-        {
-            Remove();
-        }
-
-        if (distanceFromPlayer == 0)
-        {
-            BroadcastAmount();
-            Remove();
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == playerReference)
-        {
-            Invoke("Remove", .1f);
-            BroadcastAmount();
-        }
-    }
-
     protected void Remove()
     {
         Destroy(gameObject);
     }
-
     protected virtual void BroadcastAmount() {}
 }
