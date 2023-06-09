@@ -4,25 +4,34 @@ using UnityEngine;
 
 public enum EnemyState {IDLE, CHASING_PLAYER, ATTACKING, FALLING} // behavior states, will affect animations later
 
-
 public class EnemyController : EntityController
 {
-    private float healthDropChance = 0;
-    private int magnetLevel = 0;
-
-    GameObject playerReference;
-    Vector3 positionDifference;
+    //Public
     [Range(0.0f, 1.0f)] public float rotationScalar;
 
-    Rigidbody rb;
-    Animator anim;
+    public delegate void EnemyDisabledHandler(GameObject pool);
+    public static event EnemyDisabledHandler OnEnemyDiabled;
+
+    public void OnTakeDamage(float damage)
+    {
+        hitPoints -= damage;
+    }
+
+    //Private (Protected)
     protected EnemyState enemyState;
-    [SerializeField] private float attackValue, minimumAttackDistance;
 
     [SerializeField] GameObject XP;
     [SerializeField] GameObject HP;
     [SerializeField] GameObject credit;
     private GameObject ParentPool;
+    GameObject playerReference;
+    Rigidbody rb;
+    Animator anim;
+
+    [SerializeField] private float attackValue, minimumAttackDistance;
+    private float healthDropChance = 0;
+    private int magnetLevel = 0;
+    Vector3 positionDifference;
 
     private void Awake()
     {
@@ -32,26 +41,10 @@ public class EnemyController : EntityController
         anim = gameObject.GetComponent<Animator>();
         ParentPool = transform.parent.gameObject;
     }
-
-    private void NewItemLevel(string name, int newLevel)
+    private void OnDestroy()
     {
-        switch (name)
-        {
-            case "Magnet":
-                magnetLevel = newLevel;
-                break;
-            case "Medkit":
-                healthDropChance = newLevel * 10;
-                break;
-        }
+        ItemDataUtility.OnDataChange -= NewItemLevel;
     }
-
-    private void ChangeAnimationState(EnemyState state)
-    {
-        //Debug.Log((int)state);
-        anim.SetInteger("EnemyState", (int)state);
-    }
-
     private void OnEnable()
     {
         rb.detectCollisions = true;
@@ -59,31 +52,6 @@ public class EnemyController : EntityController
         enemyState = EnemyState.IDLE;
         ChangeAnimationState(enemyState);
     }
-
-    protected override void MoveEntity(Vector3 directionToPlayer, float distanceFromPlayer)
-    {
-        if (distanceFromPlayer <= minimumAttackDistance)
-        {
-            enemyState = EnemyState.ATTACKING;
-            ChangeAnimationState(enemyState);
-            rb.drag = haltingDrag;
-            // activate attack mode (?)
-            return;
-        }
-        rb.drag = 0;
-
-        enemyState = EnemyState.CHASING_PLAYER;
-        ChangeAnimationState(enemyState);
-        rb.AddForce(directionToPlayer * acceleration);
-        transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
-
-        if (rb.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
-        {
-            rb.velocity = rb.velocity.normalized * maxVelocity;
-        }
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (enemyState == EnemyState.FALLING || GameManager.Instance.gameState != GameState.PLAYING)
@@ -116,7 +84,62 @@ public class EnemyController : EntityController
 
         MoveEntity(directionToPlayer, distanceFromPlayer);
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Despawn Volume"))
+            OnDespawn();
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        // This is constant, but it need to be variable and from
+        // the enemies not the player calling it upon itself
+        if (collision.gameObject.CompareTag("Player") && GameManager.Instance.gameState == GameState.PLAYING)
+            collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
+    }
+    private void OnDisable()
+    {
+        OnEnemyDiabled?.Invoke(ParentPool);
+    }
 
+    private void NewItemLevel(string name, int newLevel)
+    {
+        switch (name)
+        {
+            case "Magnet":
+                magnetLevel = newLevel;
+                break;
+            case "Medkit":
+                healthDropChance = newLevel * 10;
+                break;
+        }
+    }
+    private void ChangeAnimationState(EnemyState state)
+    {
+        //Debug.Log((int)state);
+        anim.SetInteger("EnemyState", (int)state);
+    }
+    protected override void MoveEntity(Vector3 directionToPlayer, float distanceFromPlayer)
+    {
+        if (distanceFromPlayer <= minimumAttackDistance)
+        {
+            enemyState = EnemyState.ATTACKING;
+            ChangeAnimationState(enemyState);
+            rb.drag = haltingDrag;
+            // activate attack mode (?)
+            return;
+        }
+        rb.drag = 0;
+
+        enemyState = EnemyState.CHASING_PLAYER;
+        ChangeAnimationState(enemyState);
+        rb.AddForce(directionToPlayer * acceleration);
+        transform.rotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
+
+        if (rb.velocity.sqrMagnitude > maxVelocity * maxVelocity) // Using sqrMagnitude for efficiency
+        {
+            rb.velocity = rb.velocity.normalized * maxVelocity;
+        }
+    }
     private void SpawnDrops()
     {
         GameObject temp = (GameObject)
@@ -142,40 +165,8 @@ public class EnemyController : EntityController
             temp.GetComponent<DropController>().ChangeDistanceMod(magnetLevel);
         }
     }
-
-    public void OnTakeDamage(float damage)
-    {
-        hitPoints -= damage;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Despawn Volume"))
-            OnDespawn();
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        // This is constant, but it need to be variable and from
-        // the enemies not the player calling it upon itself
-        if (collision.gameObject.CompareTag("Player") && GameManager.Instance.gameState == GameState.PLAYING)
-            collision.gameObject.GetComponent<PlayerController>().InflictDamage(1);
-    }
-
     private void OnDespawn()
     {
         gameObject.SetActive(false);
-    }
-
-    public delegate void EnemyDisabledHandler(GameObject pool);
-    public static event EnemyDisabledHandler OnEnemyDiabled;
-    private void OnDisable()
-    {
-        OnEnemyDiabled?.Invoke(ParentPool);
-    }
-
-    private void OnDestroy()
-    {
-        ItemDataUtility.OnDataChange -= NewItemLevel;
     }
 }
