@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class HUDUtility : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI levelNumber, experienceFraction, moneyNumber, healthFraction, timer;
-    [SerializeField] private RectTransform experienceBar, healthBar;
-
+    //Public
     public delegate void HUDAwakeHandler(GameObject HUD);
     public static event HUDAwakeHandler OnHUDAwake;
+
+    //Private
+    [SerializeField] private TextMeshProUGUI levelNumber, experienceFraction, moneyNumber, healthFraction, timer;
+    [SerializeField] private RectTransform experienceBar, healthBar;
 
     private void Awake()
     {
@@ -20,6 +22,15 @@ public class HUDUtility : MonoBehaviour
         GameManager.Instance.OnTimerUpdate += UpdateTimer;
         GameManager.Instance.OnCreditsUpdated += UpdateCredits;
         moneyNumber.text = $"$: {GameManager.Instance.GetCurrentCredits()}";
+    }
+    private void OnDestroy()
+    {
+        // This fixes the HP bar bug, but I don't know why. Needs further investigation/research.
+        // Update: It prevents the delegate from accessing a previous instance of HUDUtility
+        PlayerController.OnPlayerDataChange -= UpdatePlayerInfo;
+        GameManager.Instance.OnTimerUpdate -= UpdateTimer;
+        PlayerController.OnLevelUp -= UpdateLevel;
+        GameManager.Instance.OnCreditsUpdated -= UpdateCredits;
     }
 
     private void UpdatePlayerInfo(float HP, float maxHP, double experience, double maxExperience)
@@ -33,18 +44,15 @@ public class HUDUtility : MonoBehaviour
         float experienceBarScale = (float)(experience / maxExperience);
         experienceBar.gameObject.GetComponent<Slider>().value = experienceBarScale;
     }
-
     private void UpdateCredits(int credits)
     {
         Debug.Log("UpdateCredits Reached!");
         moneyNumber.text = $"$: {credits}";
     }
-
     private void UpdateLevel(int newLevel)
     {
         levelNumber.text = $"Lvl: {newLevel.ToString()}";
     }
-
     private void UpdateTimer(float remainingTime)
     {
         int totalSeconds = (int)remainingTime;
@@ -64,19 +72,5 @@ public class HUDUtility : MonoBehaviour
             secondsString = "0" + secondsString;
 
         timer.text = $"{minutesString}:{secondsString}";
-    }
-
-    private void OnDestroy()
-    {
-        // This fixes the HP bar bug, but I don't know why. Needs further investigation/research.
-        // Update: It prevents the delegate from accessing a previous instance of HUDUtility
-        PlayerController.OnPlayerDataChange -= UpdatePlayerInfo;
-        GameManager.Instance.OnTimerUpdate -= UpdateTimer;
-        PlayerController.OnLevelUp -= UpdateLevel;
-        GameManager.Instance.OnCreditsUpdated -= UpdateCredits;
-    }
-    private void Update()
-    {
-        
     }
 }
