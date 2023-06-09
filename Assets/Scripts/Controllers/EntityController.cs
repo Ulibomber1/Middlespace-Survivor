@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EntityController : MonoBehaviour
 {
+    //Public
+
+    //Private (Protected)
     [SerializeField] protected float hitPoints;
     [SerializeField] protected float damageResistance;
     [SerializeField] protected float healthRegenFactor = 1;
@@ -38,7 +41,6 @@ public class EntityController : MonoBehaviour
         }
 
     }
-
     virtual protected void MoveEntity() { }
     virtual protected void MoveEntity(Vector3 directionToTarget, float distanceFromTarget) { }
 }
