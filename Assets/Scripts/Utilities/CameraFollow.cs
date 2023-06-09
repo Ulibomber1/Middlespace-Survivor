@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    //Public
+
+    //Private
     Transform playerTransform;
-    Vector3 offset;
     GameObject keyboard;
     GameObject Player2Join;
-    bool player2joined;
 
-    // Start is called before the first frame update
+    bool player2joined;
+    Vector3 offset;
+
     void Awake()
     {
         PlayerController.OnPlayerJoined += PlayerOneJoined;
@@ -20,6 +23,21 @@ public class CameraFollow : MonoBehaviour
         Player2Join.SetActive(false);
         player2joined = false;
     }
+    private void OnDestroy()
+    {
+        PlayerController.OnPlayerJoined -= PlayerOneJoined;
+        Player2Controller.OnPlayerJoined -= PlayerTwoJoined;
+    }
+    private void FixedUpdate()
+    {
+        if (keyboard.activeSelf)
+            if (Input.anyKeyDown)
+                Invoke("RemoveKeyBoardGraphic", .01f);
+    }
+    void LateUpdate()
+    {
+        transform.position = playerTransform.position + offset;
+    }
 
     private void PlayerOneJoined(GameObject player)
     {
@@ -27,19 +45,11 @@ public class CameraFollow : MonoBehaviour
         offset = transform.position - playerTransform.position;
         transform.position = playerTransform.position + offset;
     }
-
     private void PlayerTwoJoined(GameObject unused)
     {
         RemovePlayer2JoinGraphic();
         player2joined = true;
     }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        transform.position = playerTransform.position + offset;
-    }
-
     private void RemoveKeyBoardGraphic()
     {
         keyboard.SetActive(false);
@@ -50,23 +60,9 @@ public class CameraFollow : MonoBehaviour
             Invoke("RemovePlayer2JoinGraphic", 10f);
         }
     }
-
     private void RemovePlayer2JoinGraphic()
     {
         if (Player2Join.activeSelf)
             Player2Join.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        PlayerController.OnPlayerJoined -= PlayerOneJoined;
-        Player2Controller.OnPlayerJoined -= PlayerTwoJoined;
-    }
-
-    private void FixedUpdate()
-    {
-        if(keyboard.activeSelf)
-            if(Input.anyKeyDown)
-                Invoke("RemoveKeyBoardGraphic", .01f);
     }
 }
