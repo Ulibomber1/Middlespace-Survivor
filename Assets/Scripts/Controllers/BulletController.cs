@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    //Public
+
+    //Private (Protected)
+    [SerializeField] protected GameObject bulletSpawn;
+    protected Rigidbody bulletRigidBody;
+
     [SerializeField] protected float damage;
     [SerializeField] protected float speed;
     [SerializeField] protected float maxDespawn;
@@ -11,9 +17,35 @@ public class BulletController : MonoBehaviour
     [SerializeField] protected float damageMod;
     [SerializeField] protected float sizeMod;
     [SerializeField] protected bool isPlaying = true;
-    [SerializeField] GameObject bulletSpawn;
     protected Vector3 currentForce;
-    protected Rigidbody bulletRigidBody;
+
+    protected void Start()
+    {
+        GameManager.Instance.OnStateChange += GameStateChange;
+        countdown = maxDespawn;
+        currentForce = transform.forward;
+        transform.localScale *= sizeMod;
+    }
+    protected void Awake()
+    {
+        bulletRigidBody = GetComponent<Rigidbody>();
+    }
+    protected void OnEnable()
+    {
+        bulletRigidBody.AddForce(transform.forward * speed);
+    }
+    protected void Update()
+    {
+        if (GameManager.Instance.gameState == GameState.PLAYING)
+        {
+            countdown -= Time.deltaTime;
+
+            if (countdown <= 0)
+            {
+                DestroyBullet();
+            }
+        }
+    }
 
     protected void GameStateChange()
     {
@@ -41,38 +73,6 @@ public class BulletController : MonoBehaviour
         }
 
     }
-
-    protected void Start()
-    {
-        GameManager.Instance.OnStateChange += GameStateChange;
-        countdown = maxDespawn;
-        currentForce = transform.forward;
-        transform.localScale *= sizeMod;
-    }
-
-    protected void Awake()
-    {
-        bulletRigidBody = GetComponent<Rigidbody>();
-    }
-
-    protected void OnEnable()
-    {
-        bulletRigidBody.AddForce(transform.forward * speed);
-    }
-
-    protected void Update()
-    {
-        if (GameManager.Instance.gameState == GameState.PLAYING)
-        {
-            countdown -= Time.deltaTime;
-
-            if (countdown <= 0)
-            {
-                DestroyBullet();
-            }
-        }
-    }
-
     protected void DestroyBullet()
     {
         Destroy(gameObject);
