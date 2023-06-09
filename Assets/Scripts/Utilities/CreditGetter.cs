@@ -5,6 +5,9 @@ using TMPro;
 
 public class CreditGetter : MonoBehaviour
 {
+    //Public
+
+    //Private
     TextMeshProUGUI textMesh;
 
     private void Awake()
@@ -14,8 +17,6 @@ public class CreditGetter : MonoBehaviour
         textMesh.text = $"$: {GameManager.Instance.GetCurrentCredits()}";
     }
     
-
-
     private void UpdateText(int credits)
     {
         textMesh.text = $"$: {credits}";
