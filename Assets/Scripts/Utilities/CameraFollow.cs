@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    //Public
-
-    //Private
+//Private
     Transform playerTransform;
     GameObject keyboard;
     GameObject Player2Join;
@@ -65,4 +63,6 @@ public class CameraFollow : MonoBehaviour
         if (Player2Join.activeSelf)
             Player2Join.SetActive(false);
     }
+
+//Public
 }

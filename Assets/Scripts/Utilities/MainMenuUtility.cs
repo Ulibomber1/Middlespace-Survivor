@@ -4,18 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// Global Enums
+
 public class MainMenuUtility : MonoBehaviour
 {
+    // Private Enums
+
+    // References
+    [SerializeField] private Button cutscene;
+
+    // Internal Variables
     float replayCutsceenTimer;
-    [SerializeField] private Button cutscene; 
-    // Start is called before the first frame update
+
+    // User-defined Objects
+
+    // Delegates
+
+    // Events
+
+    // Unity Methods
     void Awake()
     {
         replayCutsceenTimer = 0;
         cutscene.onClick.AddListener(TaskOnClick);
     }
-
-    // Update is called once per frame
     void Update()
     {
         replayCutsceenTimer += Time.deltaTime;
@@ -27,6 +39,7 @@ public class MainMenuUtility : MonoBehaviour
             ReloadCutsceen();
     }
 
+    // User-defined Methods
     void TaskOnClick()
     {
         ReloadCutsceen();

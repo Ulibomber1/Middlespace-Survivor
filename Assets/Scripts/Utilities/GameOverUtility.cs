@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class GameOverUtility : MonoBehaviour
 {
-    //Public
-    public delegate void GameOverUIAwakeHandler(GameObject GameOverUI);
-    public static event GameOverUIAwakeHandler OnGameOverUIAwake;
-
-    //Private
+//Private
     private void Awake()
     {
         OnGameOverUIAwake?.Invoke(gameObject);
     }
 
+//Public
+    public delegate void GameOverUIAwakeHandler(GameObject GameOverUI);
+    public static event GameOverUIAwakeHandler OnGameOverUIAwake;
 }

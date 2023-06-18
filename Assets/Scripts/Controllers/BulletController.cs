@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    //Public
+//Public
 
-    //Private (Protected)
+//Private (Protected)
     [SerializeField] protected GameObject bulletSpawn;
     protected Rigidbody bulletRigidBody;
 

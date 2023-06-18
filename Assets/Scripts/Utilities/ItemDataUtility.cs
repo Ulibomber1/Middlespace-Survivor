@@ -4,64 +4,6 @@ using UnityEngine;
 
 public class ItemDataUtility : MonoBehaviour
 {
-    //Public
-    public delegate void DataChangeHandler(string changedData, int newLevel);
-    public delegate void NotEnoughCreditsHandler(string notEnough, int neededCredits);
-
-    public static event DataChangeHandler OnDataChange;
-    public static event NotEnoughCreditsHandler NotEnoughCredits;
-
-    public string GetItemBlurb(string name)
-    {
-        if (ItemLevels.ContainsKey(name))
-            return ItemBlurbs[name];
-        else
-            return EquipmentBlurbs[name];
-    }
-    public int GetItemLevel(string name)
-    {
-        if (ItemLevels.ContainsKey(name))
-            return ItemLevels[name];
-        else
-            return EquipmentLevels[name];
-    }
-    public string GetItemNameByIndex(int index)
-    {
-        return ItemNames[index];
-    }
-    public string GetEquipmentNameByIndex(int index)
-    {
-        return EquipmentNames[index];
-    }
-    public Sprite GetSpriteByName(string name)
-    {
-        for (int i = 0; i < itemSprites.Count; i++)
-        {
-            if (itemSprites[i].name == name)
-                return itemSprites[i];
-        }
-        return null;
-    }
-    public List<string> RandomItemIndices()
-    {
-        Invoke("randomizer", 1);
-        return randomNames;
-    }
-    public List<string> RandomEquipmentIndices()
-    {
-        List<string> names = new List<string>();
-
-        int temp = Random.Range(0, EquipmentNames.Count - 1);
-        names.Add(EquipmentNames[temp]);
-        while (EquipmentNames[temp] == names[0])
-        {
-            temp = Random.Range(0, EquipmentNames.Count - 1);
-        }
-        names.Add(EquipmentNames[temp]);
-
-        return names;
-    }
-
     //Private
     GameManager creditReference;
 
@@ -170,4 +112,63 @@ public class ItemDataUtility : MonoBehaviour
         }
 
     }
+
+    //Public
+    public delegate void DataChangeHandler(string changedData, int newLevel);
+    public delegate void NotEnoughCreditsHandler(string notEnough, int neededCredits);
+
+    public static event DataChangeHandler OnDataChange;
+    public static event NotEnoughCreditsHandler NotEnoughCredits;
+
+    public string GetItemBlurb(string name)
+    {
+        if (ItemLevels.ContainsKey(name))
+            return ItemBlurbs[name];
+        else
+            return EquipmentBlurbs[name];
+    }
+    public int GetItemLevel(string name)
+    {
+        if (ItemLevels.ContainsKey(name))
+            return ItemLevels[name];
+        else
+            return EquipmentLevels[name];
+    }
+    public string GetItemNameByIndex(int index)
+    {
+        return ItemNames[index];
+    }
+    public string GetEquipmentNameByIndex(int index)
+    {
+        return EquipmentNames[index];
+    }
+    public Sprite GetSpriteByName(string name)
+    {
+        for (int i = 0; i < itemSprites.Count; i++)
+        {
+            if (itemSprites[i].name == name)
+                return itemSprites[i];
+        }
+        return null;
+    }
+    public List<string> RandomItemIndices()
+    {
+        Invoke("randomizer", 1);
+        return randomNames;
+    }
+    public List<string> RandomEquipmentIndices()
+    {
+        List<string> names = new List<string>();
+
+        int temp = Random.Range(0, EquipmentNames.Count - 1);
+        names.Add(EquipmentNames[temp]);
+        while (EquipmentNames[temp] == names[0])
+        {
+            temp = Random.Range(0, EquipmentNames.Count - 1);
+        }
+        names.Add(EquipmentNames[temp]);
+
+        return names;
+    }
+
 }

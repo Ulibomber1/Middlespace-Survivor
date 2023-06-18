@@ -5,9 +5,7 @@ using TMPro;
 
 public class CreditGetter : MonoBehaviour
 {
-    //Public
-
-    //Private
+//Private
     TextMeshProUGUI textMesh;
 
     private void Awake()
@@ -21,4 +19,6 @@ public class CreditGetter : MonoBehaviour
     {
         textMesh.text = $"$: {credits}";
     }
+
+//Public
 }

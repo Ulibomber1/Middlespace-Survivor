@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CutsceneUtility : MonoBehaviour
 {
-    //Public
-
-    //Private
+//Private
     float timer;
 
     void Start()
@@ -21,4 +19,6 @@ public class CutsceneUtility : MonoBehaviour
         if (timer >= 56 || Input.anyKeyDown)
             SceneManager.LoadScene("Title Screen");
     }
+
+//Public
 }

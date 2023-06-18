@@ -6,11 +6,7 @@ using UnityEngine.UI;
 
 public class HUDUtility : MonoBehaviour
 {
-    //Public
-    public delegate void HUDAwakeHandler(GameObject HUD);
-    public static event HUDAwakeHandler OnHUDAwake;
-
-    //Private
+//Private
     [SerializeField] private TextMeshProUGUI levelNumber, experienceFraction, moneyNumber, healthFraction, timer;
     [SerializeField] private RectTransform experienceBar, healthBar;
 
@@ -73,4 +69,9 @@ public class HUDUtility : MonoBehaviour
 
         timer.text = $"{minutesString}:{secondsString}";
     }
+
+//Public
+    public delegate void HUDAwakeHandler(GameObject HUD);
+    public static event HUDAwakeHandler OnHUDAwake;
+
 }

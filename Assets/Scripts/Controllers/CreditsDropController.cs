@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CreditsDropController : DropController
 {
-    //Public
+//Public
     public delegate void CreditsPickedUpHandler(int credits);
     public static event CreditsPickedUpHandler OnCreditsPickedUp;
 
-    //Private (Protected)
+//Private (Protected)
     protected override void BroadcastAmount()
     {
         OnCreditsPickedUp?.Invoke((int)amount);

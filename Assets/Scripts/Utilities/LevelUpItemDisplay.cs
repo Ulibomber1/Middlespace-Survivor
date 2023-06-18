@@ -4,18 +4,32 @@ using UnityEngine;
 using TMPro;
 using System.IO;
 
+//Global Enums
+
 public class LevelUpItemDisplay : MonoBehaviour
 {
+    // Private Enums
+
+    // References
+    AudioSource src;
+    ItemDataUtility itemData;
     [SerializeField] TextMeshProUGUI Item;
     [SerializeField] TextMeshProUGUI Description;
-    AudioSource src;
+    [SerializeField] GameObject LevelUpUI;
+
+    // Internal Variables
+    bool isDisplaying;
     string currentItemName;
     string currentDescription;
-    ItemDataUtility itemData;
     [SerializeField] float textSpeed;
-    [SerializeField] GameObject LevelUpUI;
-    bool isDisplaying;
 
+    // User-defined Objects
+
+    // Delegates
+
+    // Events
+
+    // Unity Methods
     void Awake()
     {
         //Item = gameObject.GetComponentsInChildren<TextMeshProUGUI>()[0];
@@ -29,33 +43,13 @@ public class LevelUpItemDisplay : MonoBehaviour
         if (LevelUpUI.TryGetComponent(out ItemDataUtility ItemDat))
             itemData = ItemDat;
     }
-
-    void DisplayDescription(string itemName, bool unused)
+    private void OnDestroy()
     {
-        currentItemName = itemName;
-        currentDescription = itemData.GetItemBlurb(itemName);
-        StartDescription();
-    }
-    void NotEnough(string notEnough, int creditsNeeded)
-    {
-        currentItemName = notEnough;
-        currentDescription =
-            "You do not have enough credits to buy this equpment.\nCredits needed: " + creditsNeeded + ".";
-        StartDescription();
+        MouseOver.OnItemMouseover -= DisplayDescription;
+        ItemDataUtility.NotEnoughCredits -= NotEnough;
     }
 
-    void StartDescription()
-    {
-        if (isDisplaying)
-            StopAllCoroutines();
-
-        Item.text = string.Empty;
-        Description.text = string.Empty;
-        isDisplaying = true;
-
-        StartCoroutine(TypeLine());
-    }
-
+    // User-defined Methods
     IEnumerator TypeLine()
     {
         Item.text += currentItemName;
@@ -69,13 +63,30 @@ public class LevelUpItemDisplay : MonoBehaviour
 
         isDisplaying = false;
     }
-
-    private void OnDestroy()
+    void DisplayDescription(string itemName, bool unused)
     {
-        MouseOver.OnItemMouseover -= DisplayDescription;
-        ItemDataUtility.NotEnoughCredits -= NotEnough;
+        currentItemName = itemName;
+        currentDescription = itemData.GetItemBlurb(itemName);
+        StartDescription();
     }
+    void NotEnough(string notEnough, int creditsNeeded)
+    {
+        currentItemName = notEnough;
+        currentDescription =
+            "You do not have enough credits to buy this equpment.\nCredits needed: " + creditsNeeded + ".";
+        StartDescription();
+    }
+    void StartDescription()
+    {
+        if (isDisplaying)
+            StopAllCoroutines();
 
+        Item.text = string.Empty;
+        Description.text = string.Empty;
+        isDisplaying = true;
+
+        StartCoroutine(TypeLine());
+    }
     /*private void OnEnable()
     {
         dialogueObject = GameObject.Find("/Dialogue");
