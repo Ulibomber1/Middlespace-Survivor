@@ -5,23 +5,37 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
+// Global Enums
+
 public class MouseOver : MonoBehaviour, IPointerEnterHandler
 {
-    public delegate void DescriptionHandler(string name, bool isAddable);
-    public static event DescriptionHandler OnItemMouseover;
+    // Private Enums
 
+    // References
     private ItemDataUtility itemData;
-    [SerializeField] private string itemName;
-    [SerializeField] private bool isAddable = false;
     [SerializeField] private TextMeshProUGUI textmesh;
     [SerializeField] private Sprite itemSprite;
 
+    // Internal Variables
+    [SerializeField] private string itemName;
+    [SerializeField] private bool isAddable = false;
+
+    // User-defined Objects
+    
+    // Delegates
+    public delegate void DescriptionHandler(string name, bool isAddable);
+
+    // Events
+    public static event DescriptionHandler OnItemMouseover;
+
+    // Unity Methods
     private void Awake()
     {
         itemData = GetComponentInParent<ItemDataUtility>();
         itemSprite = GetComponentsInChildren<Image>()[0].sprite;
     }
 
+    // User-Defined Methods
     public void SetupButton(string name)
     {
         itemName = name;
@@ -35,13 +49,9 @@ public class MouseOver : MonoBehaviour, IPointerEnterHandler
         else
             gameObject.GetComponentsInChildren<TextMeshProUGUI>()[1].text = $"Lvl {itemLevel}";
     }
-
-
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         // set the blurb (call the dialog system)
         OnItemMouseover?.Invoke(itemName, isAddable);
     }
-
 }

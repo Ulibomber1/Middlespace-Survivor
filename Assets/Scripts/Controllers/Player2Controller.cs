@@ -6,26 +6,103 @@ using UnityEngine.InputSystem;
 
 public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 {
-    Vector3 moveResult;
-    Quaternion rotationResult;
+    //References
+
     Rigidbody playerRigidbody;
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bulletSpawn;
     GameObject targetMouse;
-    [SerializeField] [Range(0, 1)] float rotationDampValue;
     GameObject Player1Reference = null;
 
-    public delegate void PlayerJoinedHandler(GameObject player);
-    public static event PlayerJoinedHandler OnPlayerJoined;
 
-    public delegate void Player2DeadHandler();
-    public static event Player2DeadHandler OnPlayer2Dead;
+    //Internal Variables
+
+    Vector3 moveResult;
+    Quaternion rotationResult;
+    [SerializeField] [Range(0, 1)] float rotationDampValue;
     [SerializeField] private int player2DespawnDistance;
-
     [SerializeField] float invincibleRespawnTime;
     float timeActive;
-    //Vector2 mousePos;
-    // Player playerEntity;
+
+
+    //User defined objects
+
+    //Delegates
+
+    public delegate void PlayerJoinedHandler(GameObject player);
+    public delegate void Player2DeadHandler();
+
+
+    //Events
+
+    public static event PlayerJoinedHandler OnPlayerJoined;
+    public static event Player2DeadHandler OnPlayer2Dead;
+
+
+    //Unity Methods
+
+    private void Awake()
+    {
+        //MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
+        targetMouse = GameObject.Find("Mouse Target");
+    }
+
+    void Start()
+    {
+        playerRigidbody = GetComponent<Rigidbody>();
+        GameManager.Instance.OnStateChange += GameStateChange;
+        OnPlayerJoined?.Invoke(gameObject);
+    }
+
+    void OnEnable()
+    {
+        hitPoints = maxHitPoints;
+        shotCoodown = maxShotCooldown;
+        timeActive = 0;
+    }
+
+    void FixedUpdate()
+    {
+        MoveEntity();
+    }
+
+    private void Update()
+    {
+        if (Player1Reference != null && (Player1Reference.transform.position -
+            gameObject.transform.position).magnitude > player2DespawnDistance)
+            Despawn();
+
+        if (GameManager.Instance.gameState == GameState.PLAYING)
+        {
+            if (timeActive < invincibleRespawnTime)
+                timeActive += Time.deltaTime;
+
+            shotCoodown -= Time.deltaTime;
+
+            if (shotCoodown <= 0)
+            {
+                Shoot();
+                shotCoodown = maxShotCooldown;
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnStateChange -= GameStateChange;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (timeActive >= invincibleRespawnTime &&
+            (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet")))
+        {
+            Despawn();
+        }
+    }
+
+
+    //User-defined methods
 
     override protected void MoveEntity()
     {
@@ -60,42 +137,6 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         }
     }
 
-    private void Awake()
-    {
-        //MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
-        targetMouse = GameObject.Find("Mouse Target");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerRigidbody = GetComponent<Rigidbody>();
-        GameManager.Instance.OnStateChange += GameStateChange;
-        OnPlayerJoined?.Invoke(gameObject);
-    }
-
-    public void SetPlayerOneReference(GameObject reference)
-    {
-        Player1Reference = reference;
-    }
-
-    void OnEnable()
-    {
-        hitPoints = maxHitPoints;
-        shotCoodown = maxShotCooldown;
-        timeActive = 0;
-    }
-    /*private void SetMouseTargetReference(GameObject target)
-    {
-        targetMouse = target;
-    }*/
-
-    // FixedUpdate is called once per physics tick
-    void FixedUpdate()
-    {
-        MoveEntity();
-    }
-
     private Vector3 IsoVectorConvert(Vector3 vector)
     {
         Quaternion rotation = Quaternion.Euler(0, -45.0f, 0); // The desired rotation in euler angles
@@ -104,7 +145,22 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         return result;
     }
 
-    // OnMove() is used by the Unity Input System. Here its behavior is defined:
+    void Despawn()
+    {
+        OnPlayer2Dead?.Invoke();
+        gameObject.SetActive(false);
+    }
+
+    void Shoot()
+    {
+        Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
+    }
+
+    public void SetPlayerOneReference(GameObject reference)
+    {
+        Player1Reference = reference;
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 readVector = context.ReadValue<Vector2>();
@@ -113,47 +169,13 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         Debug.Log("moveresult magnitude: " + moveResult.magnitude);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (timeActive >= invincibleRespawnTime &&
-            (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet")))
-        {
-            Despawn();
-        }
-    }
-
-    private void Update()
-    {
-        if (Player1Reference != null && (Player1Reference.transform.position -
-            gameObject.transform.position).magnitude > player2DespawnDistance)
-            Despawn();
-
-        if (GameManager.Instance.gameState == GameState.PLAYING)
-        {
-            if (timeActive < invincibleRespawnTime)
-                timeActive += Time.deltaTime;
-
-            shotCoodown -= Time.deltaTime;
-
-            if (shotCoodown <= 0)
-            {
-                Shoot();
-                shotCoodown = maxShotCooldown;
-            }
-        }
-    }
-
-    void Despawn()
-    {
-        OnPlayer2Dead?.Invoke();
-        gameObject.SetActive(false);
-    }
-
     // Here to complete interface, no implementations for either
+
     public void OnLook(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
     }
+
     public void OnFire(InputAction.CallbackContext context)
     {
         //throw new System.NotImplementedException();
@@ -165,20 +187,4 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
     {
         throw new System.NotImplementedException();
     }
-      
-    void Shoot()
-    {
-        Instantiate(bullet, bulletSpawn.transform.position, gameObject.transform.rotation.normalized); //Quaternion.Euler(0, Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnStateChange -= GameStateChange;
-    }
 }
-
-
-/*For later reference, player rotation code snippet
- *public Transform "tower";
- *tower.localRotation = Quaternion.AngleAxis(CannonAngle, Vector3.up);
- *https://www.youtube.com/watch?v=gaDFNCRQr38 */
