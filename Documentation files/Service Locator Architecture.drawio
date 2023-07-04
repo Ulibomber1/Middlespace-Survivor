@@ -1,59 +1,91 @@
-<mxfile host="Electron" modified="2023-06-09T22:41:48.068Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.3.7 Chrome/112.0.5615.204 Electron/24.5.0 Safari/537.36" etag="u2xRm-YaBiQWNrlVXcw4" version="21.3.7" type="device">
+<mxfile host="Electron" modified="2023-07-04T22:27:25.443Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.3.7 Chrome/112.0.5615.204 Electron/24.5.0 Safari/537.36" etag="Y9O3ipEtGDSxWYs672hq" version="21.3.7" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1969" dy="993" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3218" dy="2375" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
-        <mxCell id="jma4KsqjWtt4Johjfto5-11" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;GameManager (MonoBehaviour)&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+/- gameState: GameState(enum)&lt;br&gt;+&amp;nbsp;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="280" y="280" width="240" height="280" as="geometry" />
+        <mxCell id="jma4KsqjWtt4Johjfto5-11" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;GameManager (MonoBehaviour)&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+/- gameState: GameState(enum)&lt;br&gt;+&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="280" y="280" width="390" height="720" as="geometry" />
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-12" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="jma4KsqjWtt4Johjfto5-11">
+        <mxCell id="jma4KsqjWtt4Johjfto5-12" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" parent="jma4KsqjWtt4Johjfto5-11" vertex="1">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-24" y="4" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-0" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;ServiceLocator&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;Attributes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;service1: Class1&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;service2: Class2&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- service1_: Class1*&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- service2_: Class2*&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;Methods&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;Provide(): void&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;Initialize(): void&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;getService1(): Class1&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;getService2(): Class2&amp;amp;&lt;/u&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="jma4KsqjWtt4Johjfto5-0" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;ServiceLocator&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;Attributes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;service1: Class1&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;service2: Class2&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- service1_: Class1*&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- service2_: Class2*&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;Methods&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;Provide(): void&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;Initialize(): void&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;getService1(): Class1&amp;amp;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;getService2(): Class2&amp;amp;&lt;/u&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="300" y="335" width="180" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-1" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="jma4KsqjWtt4Johjfto5-0">
+        <mxCell id="jma4KsqjWtt4Johjfto5-1" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" parent="jma4KsqjWtt4Johjfto5-0" vertex="1">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-24" y="4" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-3" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" target="jma4KsqjWtt4Johjfto5-5" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-7">
+        <mxCell id="jma4KsqjWtt4Johjfto5-3" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-7" target="jma4KsqjWtt4Johjfto5-5" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="566" y="375" as="sourcePoint" />
             <mxPoint x="570" y="380" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-4" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" target="jma4KsqjWtt4Johjfto5-5" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-9">
+        <mxCell id="jma4KsqjWtt4Johjfto5-4" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-9" target="jma4KsqjWtt4Johjfto5-5" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="760" y="405" as="sourcePoint" />
             <mxPoint x="566" y="340" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-5" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="jma4KsqjWtt4Johjfto5-5" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="630" y="380" width="10" height="10" as="geometry" />
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-8" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-0" target="jma4KsqjWtt4Johjfto5-7">
+        <mxCell id="jma4KsqjWtt4Johjfto5-8" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="jma4KsqjWtt4Johjfto5-0" target="jma4KsqjWtt4Johjfto5-7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="414" y="350" as="sourcePoint" />
             <mxPoint x="414" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-7" value="Service Location" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="jma4KsqjWtt4Johjfto5-7" value="Service Location" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="550" y="370" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-9" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;Any Script&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ Attribute1: Type&lt;br&gt;+ Attribute2: Type&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="jma4KsqjWtt4Johjfto5-9" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;Any Script&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ Attribute1: Type&lt;br&gt;+ Attribute2: Type&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="750" y="340" width="180" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-10" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="jma4KsqjWtt4Johjfto5-9">
+        <mxCell id="jma4KsqjWtt4Johjfto5-10" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" parent="jma4KsqjWtt4Johjfto5-9" vertex="1">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-24" y="4" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jma4KsqjWtt4Johjfto5-13" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="jma4KsqjWtt4Johjfto5-13" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="710" y="360" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-0" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;UIController&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;// Maybe package these together?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;-/+ gameOverGUI: GameObject&lt;br&gt;-/+ MainMenuGUI: GameObject&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;-/+ LevelUpGUI: GameObject&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;-/+ HUDGUI: GameObject&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- Awake(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- Start(): void&amp;nbsp; &amp;nbsp;// assumed&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- Update(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnDestroy&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnApplicationQuit(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- GameOver(): void&amp;nbsp; // rename to ShowGameOver?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnPlayCLicked(): void&amp;nbsp; // Pick &amp;amp; choose UI stuff; Awake()?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- ResumeGame(): void&amp;nbsp; &amp;nbsp;// Maybe rename Unpause or similar name&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- SetUpLevelUpUI(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- LevelUp(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- PassItemData: void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- DisplayLevelUp(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- SetupHUDUI: void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- SetupGameOverUI: void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnQuitButtonClicked(): void&amp;nbsp; &amp;nbsp;// currently configured through editor&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnSceneLoad: void&amp;nbsp; &amp;nbsp;// Pick &amp;amp; choose the UI stuff&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnReturnToMainMenu: void&amp;nbsp; // Pick &amp;amp; choose UI stuff; OnDestroy()?&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-60" y="-300" width="350" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-1" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="UgNJFlqmVox4R-EowWa5-0">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-3" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;TimeTrackerUtility&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- startTime: float&lt;br&gt;- currentTime: float&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ TimerUpdateHandler(float): delegate void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ &lt;u&gt;OnTimerUpdate: event&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+&amp;nbsp;&lt;u&gt;OnTimerStop: event&lt;/u&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- Awake(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- Update(): void&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;- OnDestroy(): void&amp;nbsp; // assumed&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-230" y="200" width="300" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-4" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="UgNJFlqmVox4R-EowWa5-3">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-6" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;EnemyPoolController&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;+ Attribute1: Type&lt;br&gt;+ Attribute2: Type&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="350" y="-300" width="370" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-7" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="UgNJFlqmVox4R-EowWa5-6">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-11" value="&lt;p style=&quot;margin:0px;margin-top:6px;text-align:center;&quot;&gt;&lt;b&gt;SaveSystem&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;credits&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;unlocks&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;equipment (Item Data)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;acheivements&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:8px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="780" y="-300" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UgNJFlqmVox4R-EowWa5-12" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="UgNJFlqmVox4R-EowWa5-11">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
