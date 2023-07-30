@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeReference] private GameObject MainMenuGUI;
     [SerializeReference] private GameObject HUDGUI;
     [SerializeReference] private GameObject LevelUpUI;
+    [SerializeReference] private GameObject EnemyPoolControllerReference;
     GameObject p2SpawnLocation;
     private GameObject playerReference;
     private GameObject player2Reference;
@@ -30,16 +31,10 @@ public class GameManager : MonoBehaviour
     private float currentTime = 0;
     private float spawnTime = 0;
     [SerializeField] private float p2MaxSpawnTime;
-    private float p2SpawnTime;
-    [SerializeField] private int maxPoolPermission;
-    private int poolPermission;
     [SerializeField] private float maxTimeSeconds;
-    [SerializeField] private int spawnRateSeconds = 5;
+    private float p2SpawnTime;
     [SerializeField] private int credits = 0;
     private int totalActiveEnemyCount;
-    [SerializeField] private List<int> activeEnemyCount;
-    [SerializeField] private List<int> maxEnemyCounts;
-    [SerializeField] private Dictionary<int, GameObject> enemyPools;
 
 
     //User defined objects
@@ -52,6 +47,7 @@ public class GameManager : MonoBehaviour
     public delegate void CreditUpdateHandler(int amount);
     public delegate void ItemDataHandler(List<string> names);
     public delegate void TimerUpdateHandler(float timeInSeconds);
+    public delegate void BroadcastGameManager(GameObject gameManager);
 
 
     //Events
@@ -60,6 +56,7 @@ public class GameManager : MonoBehaviour
     public event ItemDataHandler OnDataReady; // might not need this
     public event TimerUpdateHandler OnTimerUpdate;
     public event OnStateChangeHandler OnStateChange;
+    public static event BroadcastGameManager OnBroadcastGameManager;
 
 
     //Unity Methods
@@ -76,10 +73,6 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         SceneManager.sceneLoaded += OnSceneLoad;
-        EnemyController.OnEnemyDiabled += DecrementActiveEnemyCount;
-
-        enemyPools = new Dictionary<int, GameObject>();
-        maxPoolPermission = 0;
     }
 
     private void Start()
@@ -96,44 +89,16 @@ public class GameManager : MonoBehaviour
                 if (playerReference == null)
                     playerReference = GameObject.FindGameObjectWithTag("Player");
 
-                currentTime += Time.deltaTime;
-                spawnTime += Time.deltaTime;
                 OnTimerUpdate?.Invoke(maxTimeSeconds - currentTime);
                 break;
             case GameState.GAME_OVER:
 
                 break;
         }
-
-        if (spawnTime > spawnRateSeconds)
-        {
-            spawnTime -= spawnRateSeconds;
-            // Check time
-            float timePercent = currentTime / maxTimeSeconds;
-            poolPermission = Mathf.CeilToInt((enemyPools.Count * timePercent) /*+ 0.5f*/);
-            poolPermission = (int)Mathf.Clamp((float)poolPermission, 0.0f, (float)maxPoolPermission);
-            for (int i = 0; i < poolPermission; i++)
-            {
-                Debug.Log("For loop reached! iteration " + i + ". enemyCount is " + maxEnemyCounts[i] + " & maxEnemyCounts at i is " + maxEnemyCounts[i]);
-                if (i == enemyPools.Count - 1 && activeEnemyCount[i] < 1)
-                {
-                    SpawnEnemiesFromPool(enemyPools[i]);
-                    activeEnemyCount[i] += 1;
-                }
-                else if (activeEnemyCount[i] < maxEnemyCounts[i] && i != enemyPools.Count - 1)
-                {
-                    //Debugging
-                    Debug.Log("Enemy should have spawned");
-                    SpawnEnemiesFromPool(enemyPools[i]);
-                    activeEnemyCount[i] += 1;
-                }
-            }
-        }
     }
 
     public void OnApplicationQuit()
     {
-        ClearEnemyPools();
         GameManager.instance = null;
     }
 
@@ -171,17 +136,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DecrementActiveEnemyCount(GameObject pool)
-    {
-        for (int i = 0; i < enemyPools.Count; i++)
-        {
-            if (enemyPools[i] == pool)
-            {
-                activeEnemyCount[i]--;
-            }
-        }
-    }
-
     private void GameOver()
     {
         //GameObject.Find("PlayerInputManager").SetActive(false);
@@ -194,7 +148,6 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayClicked()
     {
-        EnemyPoolController.onAwake += AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake += SetupGameOverUI;
         HUDUtility.OnHUDAwake += SetupHUDUI;
         LevelUpUtility.OnAwake += SetUpLevelUpUI;
@@ -209,6 +162,7 @@ public class GameManager : MonoBehaviour
         MainCamera = Camera.main;
         Player2Controller.OnPlayer2Dead += Player2Despawn;
         p2SpawnTime = p2MaxSpawnTime;
+        EnemyPoolController.OnAddEnemyPoolController += AddEnemyPoolController;
     }
 
     private void ResumeGame(string name) //string doesn't need to be used here
@@ -335,42 +289,6 @@ public class GameManager : MonoBehaviour
         // using PlayerPrefs, load player stats and settings.
     }
 
-    private void SpawnEnemiesFromPool(GameObject enemyPool)
-    {
-        // only if in PLAYING state
-
-        int childCount = enemyPool.transform.childCount;
-        Vector3 position = playerReference.transform.position;
-        int index;
-        Vector3 enemySpawn;
-
-        for (int i = 0; i < childCount; i++)
-        {
-            GameObject child = enemyPool.transform.GetChild(i).gameObject;
-
-            if (!child.activeInHierarchy)
-            {
-                // chance for enemies to spawn at same zone, okay for now, FIX AFTER PROTOTYPING IS DONE
-                index = Random.Range(0, playerReference.GetComponentInChildren<SpawnZoneController>().zoneList.Count);
-                enemySpawn = playerReference.transform.Find("Spawn Zone Parent").GetChild(index).transform.position;
-                enemySpawn -= new Vector3(0, 2, 0);
-                child.SetActive(true);
-                child.transform.position = enemySpawn;
-
-                return;
-            }
-        }
-
-    }
-
-    private void ClearEnemyPools()
-    {
-        maxPoolPermission = 0;
-        enemyPools.Clear();
-        maxEnemyCounts.Clear();
-        activeEnemyCount.Clear();
-    }
-
     [SerializeField] public GameState gameState { get; private set; }
 
     public static GameManager Instance
@@ -404,25 +322,31 @@ public class GameManager : MonoBehaviour
         Player2Controller.OnPlayerJoined -= PlayerTwoJoined;
         PlayerController.OnPlayerDead -= GameOver;
         PlayerController.OnLevelUp -= LevelUp;
-        EnemyPoolController.onAwake -= AddEnemyPoolInstance;
         GameOverUtility.OnGameOverUIAwake -= SetupGameOverUI;
         HUDUtility.OnHUDAwake -= SetupHUDUI;
         LevelUpUtility.OnAwake -= SetUpLevelUpUI;
         LevelUpUtility.OnItemSelected -= ResumeGame;
         Player2Controller.OnPlayer2Dead -= Player2Despawn;
         CreditsDropController.OnCreditsPickedUp -= AddCredit;
-        ClearEnemyPools();
+        EnemyPoolController.OnAddEnemyPoolController -= AddEnemyPoolController;
         currentTime = 0;
-        poolPermission = 1;
         SetGameState(GameState.MAIN_MENU);
         SceneManager.LoadScene("Title Screen");
     }
 
-    public void AddEnemyPoolInstance(GameObject pool, int poolNumber)
+    private void AddEnemyPoolController(GameObject enemyPoolController)
     {
-        enemyPools.Add(poolNumber, pool);
-        maxEnemyCounts.Add(pool.transform.childCount);
-        activeEnemyCount.Add(0);
-        maxPoolPermission++;
+        EnemyPoolControllerReference = enemyPoolController;
+        BroadcastManager();
+    }
+
+    private void BroadcastManager()
+    {
+        OnBroadcastGameManager?.Invoke(gameObject);
+    }
+
+    public GameObject GetPlayerReference()
+    {
+        return playerReference;
     }
 }
