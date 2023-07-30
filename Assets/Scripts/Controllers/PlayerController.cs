@@ -53,7 +53,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
     //Unity Methods
 
-    private void Awake()
+    protected virtual void Awake()
     {
         MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
         XPDropController.OnXPPickedUp += XPHandler;
@@ -63,7 +63,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         animator = GetComponentInChildren<Animator>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
@@ -76,13 +76,13 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         OnPlayerJoined?.Invoke(gameObject);
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (GameManager.Instance.gameState == GameState.PLAYING)
             MoveEntity();
     }
 
-    private void Update()
+    protected virtual void  Update()
     {
         if (GameManager.Instance.gameState == GameState.PLAYING)
         {
@@ -101,7 +101,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         MouseTargetController.OnMouseTargetAwake -= SetMouseTargetReference;
         XPDropController.OnXPPickedUp -= XPHandler;
@@ -208,7 +208,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     }
 
     // IDamageable Implementations
-    public void InflictDamage(float rawDamage)
+    public virtual void InflictDamage(float rawDamage)
     {
         float dmgPercent = Mathf.Clamp(1 - damageResistance, 0.01f, 1);
         hitPoints -= dmgPercent * rawDamage;
@@ -222,7 +222,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         OnPlayerDataChange?.Invoke(hitPoints, maxHitPoints, experience, maxExperience);
     }
 
-    public void Heal(float healMod)
+    public virtual void Heal(float healMod)
     {
         hitPoints += healthRegenFactor * healMod;
         if (hitPoints > maxHitPoints)
@@ -232,7 +232,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
 
     // IDamageable Implementations end
 
-    public void OnMove(InputAction.CallbackContext context)
+    public virtual void OnMove(InputAction.CallbackContext context)
     {
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
@@ -242,19 +242,19 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
     }
 
     // Here to complete interface, no implementations for either
-    public void OnLook(InputAction.CallbackContext context)
+    public virtual void OnLook(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
     }
 
-    public void OnFire(InputAction.CallbackContext context)
+    public virtual void OnFire(InputAction.CallbackContext context)
     {
         //throw new System.NotImplementedException();
 
 
     }
 
-    public void OnDamage(InputAction.CallbackContext context)
+    public virtual void OnDamage(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
     }

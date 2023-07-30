@@ -37,7 +37,7 @@ public class EnemyPoolController : MonoBehaviour
 
     //Unity Methods
 
-    private void Awake()
+    protected virtual void Awake()
     {
         EnemyController.OnEnemyDiabled += DecrementActiveEnemyCount;
         AddEnemyPoolUtility.onAwake += AddEnemyPoolInstance;
@@ -50,7 +50,7 @@ public class EnemyPoolController : MonoBehaviour
         maxPoolPermission = 0;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         switch (GameManager.Instance.gameState)
         {
@@ -90,12 +90,12 @@ public class EnemyPoolController : MonoBehaviour
         }
     }
 
-    public void OnApplicationQuit()
+    protected virtual void OnApplicationQuit()
     {
         ClearEnemyPools();
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         AddEnemyPoolUtility.onAwake -= AddEnemyPoolInstance;
         ClearEnemyPools();
@@ -152,7 +152,7 @@ public class EnemyPoolController : MonoBehaviour
         activeEnemyCount.Clear();
     }
 
-    public void AddEnemyPoolInstance(GameObject pool, int poolNumber)
+    public virtual void AddEnemyPoolInstance(GameObject pool, int poolNumber)
     {
         enemyPools.Add(poolNumber, pool);
         maxEnemyCounts.Add(pool.transform.childCount);

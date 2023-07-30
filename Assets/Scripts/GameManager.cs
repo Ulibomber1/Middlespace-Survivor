@@ -4,15 +4,110 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.InputSystem;
+
+class NullPlayer1 : PlayerController
+{
+    protected override void Awake() {; }
+    protected override void Start() {; }
+    protected override void Update() {; }
+    protected override void FixedUpdate() {; }
+    protected override void OnDestroy() {; }
+    public override void InflictDamage(float damage) {; }
+    public override void Heal(float healMod) {; }
+    public override void OnMove(InputAction.CallbackContext context) {; }
+    public override void OnLook(InputAction.CallbackContext context) {; }
+    public override void OnFire(InputAction.CallbackContext context) {; }
+    public override void OnDamage(InputAction.CallbackContext context) {; }
+}
+class NullPlayer2 : Player2Controller
+{
+    protected override void Awake() {; }
+    protected override void Start() {; }
+    protected override void Update() {; }
+    protected override void FixedUpdate() {; }
+    protected override void OnEnable() {; }
+    protected override void OnCollisionEnter(Collision collision) {; }
+    public override void OnMove(InputAction.CallbackContext context) {; }
+    public override void OnLook(InputAction.CallbackContext context) {; }
+    public override void OnFire(InputAction.CallbackContext context) {; }
+    public override void OnDamage(InputAction.CallbackContext context) {; }
+}
+class NullEnemyPoolController : EnemyPoolController
+{
+    protected override void Awake() {; }
+    protected override void Update() {; }
+    protected override void OnApplicationQuit() {; }
+    protected override void OnDestroy() {; }
+    public override void AddEnemyPoolInstance(GameObject pool, int poolNumber) {; }
+}
 
 public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU, GAME_OVER }
 
 public delegate void OnStateChangeHandler();
 
+static class ServiceLocator
+{
+    // Services
+    private static PlayerController _playerController;
+    private static Player2Controller _player2Controller;
+    private static EnemyPoolController _enemyPoolController;
+    // add ref for SoundManager, SaveSystem
+
+    // null Services
+    private static NullPlayer1 _nullPlayer1 = new();
+    private static NullPlayer2 _nullPlayer2 = new();
+    private static NullEnemyPoolController _nullEPController = new();
+
+    public static PlayerController GetPlayer1() {return _playerController;}
+    public static Player2Controller GetPlayer2() {return _player2Controller;}
+    public static EnemyPoolController GetPool() {return _enemyPoolController;}
+
+    // overloaded methods. Provides a service to this locator
+    public static void Provide(PlayerController playerController) 
+    {
+        if (playerController == null)
+        {
+            _playerController = _nullPlayer1;
+            Debug.LogWarning($"Service locator was given a null reference. Using null replacement.");
+        }
+        else
+            _playerController = playerController; 
+    }
+    public static void Provide(Player2Controller player2Controller) 
+    {
+        if (player2Controller == null)
+        {
+            _player2Controller = _nullPlayer2;
+            Debug.LogWarning($"Service locator was given a null reference. Using null replacement.");
+        }
+        else
+            _player2Controller = player2Controller;
+    }
+    public static void Provide(EnemyPoolController enemyPoolController) 
+    {
+        if (enemyPoolController == null)
+        {
+            _enemyPoolController = _nullEPController;
+            Debug.LogWarning($"Service locator was given a null reference. Using null replacement.");
+        }
+        else
+            _enemyPoolController = enemyPoolController;
+    }
+
+    public static void Initialize()
+    {
+        _playerController = _nullPlayer1;
+        _player2Controller = _nullPlayer2;
+        _enemyPoolController = _nullEPController;
+        Debug.Log($"Service Locator has been initialized.");
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     //References
-
+    
     [SerializeReference] private GameObject gameOverGUI;
     [SerializeReference] private GameObject MainMenuGUI;
     [SerializeReference] private GameObject HUDGUI;
@@ -24,7 +119,6 @@ public class GameManager : MonoBehaviour
     private Camera MainCamera;
     protected GameManager() { }
     private static GameManager instance = null;
-
 
     //Internal Variables
 
@@ -67,6 +161,7 @@ public class GameManager : MonoBehaviour
         {
             GameManager.instance = this;
             DontDestroyOnLoad(GameManager.instance);
+            ServiceLocator.Initialize();
         }
         else if (GameManager.instance != null && GameManager.instance != this)
         {

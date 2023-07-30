@@ -41,32 +41,32 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     //Unity Methods
 
-    private void Awake()
+    protected virtual void Awake()
     {
         //MouseTargetController.OnMouseTargetAwake += SetMouseTargetReference;
         targetMouse = GameObject.Find("Mouse Target");
     }
 
-    void Start()
+    protected virtual void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         GameManager.Instance.OnStateChange += GameStateChange;
         OnPlayerJoined?.Invoke(gameObject);
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         hitPoints = maxHitPoints;
         shotCoodown = maxShotCooldown;
         timeActive = 0;
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         MoveEntity();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (Player1Reference != null && (Player1Reference.transform.position -
             gameObject.transform.position).magnitude > player2DespawnDistance)
@@ -87,12 +87,12 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameManager.Instance.OnStateChange -= GameStateChange;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (timeActive >= invincibleRespawnTime &&
             (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Enemy Bullet")))
@@ -161,7 +161,7 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
         Player1Reference = reference;
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public virtual void OnMove(InputAction.CallbackContext context)
     {
         Vector2 readVector = context.ReadValue<Vector2>();
         Vector3 toConvert = new Vector3(readVector.x, 0, readVector.y);
@@ -171,19 +171,19 @@ public class Player2Controller : EntityController, IsoPlayer.IPlayerActions
 
     // Here to complete interface, no implementations for either
 
-    public void OnLook(InputAction.CallbackContext context)
+    public virtual void OnLook(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
     }
 
-    public void OnFire(InputAction.CallbackContext context)
+    public virtual void OnFire(InputAction.CallbackContext context)
     {
         //throw new System.NotImplementedException();
 
 
     }
 
-    public void OnDamage(InputAction.CallbackContext context)
+    public virtual void OnDamage(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
     }
