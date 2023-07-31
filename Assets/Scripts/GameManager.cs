@@ -6,47 +6,9 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
 
-class NullPlayer1 : PlayerController
-{
-    protected override void Awake() {; }
-    protected override void Start() {; }
-    protected override void Update() {; }
-    protected override void FixedUpdate() {; }
-    protected override void OnDestroy() {; }
-    public override void InflictDamage(float damage) {; }
-    public override void Heal(float healMod) {; }
-    public override void OnMove(InputAction.CallbackContext context) {; }
-    public override void OnLook(InputAction.CallbackContext context) {; }
-    public override void OnFire(InputAction.CallbackContext context) {; }
-    public override void OnDamage(InputAction.CallbackContext context) {; }
-}
-class NullPlayer2 : Player2Controller
-{
-    protected override void Awake() {; }
-    protected override void Start() {; }
-    protected override void Update() {; }
-    protected override void FixedUpdate() {; }
-    protected override void OnEnable() {; }
-    protected override void OnCollisionEnter(Collision collision) {; }
-    public override void OnMove(InputAction.CallbackContext context) {; }
-    public override void OnLook(InputAction.CallbackContext context) {; }
-    public override void OnFire(InputAction.CallbackContext context) {; }
-    public override void OnDamage(InputAction.CallbackContext context) {; }
-}
-class NullEnemyPoolController : EnemyPoolController
-{
-    protected override void Awake() {; }
-    protected override void Update() {; }
-    protected override void OnApplicationQuit() {; }
-    protected override void OnDestroy() {; }
-    public override void AddEnemyPoolInstance(GameObject pool, int poolNumber) {; }
-}
-
 public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_MENU, GAME_OVER }
 
 public delegate void OnStateChangeHandler();
-
-
 
 public class GameManager : MonoBehaviour
 {
