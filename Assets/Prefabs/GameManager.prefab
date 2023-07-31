@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2586993235080147185}
   - component: {fileID: 2586993235080147184}
+  - component: {fileID: 3169595506219408027}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,11 +49,19 @@ MonoBehaviour:
   MainMenuGUI: {fileID: 0}
   HUDGUI: {fileID: 0}
   LevelUpUI: {fileID: 0}
-  p2MaxSpawnTime: 0
-  player2DespawnDistance: 5
-  maxPoolPermission: 0
+  EnemyPoolControllerReference: {fileID: 0}
+  p2MaxSpawnTime: 4
   maxTimeSeconds: 600
-  spawnRateSeconds: 5
   credits: 0
-  activeEnemyCount: 
-  maxEnemyCounts: 
+--- !u!114 &3169595506219408027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586993235080147187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d96bc7ef53c7fc4ab37204cbc6cc643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

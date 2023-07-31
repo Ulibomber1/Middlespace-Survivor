@@ -553,21 +553,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
-        type: 3}
-      propertyPath: maxTimeSeconds
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
-        type: 3}
-      propertyPath: p2MaxSpawnTime
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2586993235080147184, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
-        type: 3}
-      propertyPath: spawnRateSeconds
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2586993235080147185, guid: e0ff2d2e4d85c5b4983fd8819bf7cae9,
         type: 3}
       propertyPath: m_RootOrder
