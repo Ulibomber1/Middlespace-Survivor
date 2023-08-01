@@ -9,16 +9,19 @@ public class ServiceLocator : MonoBehaviour
     private static PlayerController _playerController;
     private static Player2Controller _player2Controller;
     private static EnemyPoolController _enemyPoolController;
+    private static DataManager _dataManager;
     // add ref for SoundManager, SaveSystem
 
     // null Services
-    [SerializeField] private static NullPlayer1 _nullPlayer1;
+    private static NullPlayer1 _nullPlayer1;
     private static NullPlayer2 _nullPlayer2;
     private static NullEnemyPoolController _nullEPController;
+    private static NullDataManager _nullDataManager;
 
     public static PlayerController GetPlayer1() { return _playerController; }
     public static Player2Controller GetPlayer2() { return _player2Controller; }
     public static EnemyPoolController GetPool() { return _enemyPoolController; }
+    public static DataManager GetDataManager() { return _dataManager; }
 
     // overloaded method. Provides a service to this locator
     public static void Provide(PlayerController playerController)
@@ -51,20 +54,31 @@ public class ServiceLocator : MonoBehaviour
         else
             _enemyPoolController = enemyPoolController;
     }
+    public static void Provide(DataManager dataManager)
+    {
+        if (dataManager == null)
+        {
+            _dataManager = _nullDataManager;
+            Debug.LogWarning($"Service locator was given a null reference. Using null replacement.");
+        }
+        else
+            _dataManager = dataManager;
+    }
 
     public static void Initialize()
     {
         _playerController = _nullPlayer1;
         _player2Controller = _nullPlayer2;
         _enemyPoolController = _nullEPController;
+        _dataManager = _nullDataManager;
         Debug.Log($"Service Locator has been initialized with null services.");
     }
-
     private void Awake()
     {
         _nullPlayer1 = gameObject.AddComponent<NullPlayer1>();
         _nullPlayer2 = gameObject.AddComponent<NullPlayer2>();
         _nullEPController = gameObject.AddComponent<NullEnemyPoolController>();
+        _nullDataManager = gameObject.AddComponent<NullDataManager>();
     }
 }
 
@@ -102,4 +116,13 @@ class NullEnemyPoolController : EnemyPoolController
     protected override void OnApplicationQuit() {; }
     protected override void OnDestroy() {; }
     public override void AddEnemyPoolInstance(GameObject pool, int poolNumber) {; }
+}
+class NullDataManager : DataManager
+{
+    protected override void Awake() { }
+    protected override void Start() { }
+    protected override void OnApplicationQuit() { }
+    public override void NewGame() { }
+    public override void LoadGame() { }
+    public override void SaveGame() { }
 }

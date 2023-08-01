@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager instance { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (instance != null)
         {
@@ -24,22 +24,22 @@ public class DataManager : MonoBehaviour
         }
         instance = this;
     }
-    private void Start()
+    protected virtual void Start()
     {
         dataHandler = new DataFileHandler(Application.persistentDataPath, fileName, useEncryption);
         dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
-    private void OnApplicationQuit()
+    protected virtual void OnApplicationQuit()
     {
         SaveGame();
     }
 
-    public void NewGame()
+    public virtual void NewGame()
     {
         this.gameData = new GameData();
     }
-    public void LoadGame()
+    public virtual void LoadGame()
     {
         gameData = dataHandler.Load();
         // Todo: Load saved data from a file using the data handler
@@ -54,7 +54,7 @@ public class DataManager : MonoBehaviour
             dataPersistenceObj.LoadData(gameData);
         }
     }
-    public void SaveGame()
+    public virtual void SaveGame()
     {
         // Todo: pass data to other scripts for updates
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
