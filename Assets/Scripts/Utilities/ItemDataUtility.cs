@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/***********************************************************|
+| TODO: change all Dictionaries to SerializableDictionaries |
+************************************************************/
+
 public class ItemDataUtility : MonoBehaviour
 {
     //Private
@@ -32,6 +36,7 @@ public class ItemDataUtility : MonoBehaviour
         creditReference = GameObject.Find("GameManager").GetComponent<GameManager>();
         randomNames = new List<string>();
 
+        // Instead of this, just load saved gamedata from the DataManager?
         ItemLevels = new Dictionary<string, int>();
         ItemLevels.Add("Reinforced Glass", 0);
         ItemLevels.Add("Medkit", 0);
