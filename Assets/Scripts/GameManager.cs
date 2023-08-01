@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoad(Scene scene, LoadSceneMode sceneMode)
     {
+        ServiceLocator.Initialize();
         switch (Instance.gameState)
         {
             case GameState.PLAYING:

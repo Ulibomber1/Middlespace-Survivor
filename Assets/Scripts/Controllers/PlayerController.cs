@@ -61,6 +61,7 @@ public class PlayerController : EntityController, IsoPlayer.IPlayerActions, IDam
         HPDropController.OnHPPickedUp += Heal;
         healthRegenFactor = 1;
         animator = GetComponentInChildren<Animator>();
+        ServiceLocator.Provide(this);
     }
 
     protected virtual void Start()
