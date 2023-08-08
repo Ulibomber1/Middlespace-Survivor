@@ -2,34 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/***********************************************************|
-| TODO: change all Dictionaries to SerializableDictionaries |
-************************************************************/
-
-public class ItemDataUtility : MonoBehaviour
+public class ItemDataUtility : MonoBehaviour, IDataPersistence
 {
     //Private
     GameManager creditReference;
 
     [SerializeField] private List<Sprite> itemSprites;
     private List<string> randomNames;
-    private Dictionary<string, int> ItemLevels;
-    private static readonly Dictionary<string, string> ItemBlurbs = 
-        new Dictionary<string, string> { 
+    private SerializableDictionary<string, int> ItemLevels;
+    private static readonly SerializableDictionary<string, string> ItemBlurbs = 
+        new SerializableDictionary<string, string> { 
             { "Reinforced Glass", "Planes of glass thick enough to survive space. Take less damage."}, 
             { "Medkit", "Robots need TLC too. Enemies have a chance to drop healing cyrstal on defeat." }, 
             { "Battery", "Increase your energy output with this one simple trick. Flat damage increase for all attacks." }, 
             { "Magnifier", "Universal magnification for all things. Increases attacks size." }, 
             { "Magnet", "Magnetizes your chasey.  Increase pickup range." } };
     private List<string> ItemNames;
-    private Dictionary<string, int> EquipmentLevels;
-    private static readonly Dictionary<string, string> EquipmentBlurbs =
-        new Dictionary<string, string> {
+    private SerializableDictionary<string, int> EquipmentLevels;
+    private static readonly SerializableDictionary<string, string> EquipmentBlurbs =
+        new SerializableDictionary<string, string> {
             { "Sword", "It says that its not a real sword, but dont tell your enemies that."},
             { "Laser Pointer", "Given enough energy, you can cause damage with light!" },
             { "Portable Plug", "Bluetooth plug gives you energy to move faster! Ahh, the wonders of technology!" } };
     private List<string> EquipmentNames;
-    private Dictionary<string, int> EquipmentCosts;
+    private SerializableDictionary<string, int> EquipmentCosts;
 
     private void Awake()
     {
@@ -37,7 +33,7 @@ public class ItemDataUtility : MonoBehaviour
         randomNames = new List<string>();
 
         // Instead of this, just load saved gamedata from the DataManager?
-        ItemLevels = new Dictionary<string, int>();
+        ItemLevels = new SerializableDictionary<string, int>();
         ItemLevels.Add("Reinforced Glass", 0);
         ItemLevels.Add("Medkit", 0);
         ItemLevels.Add("Battery", 0);
@@ -51,7 +47,7 @@ public class ItemDataUtility : MonoBehaviour
         ItemNames.Add("Magnifier");
         ItemNames.Add("Magnet");
 
-        EquipmentLevels = new Dictionary<string, int>();
+        EquipmentLevels = new SerializableDictionary<string, int>();
         EquipmentLevels.Add("Sword", 0);
         EquipmentLevels.Add("Laser Pointer", 0);
         EquipmentLevels.Add("Portable Plug", 0);
@@ -61,7 +57,7 @@ public class ItemDataUtility : MonoBehaviour
         EquipmentNames.Add("Laser Pointer");
         EquipmentNames.Add("Portable Plug");
 
-        EquipmentCosts = new Dictionary<string, int>();
+        EquipmentCosts = new SerializableDictionary<string, int>();
         EquipmentCosts.Add("Sword", 1000);
         EquipmentCosts.Add("Laser Pointer", 1000);
         EquipmentCosts.Add("Portable Plug", 1000);
@@ -176,4 +172,12 @@ public class ItemDataUtility : MonoBehaviour
         return names;
     }
 
+    void IDataPersistence.LoadData(GameData data)
+    {
+        EquipmentLevels = data.equipmentLevels;
+    }
+    void IDataPersistence.SaveData(ref GameData data)
+    {
+        data.equipmentLevels = EquipmentLevels;
+    }
 }

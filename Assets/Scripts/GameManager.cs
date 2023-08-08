@@ -10,7 +10,7 @@ public enum GameState { MAIN_MENU, PLAYING, LEVELED_UP, BUYING_EQUIPMENT, PAUSE_
 
 public delegate void OnStateChangeHandler();
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistence
 {
     //References
 
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float maxTimeSeconds;
     private float p2SpawnTime;
     [SerializeField] private int credits = 0;
+    private int totalCredits = 0;
     private int totalActiveEnemyCount;
 
 
@@ -305,6 +306,7 @@ public class GameManager : MonoBehaviour
     public void AddCredit(int toAdd)
     {
         credits += toAdd;
+        if (toAdd > 0) totalCredits += toAdd;
         OnCreditsUpdated?.Invoke(credits);
     }
 
@@ -351,5 +353,17 @@ public class GameManager : MonoBehaviour
     public GameObject GetPlayerReference()
     {
         return playerReference;
+    }
+
+    void IDataPersistence.LoadData(GameData data)
+    {
+        credits = data.currentCredits;
+        totalCredits = data.totalCredits;
+    }
+
+    void IDataPersistence.SaveData(ref GameData data)
+    {
+        data.currentCredits = credits;
+        data.totalCredits = totalCredits;
     }
 }
